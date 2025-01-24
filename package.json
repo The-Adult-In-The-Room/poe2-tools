@@ -1,8 +1,8 @@
 {
-  "name": "react-boilerplate",
+  "name": "poe2-tools",
   "type": "module",
   "version": "1.0.0",
-  "description": "A template for React projects using Parcel",
+  "description": "Set of tools for the Path of Exile 2 video game",
   "source": "src/index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "engines": {
@@ -22,19 +22,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Raymond-Cox/react-boilerplate.git"
+    "url": "git+https://github.com/Raymond-Cox/poe2-tools.git"
   },
   "keywords": [
     "React",
-    "Template",
-    "Boilerplate"
+    "Path of Exile 2",
+    "Video Games"
   ],
   "author": "Raymond-Cox",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Raymond-Cox/react-boilerplate/issues"
+    "url": "https://github.com/Raymond-Cox/poe2-tools/issues"
   },
-  "homepage": "https://github.com/Raymond-Cox/react-boilerplate#readme",
+  "homepage": "https://github.com/Raymond-Cox/poe2-tools#readme",
   "dependencies": {
     "axios": "^1.7.9",
     "react": "^19.0.0",
