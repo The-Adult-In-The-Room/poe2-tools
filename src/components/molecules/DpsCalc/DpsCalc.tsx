@@ -80,6 +80,9 @@ const DpsCalc = (): React.JSX.Element => {
   return (
     <div className={classes.container}>
       <h2>DAMAGE PER SECOND CALCULATOR</h2>
+      <p>
+        Copy & Paste weapon stats from in-game here, or manually enter below.
+      </p>
       <form ref={formRef} onSubmit={onSubmit} className={classes.form}>
         <Input
           className={classes.input}

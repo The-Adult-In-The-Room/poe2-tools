@@ -3,6 +3,4 @@
   flex-direction: column;
   min-height: 100vh;
   padding: 1rem;
-  color: var(--clr-primary-a50);
-  background-color: var(--clr-surface-a0);
 }
