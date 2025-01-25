@@ -83,7 +83,8 @@ button {
   min-width: 100px;
 }
 
-input {
+input,
+textarea {
   color: var(--clr-light-a0);
   background-color: var(--clr-surface-a10);
   border-color: var(--clr-surface-a10);
@@ -91,6 +92,14 @@ input {
   padding: 0.5rem;
 }
 
+textarea {
+  resize: vertical;
+}
+
 ::placeholder {
   color: var(--clr-surface-a50);
+}
+
+hr {
+  width: 100%;
 }
