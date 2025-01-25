@@ -43,6 +43,16 @@ body {
   margin: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0.4rem 0;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -51,6 +61,12 @@ body {
 button {
   color: var(--clr-dark-a0);
   background-color: var(--clr-primary-a20);
+  padding: 0.5rem;
+  font-weight: 500;
+  border-radius: var(--br-radius);
+  border: none;
+  cursor: pointer;
+  min-width: 100px;
 }
 
 input {
