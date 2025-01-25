@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--clr-surface-a30);
+  padding: 1rem;
+  border-radius: var(--br-radius);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input {
+  max-width: 100px;
+}
+
+@media (min-width: 768px) {
+  .row {
+    flex-direction: row;
+  }
+}

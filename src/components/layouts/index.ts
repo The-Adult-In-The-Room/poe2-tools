@@ -1,2 +1,1 @@
-// Remove after adding something to this file.
-export const d = 1
+export { default as MainLayout } from './MainLayout'

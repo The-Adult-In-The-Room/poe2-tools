@@ -1,10 +1,15 @@
 import './App.module.css'
+import { DpsCalc, MainLayout } from './components'
 
 /**
  * Main component of the application.
  */
-const App = () => {
-  return <h1>Hello world!</h1>
+const App = (): React.JSX.Element => {
+  return (
+    <MainLayout>
+      <DpsCalc />
+    </MainLayout>
+  )
 }
 
 export default App
