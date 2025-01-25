@@ -1,20 +1,27 @@
+export type FormKeys =
+  | 'aps'
+  | 'physicalMin'
+  | 'physicalMax'
+  | 'lightningMin'
+  | 'lightningMax'
+  | 'fireMin'
+  | 'fireMax'
+  | 'coldMin'
+  | 'coldMax'
+  | 'chaosMin'
+  | 'chaosMax'
 interface DpsCalcFormElements extends HTMLFormControlsCollection {
-  aps: HTMLInputElement
-  physicalMin: HTMLInputElement
-  physicalMax: HTMLInputElement
-  lightningMin: HTMLInputElement
-  lightningMax: HTMLInputElement
-  fireMin: HTMLInputElement
-  fireMax: HTMLInputElement
-  coldMin: HTMLInputElement
-  coldMax: HTMLInputElement
-  chaosMin: HTMLInputElement
-  chaosMax: HTMLInputElement
+  [key in FormKeys]: HTMLInputElement
 }
 
 export interface DpsCalcFormElement extends HTMLFormElement {
   readonly elements: DpsCalcFormElements
 }
+
+export type FormValues = {
+  [key in FormKeys]?: string
+}
+
 export type Physical = 'physical'
 export type Chaos = 'chaos'
 export type Lightning = 'lightning'
@@ -48,8 +55,3 @@ export type TotalCalculations = {
 }
 
 export type Calculations = DamageTypeCalculations & TotalCalculations
-
-export type CalculationsInput = {
-  aps: number
-  [key in DamageType]: { min: number; max: number }
-}
