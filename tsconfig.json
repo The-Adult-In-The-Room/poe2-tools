@@ -9,7 +9,7 @@
     "strictFunctionTypes": true,
     "lib": ["esnext", "dom"],
     "jsx": "react-jsx",
-    "target": "ES6",
+    "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
