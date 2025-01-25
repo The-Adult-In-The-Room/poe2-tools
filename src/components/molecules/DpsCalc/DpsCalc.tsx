@@ -3,9 +3,10 @@ import { Input } from '../../atoms'
 import type {
   DpsCalcFormElement,
   DamageTypeCalc,
-  Calculations,
   AllDamageTypes,
   DamageType,
+  CalculationsInput,
+  Calculations,
 } from './DpsCalc.d'
 import * as classes from './DpsCalc.module.css'
 
@@ -45,14 +46,16 @@ const DpsCalc = (): React.JSX.Element => {
     useState<Calculations>(initialCalculations)
   const formRef = createRef<HTMLFormElement>()
 
-  // Calculate DPS for each damage type and update state
-  const handleCalculations = (form): void => {
-    const aps = Number(form.aps) || 1
+  /**
+   * Calculate DPS for each damage type and update state
+   */
+  const handleCalculations = (input: CalculationsInput): void => {
+    const aps = Number(input.aps) || 1
 
     // Calculate DPS for each damage type
     const damageTypeCalcs = allTypes.map((type: DamageType): DamageTypeCalc => {
-      const min = Number(form[`${type}Min`]) || 0
-      const max = Number(form[`${type}Max`]) || 0
+      const min = Number(input[`${type}Min`]) || 0
+      const max = Number(input[`${type}Max`]) || 0
       return { min, max, dps: ((min + max) / 2) * aps }
     })
     const totalDps = damageTypeCalcs.reduce(
@@ -84,13 +87,18 @@ const DpsCalc = (): React.JSX.Element => {
     handleCalculations(form)
   }
 
-  // Reset form state and calculations
+  /**
+   * Reset form state and calculations
+   */
   const onReset = (): void => {
     setCalculations(initialCalculations)
     setTextAreaValue('')
     formRef.current?.reset()
   }
 
+  /**
+   * Derives stat values from the text area input
+   */
   const findStatValues = (lines: string[]) => {
     console.log(lines)
 
@@ -135,7 +143,6 @@ const DpsCalc = (): React.JSX.Element => {
     setTextAreaValue(event.target.value)
     const lines = event.target.value.split('\n')
     const stats = findStatValues(lines)
-    console.log(stats)
 
     handleCalculations(stats)
   }

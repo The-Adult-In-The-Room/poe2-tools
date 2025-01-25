@@ -48,3 +48,8 @@ export type TotalCalculations = {
 }
 
 export type Calculations = DamageTypeCalculations & TotalCalculations
+
+export type CalculationsInput = {
+  aps: number
+  [key in DamageType]: { min: number; max: number }
+}

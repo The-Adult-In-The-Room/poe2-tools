@@ -1,7 +1,7 @@
 :root {
   /** Base colors */
-  --clr-dark-a0: #000000;
-  --clr-light-a0: #ffffff;
+  --clr-dark-a0: #121212;
+  --clr-light-a0: #f4f4f4;
 
   /** Dark theme primary colors */
   --clr-primary-a0: #2b6d20;
@@ -28,7 +28,7 @@
   --clr-surface-tonal-a50: #8d908d;
 
   /** Borders */
-  --br-radius: 0.5rem;
+  --br-radius: 8px;
 }
 
 * {
@@ -68,8 +68,7 @@ p {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: 'Montserrat', serif;
 }
 
 button {
