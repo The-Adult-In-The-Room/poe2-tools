@@ -210,7 +210,7 @@ const DpsCalc = (): React.JSX.Element => {
             onChange={onChange}
           />
 
-          {allTypes.map((type: DamageType): React.JSX.Element => {
+          {allTypes.map((type) => {
             const minId = `${type}Min`
             const maxId = `${type}Max`
 
