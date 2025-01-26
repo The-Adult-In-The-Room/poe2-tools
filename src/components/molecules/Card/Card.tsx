@@ -1,6 +1,6 @@
+import type { CardColors } from '../../../types'
 import * as classes from './Card.module.css'
 
-type CardColors = 'cyan' | 'red' | 'pink' | 'blue' | 'yellow'
 export type CardProps = {
   color?: CardColors
 }

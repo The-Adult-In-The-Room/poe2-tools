@@ -23,6 +23,7 @@
   --br-radius: 8px;
 
   /** Sizes */
+  --nav-height: 64px;
   --nav-width: 208px;
   --vertical-page-padding: 64px;
 }

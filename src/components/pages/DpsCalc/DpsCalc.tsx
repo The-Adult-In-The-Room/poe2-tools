@@ -1,7 +1,8 @@
 import { createRef, useState } from 'react'
 import { Input, Typography } from '../../atoms'
+import { Card } from '../../molecules'
+import type { CardColors } from '../../../types'
 import type {
-  DpsCalcFormElement,
   DamageTypeCalc,
   AllDamageTypes,
   DamageType,
@@ -10,8 +11,7 @@ import type {
   Calculations,
 } from './DpsCalc.d'
 import * as classes from './DpsCalc.module.css'
-import { Card } from '../../molecules'
-import type { CardProps } from '../../molecules/Card/Card'
+import { findItemName, removeKey, removeSuffix } from '../../../utils/utils'
 
 /**
  * Each damage type has a section containing min and max inputs.
@@ -49,29 +49,6 @@ const initialFormValues: FormValues = {
 }
 
 /**
- * Removes the key from a line of text.
- * Example: 'Attacks per Second: 1.5' -> '1.5'
- */
-const removeKey = (line?: string): string | undefined =>
-  line?.split(':')[1].trim()
-
-/**
- * Removes the suffix from a line of text.
- * Example: '12-15 (Augmented)' -> '12-15'
- */
-const removeSuffix = (line?: string): string | undefined => line?.split(' ')[0]
-
-/**
- * Derives the item name and type from the text area input.
- */
-const findItemName = (textAreaValue: string): [string, string] | null => {
-  const lines = textAreaValue.split('\n')
-  if (lines.length < 4) return null
-
-  return [lines[2], lines[3]]
-}
-
-/**
  * Damage Per Second Calculator component.
  */
 const DpsCalc = (): React.JSX.Element => {
@@ -93,10 +70,7 @@ const DpsCalc = (): React.JSX.Element => {
       const max = Number(input[`${type}Max`]) || 0
       return { min, max, dps: ((min + max) / 2) * aps }
     })
-    const totalDps = damageTypeCalcs.reduce(
-      (acc: number, { dps }: DamageTypeCalc): number => acc + dps,
-      0
-    )
+    const totalDps = damageTypeCalcs.reduce((acc, { dps }) => acc + dps, 0)
     const [physical, lightning, fire, cold, chaos] = damageTypeCalcs
     const totalElementalDps = lightning.dps + fire.dps + cold.dps
 
@@ -109,17 +83,6 @@ const DpsCalc = (): React.JSX.Element => {
       totalDps,
       totalElementalDps,
     })
-  }
-
-  const onSubmit = (event: React.FormEvent<DpsCalcFormElement>): void => {
-    // Prevent form from being reset
-    event.preventDefault()
-
-    // Convert form data to object
-    const formData = new FormData(event.target as DpsCalcFormElement)
-    const form: FormValues = Object.fromEntries(formData.entries())
-
-    handleCalculations(form)
   }
 
   /**
@@ -149,7 +112,7 @@ const DpsCalc = (): React.JSX.Element => {
 
     // Iterate the hash and find the corresponding line in the text area input
     for (const [key, value] of Object.entries(filters)) {
-      const line = lines.find((line: string): boolean => line.includes(value))
+      const line = lines.find((line) => line.includes(value))
 
       // Sanitize the value to remove any non-numeric characters
       const sanitized = removeSuffix(removeKey(line))
@@ -191,13 +154,13 @@ const DpsCalc = (): React.JSX.Element => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { id, value } = event.target
 
-    setFormValues((prev: FormValues): FormValues => ({ ...prev, [id]: value }))
+    setFormValues((prev) => ({ ...prev, [id]: value }))
     handleCalculations({ ...formValues, [id]: value })
   }
 
   const itemName = findItemName(textAreaValue)
 
-  const cards: { label: string; value: number; color: CardProps['color'] }[] = [
+  const cards: { label: string; value: number; color: CardColors }[] = [
     { label: 'Physical DPS:', value: calculations.physical.dps, color: 'cyan' },
     {
       label: 'Elemental DPS:',
@@ -235,7 +198,7 @@ const DpsCalc = (): React.JSX.Element => {
       <hr />
 
       <div className={classes.formWrapper}>
-        <form ref={formRef} onSubmit={onSubmit} className={classes.form}>
+        <form ref={formRef} className={classes.form}>
           <Input
             id="aps"
             label="Attacks Per Second"

@@ -15,8 +15,10 @@ const links = [{ href: '/', label: 'DPS Calculator' }]
 const Nav = (): React.JSX.Element => {
   return (
     <nav>
-      <h2>Path of Exile 2</h2>
-      <Typography variant="subtitle">Tool kit</Typography>
+      <div>
+        <h2>Path of Exile 2</h2>
+        <Typography variant="subtitle">Tool kit</Typography>
+      </div>
       <hr />
       {links.map((link) => {
         const to = prefix + link.href

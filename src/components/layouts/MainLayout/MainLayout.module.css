@@ -1,12 +1,23 @@
 .container {
   display: flex;
+  flex-direction: column;
 }
 
 .innerContainer {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--nav-height));
   width: 100%;
-  padding: var(--vertical-page-padding) 8rem;
-  margin-left: var(--nav-width);
+  padding: 1rem;
+  margin-top: var(--nav-height);
+}
+
+@media screen and (min-width: 768px) {
+  .innerContainer {
+    min-height: 100vh;
+    width: calc(100% - var(--nav-width));
+    margin-left: var(--nav-width);
+    margin-top: 0;
+    padding: var(--vertical-page-padding) 8rem;
+  }
 }
