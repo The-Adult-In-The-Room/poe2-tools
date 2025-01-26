@@ -181,18 +181,20 @@ const DpsCalc = (): React.JSX.Element => {
 
   return (
     <div className={classes.container}>
-      <Typography variant="title">Copy and Paste Entry</Typography>
-      <hr />
+      <div className={classes.textAreaWrapper}>
+        <Typography variant="title">Copy and Paste Entry</Typography>
+        <hr />
 
-      <textarea
-        value={textAreaValue}
-        onChange={onTextAreaChange}
-        placeholder="CTRL + C on your weapon in-game and then CTRL + V into this area."
-      />
+        <textarea
+          value={textAreaValue}
+          onChange={onTextAreaChange}
+          placeholder="CTRL + C on your weapon in-game and then CTRL + V into this area."
+        />
 
-      <button type="button" onClick={onReset} className={classes.clearButton}>
-        <Typography variant="clear">Clear</Typography>
-      </button>
+        <button type="button" onClick={onReset} className={classes.clearButton}>
+          <Typography variant="clear">Clear</Typography>
+        </button>
+      </div>
 
       <Typography variant="title">Manual Calculation Entry</Typography>
       <hr />

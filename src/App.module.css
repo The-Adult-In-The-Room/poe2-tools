@@ -134,7 +134,7 @@ textarea {
 hr {
   color: var(--clr-surface-tonal-a20);
   width: 100%;
-  margin-bottom: 32px;
+  margin: 32px 0;
 }
 
 a {

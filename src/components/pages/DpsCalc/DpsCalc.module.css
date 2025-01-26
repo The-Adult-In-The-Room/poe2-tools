@@ -2,7 +2,12 @@
   display: flex;
   flex-direction: column;
   padding: 0 1rem;
-  border-radius: var(--br-radius);
+}
+
+.textAreaWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 64px;
 }
 
 .formWrapper {

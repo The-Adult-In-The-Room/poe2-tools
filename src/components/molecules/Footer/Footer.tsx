@@ -1,4 +1,4 @@
-import { FaHeart } from 'react-icons/fa'
+import { FaHeart, FaPaintBrush } from 'react-icons/fa'
 import './Footer.module.css'
 
 const Footer = () => {
@@ -14,7 +14,10 @@ const Footer = () => {
           Raymond Cox
         </a>
       </p>
-
+      <p>
+        <FaPaintBrush color="#cf168f" /> Designed by{' '}
+        <a href="https://thedesignerdev.com/">The Designer Dev</a>
+      </p>
       <a
         href="https://github.com/Raymond-Cox/poe2-tools"
         target="_blank"
@@ -22,7 +25,6 @@ const Footer = () => {
       >
         View source code
       </a>
-
       <a href="https://ko-fi.com/me_am" target="_blank" rel="noreferrer">
         Buy me a coffee
         <img
