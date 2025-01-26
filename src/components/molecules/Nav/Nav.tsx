@@ -10,7 +10,7 @@ const prefix = process.env.NODE_ENV === 'development' ? '' : '/poe2-tools'
 /**
  * The links in the navigation.
  */
-const links = [{ href: '/', label: 'DPS Calculator' }]
+const links = [{ href: '/', label: 'Weapon DPS Calculator' }]
 
 const Nav = (): React.JSX.Element => {
   return (

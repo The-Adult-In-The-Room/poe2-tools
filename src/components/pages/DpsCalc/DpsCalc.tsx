@@ -187,7 +187,7 @@ const DpsCalc = (): React.JSX.Element => {
       <textarea
         value={textAreaValue}
         onChange={onTextAreaChange}
-        placeholder="CTRL + C on your item in-game and then CTRL + V into this area."
+        placeholder="CTRL + C on your weapon in-game and then CTRL + V into this area."
       />
 
       <button type="button" onClick={onReset} className={classes.clearButton}>
