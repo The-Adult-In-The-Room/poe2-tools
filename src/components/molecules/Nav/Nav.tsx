@@ -18,12 +18,13 @@ const Nav = (): React.JSX.Element => {
       <Typography variant="subtitle">Tool kit</Typography>
       <hr />
       {links.map((link) => {
+        const to = prefix + link.href
         const className =
-          link.href === prefix + window.location.pathname ? classes.active : ''
-        console.log(link.href)
+          to === prefix + window.location.pathname ? classes.active : ''
+        console.log(to)
         console.log(prefix + window.location.pathname)
         return (
-          <a key={link.href} href={prefix + link.href} className={className}>
+          <a key={link.href} href={to} className={className}>
             {link.label}
           </a>
         )
