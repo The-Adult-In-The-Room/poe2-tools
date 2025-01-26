@@ -5,13 +5,13 @@ const MainLayout = ({
   children,
 }: React.PropsWithChildren): React.JSX.Element => {
   return (
-    <div className={classes.container}>
+    <main className={classes.container}>
       <Nav />
-      <div className={classes.innerContainer}>
+      <article className={classes.innerContainer}>
         {children}
         <Footer />
-      </div>
-    </div>
+      </article>
+    </main>
   )
 }
 
