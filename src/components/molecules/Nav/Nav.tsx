@@ -1,4 +1,5 @@
 import { Typography } from '../../atoms'
+import { FaCalculator } from 'react-icons/fa6'
 import * as classes from './Nav.module.css'
 
 /**
@@ -23,6 +24,7 @@ const Nav = (): React.JSX.Element => {
 
         return (
           <a key={link.href} href={to} className={className}>
+            <FaCalculator size={22} />
             {link.label}
           </a>
         )
