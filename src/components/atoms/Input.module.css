@@ -1,9 +1,0 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.container > label {
-  color: var(--clr-light-a0);
-}

@@ -1,0 +1,30 @@
+.cyan {
+  border-color: var(--clr-cyan);
+}
+
+.red {
+  border-color: var(--clr-red);
+}
+
+.pink {
+  border-color: var(--clr-pink);
+}
+
+.blue {
+  border-color: var(--clr-blue);
+}
+
+.yellow {
+  border-color: var(--clr-yellow);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: var(--br-radius);
+  background-color: var(--clr-surface-a20);
+  border-left: 21px solid var(--clr-cyan);
+  height: 90px;
+  padding: 0 36px;
+}

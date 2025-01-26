@@ -1,0 +1,30 @@
+.card {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.body {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.clear {
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.subtitle {
+  font-size: 14px;
+  font-weight: 300;
+}

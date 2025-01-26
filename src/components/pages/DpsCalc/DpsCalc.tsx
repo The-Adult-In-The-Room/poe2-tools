@@ -1,5 +1,5 @@
 import { createRef, useState } from 'react'
-import { Input } from '../../atoms'
+import { Input, Typography } from '../../atoms'
 import type {
   DpsCalcFormElement,
   DamageTypeCalc,
@@ -10,6 +10,8 @@ import type {
   Calculations,
 } from './DpsCalc.d'
 import * as classes from './DpsCalc.module.css'
+import { Card } from '../../molecules'
+import type { CardProps } from '../../molecules/Card/Card'
 
 /**
  * Each damage type has a section containing min and max inputs.
@@ -30,6 +32,20 @@ const initialCalculations: Calculations = {
   chaos: { min: 0, max: 0, dps: 0 },
   totalDps: 0,
   totalElementalDps: 0,
+}
+
+const initialFormValues: FormValues = {
+  aps: '',
+  physicalMin: '',
+  physicalMax: '',
+  lightningMin: '',
+  lightningMax: '',
+  fireMin: '',
+  fireMax: '',
+  coldMin: '',
+  coldMax: '',
+  chaosMin: '',
+  chaosMax: '',
 }
 
 /**
@@ -62,6 +78,7 @@ const DpsCalc = (): React.JSX.Element => {
   const [textAreaValue, setTextAreaValue] = useState<string>('')
   const [calculations, setCalculations] =
     useState<Calculations>(initialCalculations)
+  const [formValues, setFormValues] = useState<FormValues>(initialFormValues)
   const formRef = createRef<HTMLFormElement>()
 
   /**
@@ -111,6 +128,7 @@ const DpsCalc = (): React.JSX.Element => {
   const onReset = (): void => {
     setCalculations(initialCalculations)
     setTextAreaValue('')
+    setFormValues(initialFormValues)
     formRef.current?.reset()
   }
 
@@ -153,7 +171,9 @@ const DpsCalc = (): React.JSX.Element => {
     return Object.fromEntries(stats)
   }
 
-  // Manages text area input state + calculations
+  /**
+   * Updates text area input state + calculations
+   */
   const onTextAreaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
@@ -161,81 +181,126 @@ const DpsCalc = (): React.JSX.Element => {
     const lines = event.target.value.split('\n')
     const stats = findStatValues(lines)
 
+    setFormValues(stats)
     handleCalculations(stats)
+  }
+
+  /**
+   * Update form state and calculations
+   */
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { id, value } = event.target
+
+    setFormValues((prev: FormValues): FormValues => ({ ...prev, [id]: value }))
+    handleCalculations({ ...formValues, [id]: value })
   }
 
   const itemName = findItemName(textAreaValue)
 
+  const cards: { label: string; value: number; color: CardProps['color'] }[] = [
+    { label: 'Physical DPS:', value: calculations.physical.dps, color: 'cyan' },
+    {
+      label: 'Elemental DPS:',
+      value: calculations.totalElementalDps,
+      color: 'cyan',
+    },
+    {
+      label: 'Lightning DPS:',
+      value: calculations.lightning.dps,
+      color: 'yellow',
+    },
+    { label: 'Fire DPS:', value: calculations.fire.dps, color: 'red' },
+    { label: 'Cold DPS:', value: calculations.cold.dps, color: 'blue' },
+    { label: 'Chaos DPS:', value: calculations.chaos.dps, color: 'pink' },
+  ]
+
+  const cardsToDisplay = cards.filter(({ value }) => value > 0)
+
   return (
     <div className={classes.container}>
-      <h2>DAMAGE PER SECOND CALCULATOR</h2>
-      <p>
-        Copy & Paste weapon stats from in-game here, or manually enter below.
-      </p>
-      <textarea value={textAreaValue} onChange={onTextAreaChange} />
-
+      <Typography variant="title">Copy and Paste Entry</Typography>
       <hr />
-      <div className={classes.row}>
+
+      <textarea
+        value={textAreaValue}
+        onChange={onTextAreaChange}
+        placeholder="CTRL + C on your item in-game and then CTRL + V into this area."
+      />
+
+      <button type="button" onClick={onReset} className={classes.clearButton}>
+        <Typography variant="clear">Clear</Typography>
+      </button>
+
+      <Typography variant="title">Manual Calculation Entry</Typography>
+      <hr />
+
+      <div className={classes.formWrapper}>
         <form ref={formRef} onSubmit={onSubmit} className={classes.form}>
           <Input
-            className={classes.input}
-            name="aps"
             id="aps"
-            label="Attacks / Second"
-            placeholder="1.0"
-            type="number"
+            label="Attacks Per Second"
+            placeholder="Attacks Per Second..."
             required
+            value={formValues.aps}
+            onChange={onChange}
           />
 
-          {allTypes.map(
-            (type: DamageType): React.JSX.Element => (
-              <div key={type}>
-                <h3>
-                  {type} ({calculations[type].dps.toFixed(2)} dps)
-                </h3>
+          {allTypes.map((type: DamageType): React.JSX.Element => {
+            const minId = `${type}Min`
+            const maxId = `${type}Max`
 
-                <div className={classes.row}>
-                  <Input
-                    className={classes.input}
-                    id={`${type}Min`}
-                    name={`${type}Min`}
-                    label="Min"
-                    placeholder="0"
-                    type="number"
-                    min={0}
-                  />
-                  <Input
-                    className={classes.input}
-                    id={`${type}Max`}
-                    name={`${type}Max`}
-                    label="Max"
-                    placeholder="0"
-                    type="number"
-                    min={0}
-                  />
-                </div>
+            return (
+              <div key={type} className={classes.row}>
+                <Input
+                  className={classes.input}
+                  id={minId}
+                  label={`${type} Min`}
+                  placeholder="Min Damage..."
+                  value={formValues[minId]}
+                  onChange={onChange}
+                />
+                <Input
+                  className={classes.input}
+                  id={maxId}
+                  label={`${type} Max`}
+                  placeholder="Max Damage..."
+                  value={formValues[maxId]}
+                  onChange={onChange}
+                />
               </div>
             )
-          )}
+          })}
 
-          <div className={classes.row}>
-            <button type="button" onClick={onReset}>
-              Reset
-            </button>
-            <button type="submit">Calculate</button>
-          </div>
+          <button
+            type="button"
+            onClick={onReset}
+            className={classes.clearButton}
+          >
+            <Typography variant="clear">Clear Form</Typography>
+          </button>
         </form>
 
-        <div>
-          {itemName && (
-            <>
-              <h3>{itemName[0]}</h3>
-              <h3>{itemName[1]}</h3>
-            </>
-          )}
-          <h4>Elemental: {calculations.totalElementalDps.toFixed(2)} dps</h4>
-          <h4>Total: {calculations.totalDps.toFixed(2)} dps</h4>
-        </div>
+        {calculations.totalDps ? (
+          <div className={classes.summaryContainer}>
+            {itemName && (
+              <>
+                <h3>{itemName[0]}</h3>
+                <h4>{itemName[1]}</h4>
+              </>
+            )}
+
+            <div className={classes.totalDps}>
+              <p>TOTAL DPS: {calculations.totalDps.toFixed(2)}</p>
+            </div>
+
+            {cardsToDisplay.map(({ label, value, color }) => (
+              <Card key={label} color={color}>
+                <Typography variant="cardTitle">{label}</Typography>
+                <Typography variant="card">{value.toFixed(2)}</Typography>
+              </Card>
+            ))}
+          </div>
+        ) : null}
       </div>
     </div>
   )

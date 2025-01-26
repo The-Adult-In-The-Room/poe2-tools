@@ -2,33 +2,29 @@
   /** Base colors */
   --clr-dark-a0: #121212;
   --clr-light-a0: #f4f4f4;
-
-  /** Dark theme primary colors */
-  --clr-primary-a0: #2b6d20;
-  --clr-primary-a10: #457d38;
-  --clr-primary-a20: #5c8c50;
-  --clr-primary-a30: #739c67;
-  --clr-primary-a40: #8aac7f;
   --clr-primary-a50: #a1bc98;
 
   /** Dark theme surface colors */
   --clr-surface-a0: #121212;
   --clr-surface-a10: #282828;
   --clr-surface-a20: #3f3f3f;
-  --clr-surface-a30: #575757;
-  --clr-surface-a40: #717171;
+  --clr-surface-tonal-a20: #424641;
   --clr-surface-a50: #8b8b8b;
 
-  /** Dark theme tonal surface colors */
-  --clr-surface-tonal-a0: #161b15;
-  --clr-surface-tonal-a10: #2b302a;
-  --clr-surface-tonal-a20: #424641;
-  --clr-surface-tonal-a30: #5a5e59;
-  --clr-surface-tonal-a40: #737772;
-  --clr-surface-tonal-a50: #8d908d;
+  /** Other colors */
+  --clr-error: #d76767;
+  --clr-cyan: #8181ee;
+  --clr-red: #920202;
+  --clr-pink: #cf168f;
+  --clr-blue: #366492;
+  --clr-yellow: #edc904;
 
   /** Borders */
   --br-radius: 8px;
+
+  /** Sizes */
+  --nav-width: 208px;
+  --vertical-page-padding: 64px;
 }
 
 * {
@@ -51,7 +47,16 @@ h4,
 h5,
 h6,
 p {
-  margin: 0.4rem 0;
+  margin: 0;
+}
+
+h3,
+h4,
+h5,
+h6,
+p,
+label {
+  color: var(--clr-light-a0);
 }
 
 h1,
@@ -59,12 +64,23 @@ h2 {
   color: var(--clr-primary-a50);
 }
 
-h3,
-h4,
-h5,
-h6,
-p {
-  color: var(--clr-light-a0);
+h1 {
+  font-size: 26px;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+h4 {
+  font-size: 16px;
+  font-weight: 400;
 }
 
 body {
@@ -73,13 +89,20 @@ body {
 
 button {
   color: var(--clr-dark-a0);
-  background-color: var(--clr-primary-a20);
   padding: 0.5rem;
-  font-weight: 500;
   border-radius: var(--br-radius);
   border: none;
   cursor: pointer;
-  min-width: 100px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+label::first-letter {
+  text-transform: capitalize;
 }
 
 input,
@@ -88,17 +111,27 @@ textarea {
   background-color: var(--clr-surface-a10);
   border-color: var(--clr-surface-a10);
   border-radius: var(--br-radius);
-  padding: 0.5rem;
+  padding: 16px;
+}
+
+input {
+  height: 52px;
 }
 
 textarea {
   resize: vertical;
+  min-height: 146px;
+  margin-bottom: 16px;
 }
 
 ::placeholder {
   color: var(--clr-surface-a50);
+  font-size: 16px;
+  font-weight: 400;
 }
 
 hr {
+  color: var(--clr-surface-tonal-a20);
   width: 100%;
+  margin-bottom: 32px;
 }

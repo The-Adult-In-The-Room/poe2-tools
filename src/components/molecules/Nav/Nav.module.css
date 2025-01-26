@@ -1,0 +1,23 @@
+nav {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: var(--nav-width);
+  padding: var(--vertical-page-padding) 16px;
+  background-color: var(--clr-surface-a10);
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 16px;
+  color: var(--clr-light-a0);
+  text-decoration: none;
+}
+
+.active {
+  color: var(--clr-primary-a50);
+}

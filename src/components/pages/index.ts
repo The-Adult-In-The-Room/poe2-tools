@@ -1,2 +1,1 @@
-// Remove after adding something to this file.
-export const e = 1
+export { default as DpsCalc } from './DpsCalc/DpsCalc'
