@@ -20,6 +20,6 @@
     width: calc(100% - var(--nav-width));
     margin-left: var(--nav-width);
     margin-top: 0;
-    padding: var(--vertical-page-padding) 8rem;
+    padding: var(--vertical-page-padding) 16rem;
   }
 }
