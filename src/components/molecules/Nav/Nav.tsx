@@ -20,8 +20,7 @@ const Nav = (): React.JSX.Element => {
       {links.map((link) => {
         const to = prefix + link.href
         const className = to === window.location.pathname ? classes.active : ''
-        console.log(to)
-        console.log(prefix + window.location.pathname)
+
         return (
           <a key={link.href} href={to} className={className}>
             {link.label}
