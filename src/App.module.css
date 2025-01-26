@@ -136,3 +136,7 @@ hr {
   width: 100%;
   margin-bottom: 32px;
 }
+
+a {
+  color: var(--clr-primary-a50);
+}

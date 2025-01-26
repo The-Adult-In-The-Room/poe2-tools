@@ -8,7 +8,7 @@ A set of tools for use with Path of Exile 2 video game.
 
 Includes the following tools:
 
-- DPS Calculator
+- Weapon DPS Calculator
 
 Future planned:
 

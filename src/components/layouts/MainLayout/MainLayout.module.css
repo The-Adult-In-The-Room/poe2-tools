@@ -6,6 +6,8 @@
 .innerContainer {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 4rem;
   min-height: calc(100vh - var(--nav-height));
   width: 100%;
   padding: 1rem;

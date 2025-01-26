@@ -1,4 +1,4 @@
-import { Nav } from '../../molecules'
+import { Footer, Nav } from '../../molecules'
 import * as classes from './MainLayout.module.css'
 
 const MainLayout = ({
@@ -7,7 +7,10 @@ const MainLayout = ({
   return (
     <div className={classes.container}>
       <Nav />
-      <div className={classes.innerContainer}>{children}</div>
+      <div className={classes.innerContainer}>
+        {children}
+        <Footer />
+      </div>
     </div>
   )
 }
