@@ -26,7 +26,7 @@ nav hr {
   color: var(--clr-primary-a50);
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1280px) {
   nav {
     position: fixed;
     flex-direction: column;

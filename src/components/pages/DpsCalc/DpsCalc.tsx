@@ -246,25 +246,30 @@ const DpsCalc = (): React.JSX.Element => {
         </form>
 
         {calculations.totalDps ? (
-          <div className={classes.summaryContainer}>
+          <>
             {itemName && (
               <>
                 <h3>{itemName[0]}</h3>
                 <h4>{itemName[1]}</h4>
               </>
             )}
+            <div className={classes.summaryContainer}>
+              <div className={classes.totalDps}>
+                <p>TOTAL DPS: {calculations.totalDps.toFixed(2)}</p>
+              </div>
 
-            <div className={classes.totalDps}>
-              <p>TOTAL DPS: {calculations.totalDps.toFixed(2)}</p>
+              <div className={classes.summaryCards}>
+                {cardsToDisplay.map(({ label, value, color }) => (
+                  <div>
+                    <Card key={label} color={color}>
+                      <Typography variant="cardTitle">{label}</Typography>
+                      <Typography variant="card">{value.toFixed(2)}</Typography>
+                    </Card>
+                  </div>
+                ))}
+              </div>
             </div>
-
-            {cardsToDisplay.map(({ label, value, color }) => (
-              <Card key={label} color={color}>
-                <Typography variant="cardTitle">{label}</Typography>
-                <Typography variant="card">{value.toFixed(2)}</Typography>
-              </Card>
-            ))}
-          </div>
+          </>
         ) : null}
       </div>
     </div>

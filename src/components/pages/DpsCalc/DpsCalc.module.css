@@ -22,14 +22,14 @@
   gap: 1rem;
 }
 
+.input {
+  max-width: 192px;
+}
+
 .row {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
-}
-
-.input {
-  max-width: 192px;
 }
 
 .clearButton {
@@ -40,11 +40,18 @@
 .summaryContainer {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  width: 100%;
+  gap: 1rem;
+}
+
+.summaryCards {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
 .totalDps {
+  max-height: 34px;
   padding: 8px 16px;
   background-color: var(--clr-primary-a50);
   border-radius: var(--br-radius);
@@ -64,6 +71,20 @@
   .formWrapper {
     flex-direction: row;
     gap: 64px;
+  }
+  .summaryCards {
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
+  }
+
+  .summaryCards > div {
+    width: calc(50% - 1rem); /* 1rem is the gap between the cards */
+    min-width: 250px;
+  }
+
+  .totalDps {
+    width: calc(50% - 1rem); /* 1rem is the gap between the cards */
+    min-width: 250px;
   }
 }

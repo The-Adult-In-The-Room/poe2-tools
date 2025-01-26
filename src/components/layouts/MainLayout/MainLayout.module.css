@@ -17,9 +17,21 @@
 @media screen and (min-width: 768px) {
   .innerContainer {
     min-height: 100vh;
+    padding: var(--vertical-page-padding) 1rem;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .innerContainer {
     width: calc(100% - var(--nav-width));
+    padding: var(--vertical-page-padding);
     margin-left: var(--nav-width);
     margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .innerContainer {
     padding: var(--vertical-page-padding) 16rem;
   }
 }

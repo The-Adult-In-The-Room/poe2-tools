@@ -1,0 +1,15 @@
+@media (min-width: 1280px) {
+  .summaryCards {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .summaryCards > div {
+    width: calc(50% - 1rem); /* 1rem is the gap between the cards */
+  }
+
+  .totalDps {
+    width: calc(50% - 1rem); /* 1rem is the gap between the cards */
+  }
+}
