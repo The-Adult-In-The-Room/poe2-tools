@@ -22,7 +22,7 @@ const Nav = (): React.JSX.Element => {
           link.href === prefix + window.location.pathname ? classes.active : ''
 
         return (
-          <a key={link.href} href={link.href} className={className}>
+          <a key={link.href} href={prefix + link.href} className={className}>
             {link.label}
           </a>
         )
