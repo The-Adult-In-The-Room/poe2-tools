@@ -132,9 +132,9 @@ const DpsCalc = (): React.JSX.Element => {
         stats.set(key, sanitized)
       } else {
         const [min, max] = sanitized.split('-')
-        // @ts-expect-error
+        // @ts-expect-error Couldn't get this dynamic Map key typed correctly for TS
         stats.set(`${key}Min`, min)
-        // @ts-expect-error
+        // @ts-expect-error Couldn't get this dynamic Map key typed correctly for TS
         stats.set(`${key}Max`, max)
       }
     }
