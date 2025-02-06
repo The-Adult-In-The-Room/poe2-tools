@@ -11,7 +11,12 @@ import type {
   Calculations,
 } from './DpsCalc.d'
 import * as classes from './DpsCalc.module.css'
-import { findItemName, removeKey, removeSuffix } from '../../../utils/utils'
+import {
+  findItemName,
+  removeKey,
+  removeSuffix,
+  convertRangeText,
+} from '../../../utils/utils'
 
 /**
  * Each damage type has a section containing min and max inputs.
@@ -115,7 +120,10 @@ const DpsCalc = (): React.JSX.Element => {
       const line = lines.find((line) => line.includes(value))
 
       // Sanitize the value to remove any non-numeric characters
-      const sanitized = removeSuffix(removeKey(line))
+      const sanitized = line?.includes(':')
+        ? removeSuffix(removeKey(line))
+        : convertRangeText(line)
+
       if (!sanitized) continue
 
       // If the key is 'aps', set the value directly
@@ -124,9 +132,9 @@ const DpsCalc = (): React.JSX.Element => {
         stats.set(key, sanitized)
       } else {
         const [min, max] = sanitized.split('-')
-        // @ts-expect-error
+        // @ts-expect-error Couldn't get this dynamic Map key typed correctly for TS
         stats.set(`${key}Min`, min)
-        // @ts-expect-error
+        // @ts-expect-error Couldn't get this dynamic Map key typed correctly for TS
         stats.set(`${key}Max`, max)
       }
     }
@@ -144,7 +152,7 @@ const DpsCalc = (): React.JSX.Element => {
     const lines = event.target.value.split('\n')
     const stats = findStatValues(lines)
 
-    setFormValues(stats)
+    setFormValues((prev) => ({ ...prev, ...stats }))
     handleCalculations(stats)
   }
 
@@ -248,10 +256,10 @@ const DpsCalc = (): React.JSX.Element => {
         {calculations.totalDps ? (
           <>
             {itemName && (
-              <>
+              <div>
                 <h3>{itemName[0]}</h3>
                 <h4>{itemName[1]}</h4>
-              </>
+              </div>
             )}
             <div className={classes.summaryContainer}>
               <div className={classes.totalDps}>
@@ -260,7 +268,7 @@ const DpsCalc = (): React.JSX.Element => {
 
               <div className={classes.summaryCards}>
                 {cardsToDisplay.map(({ label, value, color }) => (
-                  <div>
+                  <div key={label}>
                     <Card key={label} color={color}>
                       <Typography variant="cardTitle">{label}</Typography>
                       <Typography variant="card">{value.toFixed(2)}</Typography>
