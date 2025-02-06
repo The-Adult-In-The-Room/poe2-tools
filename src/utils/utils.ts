@@ -13,6 +13,19 @@ export const removeSuffix = (line?: string): string | undefined =>
   line?.split(' ')[0]
 
 /**
+ * Handles formatting a range of values.
+ * Example: 'Adds 3 to 150 Lightning Damage' -> '3-150'
+ */
+export const convertRangeText = (line?: string): string | undefined => {
+  const [start, finish] = line?.split(' to ') || []
+  const [_discard, min] = start?.split(' ') || []
+  const [max, _discard2] = finish?.split(' ') || []
+
+  if (!min || !max) return undefined
+
+  return `${min}-${max}`
+}
+/**
  * Derives the item name and type from the text area input.
  */
 export const findItemName = (
