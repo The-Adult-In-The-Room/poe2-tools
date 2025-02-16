@@ -1,3 +1,9 @@
+const ZERO_CALCULATION = {
+  dps: 0,
+  max: 0,
+  min: 0,
+}
+
 export const TESTDATA = {
   APS_LINE: 'Attacks per Second: 1.5',
   ELEMENTAL_DAMAGE_LINE: 'Elemental Damage: 2-5 (augmented), 5-14 (augmented), 14-76 (augmented)',
@@ -308,6 +314,109 @@ export const TESTDATA = {
       aps: '1.40',
       lightningMax: '25',
       lightningMin: '2',
+    },
+  },
+  CALCULATIONS: {
+    ONLY_PHYSICAL: {
+      physical: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      fire: ZERO_CALCULATION,
+      cold: ZERO_CALCULATION,
+      lightning: ZERO_CALCULATION,
+      chaos: ZERO_CALCULATION,
+      totalDps: 19.6,
+      totalElementalDps: 0,
+    },
+    ONLY_CHAOS: {
+      physical: ZERO_CALCULATION,
+      fire: ZERO_CALCULATION,
+      cold: ZERO_CALCULATION,
+      lightning: ZERO_CALCULATION,
+      chaos: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      totalDps: 19.6,
+      totalElementalDps: 0,
+    },
+    PHYSICAL_AND_ELEMENTS: {
+      physical: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      fire: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      cold: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      lightning: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      chaos: ZERO_CALCULATION,
+      totalDps: 98,
+      totalElementalDps: 78.4,
+    },
+    ONLY_ELEMENTS: {
+      physical: ZERO_CALCULATION,
+      fire: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      cold: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      lightning: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      chaos: ZERO_CALCULATION,
+      totalDps: 58.8,
+      totalElementalDps: 58.8,
+    },
+    ALL_TYPES: {
+      physical: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      fire: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      cold: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      lightning: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      chaos: {
+        dps: 19.6,
+        max: 28,
+        min: 11,
+      },
+      totalDps: 98,
+      totalElementalDps: 78.4,
     },
   },
 }

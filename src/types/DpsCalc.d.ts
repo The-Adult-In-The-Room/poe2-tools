@@ -34,6 +34,7 @@ export type DamageType = Physical | Elemental | Chaos
 export type AllElementalTypes = [Lightning, Fire, Cold]
 export type AllOtherTypes = [Physical, Chaos]
 export type AllDamageTypes = [Physical, Lightning, Fire, Cold, Chaos]
+export type ItemName = [string, string] | null
 
 export interface DamageTypeCalc {
   min: number
@@ -55,3 +56,4 @@ export type TotalCalculations = {
 }
 
 export type Calculations = DamageTypeCalculations & TotalCalculations
+export type HistoricCalculation = Calculations & { itemName?: ItemName; id: string }

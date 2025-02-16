@@ -1,6 +1,7 @@
 import { TESTDATA } from 'data/testData'
 import {
   convertRangeText,
+  createCards,
   findElementalDamageValues,
   findItemName,
   findStatValues,
@@ -629,5 +630,50 @@ describe('handleDpsCalculations', () => {
       totalDps: 95,
       totalElementalDps: 57,
     })
+  })
+})
+
+describe('createCards', () => {
+  test('should return an array of cards for an item with only physical damage', () => {
+    const cards = createCards(TESTDATA.CALCULATIONS.ONLY_PHYSICAL)
+    expect(cards).toStrictEqual([{ color: 'cyan', label: 'Physical DPS:', testId: 'physicalDps', value: 19.6 }])
+  })
+
+  test('should return an array of cards for an item with physical and elemental damage', () => {
+    const cards = createCards(TESTDATA.CALCULATIONS.PHYSICAL_AND_ELEMENTS)
+    expect(cards).toStrictEqual([
+      { color: 'cyan', label: 'Physical DPS:', testId: 'physicalDps', value: 19.6 },
+      { color: 'cyan', label: 'Elemental DPS:', testId: 'elementalDps', value: 78.4 },
+      { color: 'yellow', label: 'Lightning DPS:', testId: 'lightningDps', value: 19.6 },
+      { color: 'red', label: 'Fire DPS:', testId: 'fireDps', value: 19.6 },
+      { color: 'blue', label: 'Cold DPS:', testId: 'coldDps', value: 19.6 },
+    ])
+  })
+
+  test('should return an array of cards for an item with only chaos damage', () => {
+    const cards = createCards(TESTDATA.CALCULATIONS.ONLY_CHAOS)
+    expect(cards).toStrictEqual([{ color: 'pink', label: 'Chaos DPS:', testId: 'chaosDps', value: 19.6 }])
+  })
+
+  test('should return an array of cards for an item with only elemental damage', () => {
+    const cards = createCards(TESTDATA.CALCULATIONS.ONLY_ELEMENTS)
+    expect(cards).toStrictEqual([
+      { color: 'cyan', label: 'Elemental DPS:', testId: 'elementalDps', value: 58.8 },
+      { color: 'yellow', label: 'Lightning DPS:', testId: 'lightningDps', value: 19.6 },
+      { color: 'red', label: 'Fire DPS:', testId: 'fireDps', value: 19.6 },
+      { color: 'blue', label: 'Cold DPS:', testId: 'coldDps', value: 19.6 },
+    ])
+  })
+
+  test('should return an array of cards for an item with all damage types', () => {
+    const cards = createCards(TESTDATA.CALCULATIONS.ALL_TYPES)
+    expect(cards).toStrictEqual([
+      { color: 'cyan', label: 'Physical DPS:', testId: 'physicalDps', value: 19.6 },
+      { color: 'cyan', label: 'Elemental DPS:', testId: 'elementalDps', value: 78.4 },
+      { color: 'yellow', label: 'Lightning DPS:', testId: 'lightningDps', value: 19.6 },
+      { color: 'red', label: 'Fire DPS:', testId: 'fireDps', value: 19.6 },
+      { color: 'blue', label: 'Cold DPS:', testId: 'coldDps', value: 19.6 },
+      { color: 'pink', label: 'Chaos DPS:', testId: 'chaosDps', value: 19.6 },
+    ])
   })
 })

@@ -166,6 +166,12 @@ describe('<DpsCalc />', () => {
 
         expect(screen.getByText('Clear Form')).toBeDefined()
       })
+
+      test('should not render history fab initially', () => {
+        render(<DpsCalc />)
+
+        expect(screen.queryByTestId('historyFab')).toBeNull()
+      })
     })
 
     describe('functionality', () => {
@@ -326,6 +332,69 @@ describe('<DpsCalc />', () => {
           // This would exclude the copy and paste section textarea
           if (name) expect(value).toBe('')
         })
+      })
+
+      test('should show history fab on form clear', async () => {
+        const { user } = setup(<DpsCalc />)
+
+        const aps = screen.getByLabelText('Attacks Per Second *')
+        const physMin = screen.getByLabelText('physical Min')
+        const physMax = screen.getByLabelText('physical Max')
+
+        await user.type(aps, '1.4')
+        await user.type(physMin, '10')
+        await user.type(physMax, '20')
+
+        expect(screen.queryByTestId('historyFab')).toBeNull()
+
+        const clearButton = screen.getByText('Clear Form')
+        await user.click(clearButton)
+
+        expect(screen.getByTestId('historyFab')).toBeDefined()
+      })
+
+      test('clicking history fab should render history panel', async () => {
+        const { user } = setup(<DpsCalc />)
+
+        const aps = screen.getByLabelText('Attacks Per Second *')
+        const physMin = screen.getByLabelText('physical Min')
+        const physMax = screen.getByLabelText('physical Max')
+
+        await user.type(aps, '1.4')
+        await user.type(physMin, '10')
+        await user.type(physMax, '20')
+
+        const clearButton = screen.getByText('Clear Form')
+        await user.click(clearButton)
+
+        expect(screen.queryByTestId('calcHistory')).toBeNull()
+
+        const historyFab = screen.getByTestId('historyFab')
+        await user.click(historyFab)
+
+        expect(screen.getByTestId('calcHistory')).toBeDefined()
+      })
+
+      test('history panel should render item name and dps values', async () => {
+        const { user } = setup(<DpsCalc />)
+
+        const aps = screen.getByLabelText('Attacks Per Second *')
+        const physMin = screen.getByLabelText('physical Min')
+        const physMax = screen.getByLabelText('physical Max')
+
+        await user.type(aps, '1.4')
+        await user.type(physMin, '10')
+        await user.type(physMax, '20')
+
+        const clearButton = screen.getByText('Clear Form')
+        await user.click(clearButton)
+
+        const historyFab = screen.getByTestId('historyFab')
+        await user.click(historyFab)
+
+        expect(screen.getByText('Manual')).toBeDefined()
+        expect(screen.getByText('Calculation')).toBeDefined()
+        expect(screen.getByText('TOTAL DPS: 21.00')).toBeDefined()
       })
     })
   })
