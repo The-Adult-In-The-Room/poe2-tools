@@ -5,10 +5,7 @@ type TypographyProps = {
   variant?: Variant
 }
 
-const Typography = ({
-  children,
-  variant = 'body',
-}: React.PropsWithChildren<TypographyProps>): React.JSX.Element => {
+const Typography = ({ children, variant = 'body' }: React.PropsWithChildren<TypographyProps>): React.JSX.Element => {
   const className = classes[variant]
 
   return <p className={className}>{children}</p>

@@ -13,10 +13,7 @@ const colorMap: Record<CardColors, string> = {
   yellow: '#edc904',
 }
 
-const Card = ({
-  children,
-  color = 'cyan',
-}: React.PropsWithChildren<CardProps>): React.JSX.Element => {
+const Card = ({ children, color = 'cyan' }: React.PropsWithChildren<CardProps>): React.JSX.Element => {
   return (
     <div className={classes.card} style={{ borderColor: colorMap[color] }}>
       {children}

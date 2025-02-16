@@ -13,8 +13,7 @@ const Input = ({
   required,
   className = '',
   ...rest
-}: InputProps &
-  React.InputHTMLAttributes<HTMLInputElement>): React.JSX.Element => {
+}: InputProps & React.InputHTMLAttributes<HTMLInputElement>): React.JSX.Element => {
   return (
     <div className={`${classes.container} ${className}`}>
       <label htmlFor={id}>

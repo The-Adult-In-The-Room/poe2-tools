@@ -8,8 +8,5 @@
       }
     ]
   ],
-  "plugins": [
-    "babel-plugin-react-compiler",
-    "@parcel/babel-plugin-transform-runtime"
-  ]
+  "plugins": ["babel-plugin-react-compiler", "@parcel/babel-plugin-transform-runtime"]
 }

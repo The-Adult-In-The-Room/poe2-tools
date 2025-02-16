@@ -1,9 +1,7 @@
 import { Footer, Nav } from '../../molecules'
 import * as classes from './MainLayout.module.css'
 
-const MainLayout = ({
-  children,
-}: React.PropsWithChildren): React.JSX.Element => {
+const MainLayout = ({ children }: React.PropsWithChildren): React.JSX.Element => {
   return (
     <main className={classes.container}>
       <Nav />
