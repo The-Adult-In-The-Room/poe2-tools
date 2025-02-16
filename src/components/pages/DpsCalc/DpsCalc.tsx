@@ -1,8 +1,8 @@
 import { createRef, useState } from 'react'
-import { Card, Typography, Input } from 'components'
-import { findItemName, findStatValues, handleDpsCalculations } from 'utils'
+import { Card, Typography, Input, CalcHistory } from 'components'
+import { createCards, findItemName, findStatValues, handleDpsCalculations } from 'utils'
 import { allDmgTypes, dpsCalcInitialCalculations, dpsCalcInitialFormValues } from 'data/constants'
-import type { CardColors, FormValues, Calculations } from 'types'
+import type { FormValues, Calculations, HistoricCalculation } from 'types'
 
 import * as classes from './DpsCalc.module.css'
 
@@ -13,8 +13,22 @@ const DpsCalc = (): React.JSX.Element => {
   const [textAreaValue, setTextAreaValue] = useState<string>('')
   const [calculations, setCalculations] = useState<Calculations>(dpsCalcInitialCalculations)
   const [formValues, setFormValues] = useState<FormValues>(dpsCalcInitialFormValues)
+  const [historicCalculations, setHistoricCalculations] = useState<HistoricCalculation[]>([])
   const formRef = createRef<HTMLFormElement>()
 
+  /**
+   * Create a new historic item and add it to the list.
+   */
+  const createHistoricItem = () => {
+    const itemName = findItemName(textAreaValue)
+    const newHistoricItem: HistoricCalculation = {
+      ...calculations,
+      id: crypto.randomUUID(),
+      itemName,
+    }
+
+    setHistoricCalculations((prev) => [newHistoricItem, ...prev])
+  }
   /**
    * Reset form state and calculations
    */
@@ -22,6 +36,7 @@ const DpsCalc = (): React.JSX.Element => {
     setCalculations(dpsCalcInitialCalculations)
     setTextAreaValue('')
     setFormValues(dpsCalcInitialFormValues)
+    createHistoricItem()
     formRef.current?.reset()
   }
 
@@ -49,40 +64,8 @@ const DpsCalc = (): React.JSX.Element => {
     setCalculations(calcs)
   }
 
-  /**
-   * Create and filters cards to display for each damage type
-   * Only display cards with a value greater than 0
-   */
-  const createCards = () => {
-    const cards: { label: string; value: number; color: CardColors; testId: string }[] = [
-      {
-        label: 'Physical DPS:',
-        value: calculations.physical.dps,
-        color: 'cyan',
-        testId: 'physicalDps',
-      },
-      {
-        label: 'Elemental DPS:',
-        value: calculations.totalElementalDps,
-        color: 'cyan',
-        testId: 'elementalDps',
-      },
-      {
-        label: 'Lightning DPS:',
-        value: calculations.lightning.dps,
-        color: 'yellow',
-        testId: 'lightningDps',
-      },
-      { label: 'Fire DPS:', value: calculations.fire.dps, color: 'red', testId: 'fireDps' },
-      { label: 'Cold DPS:', value: calculations.cold.dps, color: 'blue', testId: 'coldDps' },
-      { label: 'Chaos DPS:', value: calculations.chaos.dps, color: 'pink', testId: 'chaosDps' },
-    ]
-
-    return cards.filter(({ value }) => value > 0)
-  }
-
   const itemName = findItemName(textAreaValue)
-  const cardsToDisplay = createCards()
+  const cardsToDisplay = createCards(calculations)
 
   return (
     <div data-testid="dpsCalc" className={classes.container}>
@@ -150,7 +133,7 @@ const DpsCalc = (): React.JSX.Element => {
         {calculations.totalDps ? (
           <>
             {itemName && (
-              <div data-testid="itemName">
+              <div className={classes.itemNameContainer} data-testid="itemName">
                 <h3>{itemName[0]}</h3>
                 <h4>{itemName[1]}</h4>
               </div>
@@ -173,6 +156,8 @@ const DpsCalc = (): React.JSX.Element => {
             </div>
           </>
         ) : null}
+
+        {historicCalculations.length ? <CalcHistory calcs={historicCalculations} /> : null}
       </div>
     </div>
   )

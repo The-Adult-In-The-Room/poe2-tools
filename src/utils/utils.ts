@@ -1,5 +1,5 @@
 import { allDmgTypes } from 'data/constants'
-import type { Calculations, DamageType, DamageTypeCalc, FormValues } from 'types'
+import type { Calculations, DamageType, DamageTypeCalc, FormValues, CardColors, ItemName } from 'types'
 
 /**
  * Removes the key from a line of text.
@@ -30,7 +30,7 @@ export const convertRangeText = (line: string): string | undefined => {
 /**
  * Derives the item name and type from the text area input.
  */
-export const findItemName = (textAreaValue: string): [string, string] | null => {
+export const findItemName = (textAreaValue: string): ItemName => {
   const lines = textAreaValue.split('\n')
   if (lines.length < 4) return null
 
@@ -154,4 +154,36 @@ export const handleDpsCalculations = (input: FormValues): Calculations => {
     totalDps,
     totalElementalDps,
   }
+}
+
+/**
+ * Transform data and determine which cards to display for each damage type
+ * Only display cards with a value greater than 0
+ */
+export const createCards = (calculations: Calculations) => {
+  const cards: { label: string; value: number; color: CardColors; testId: string }[] = [
+    {
+      label: 'Physical DPS:',
+      value: calculations.physical.dps,
+      color: 'cyan',
+      testId: 'physicalDps',
+    },
+    {
+      label: 'Elemental DPS:',
+      value: calculations.totalElementalDps,
+      color: 'cyan',
+      testId: 'elementalDps',
+    },
+    {
+      label: 'Lightning DPS:',
+      value: calculations.lightning.dps,
+      color: 'yellow',
+      testId: 'lightningDps',
+    },
+    { label: 'Fire DPS:', value: calculations.fire.dps, color: 'red', testId: 'fireDps' },
+    { label: 'Cold DPS:', value: calculations.cold.dps, color: 'blue', testId: 'coldDps' },
+    { label: 'Chaos DPS:', value: calculations.chaos.dps, color: 'pink', testId: 'chaosDps' },
+  ]
+
+  return cards.filter(({ value }) => value > 0)
 }
