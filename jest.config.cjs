@@ -170,8 +170,7 @@ module.exports = {
   // A map from regular expressions to paths to transformers
   transform: {
     '\\.[jt]sx?$': 'babel-jest',
-    '.+\\.(css|less|sass|scss|png|jpg|gif|ttf|woff|woff2|svg)$':
-      'jest-transform-stub',
+    '.+\\.(css|less|sass|scss|png|jpg|gif|ttf|woff|woff2|svg)$': 'jest-transform-stub',
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

@@ -3,6 +3,14 @@
 {
   "include": ["src"],
   "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "components/*": ["components/*"],
+      "types/*": ["types/*"],
+      "utils/*": ["utils/*"],
+      "hooks/*": ["hooks/*"],
+      "data/*": ["data/*"]
+    },
     "checkJs": true,
     "noEmit": true,
     "strictNullChecks": true,
@@ -13,6 +21,7 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "isolatedModules": true
   }
 }

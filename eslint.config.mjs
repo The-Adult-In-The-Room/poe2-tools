@@ -16,14 +16,7 @@ export default tseslint.config(
   // @ts-expect-error - eslint-plugin-react-compiler is not typed
   reactCompiler.configs.recommended,
   {
-    ignores: [
-      '.parcel-cache',
-      'dist',
-      'node_modules',
-      'coverage',
-      '__mocks__',
-      'jest.config.cjs',
-    ],
+    ignores: ['.parcel-cache', 'dist', 'node_modules', 'coverage', '__mocks__', 'jest.config.cjs'],
   },
   {
     rules: {

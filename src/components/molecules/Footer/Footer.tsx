@@ -6,31 +6,19 @@ const Footer = () => {
     <footer>
       <p>
         Created with <FaHeart color="red" /> by
-        <a
-          href="https://github.com/Raymond-Cox"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://github.com/Raymond-Cox" target="_blank" rel="noreferrer">
           Raymond Cox
         </a>
       </p>
       <p>
-        <FaPaintBrush color="#cf168f" /> Designed by{' '}
-        <a href="https://thedesignerdev.com/">The Designer Dev</a>
+        <FaPaintBrush color="#cf168f" /> Designed by <a href="https://thedesignerdev.com/">The Designer Dev</a>
       </p>
-      <a
-        href="https://github.com/Raymond-Cox/poe2-tools"
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a href="https://github.com/Raymond-Cox/poe2-tools" target="_blank" rel="noreferrer">
         View source code
       </a>
       <a href="https://ko-fi.com/me_am" target="_blank" rel="noreferrer">
         Buy me a coffee
-        <img
-          src="https://storage.ko-fi.com/cdn/brandasset/logo_white_stroke.png?"
-          alt="Buy Me a Coffee"
-        />
+        <img src="https://storage.ko-fi.com/cdn/brandasset/logo_white_stroke.png?" alt="Buy Me a Coffee" />
       </a>
     </footer>
   )
