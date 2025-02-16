@@ -100,10 +100,37 @@ const DpsCalc = (): React.JSX.Element => {
     formRef.current?.reset()
   }
 
+  //   Item Class: Quarterstaves
+  // Rarity: Rare
+  // Corpse Mast
+  // Crackling Quarterstaff
+  // --------
+  // Elemental Damage: 2-5 (augmented), 5-14 (augmented), 14-76 (augmented)
+  // Critical Hit Chance: 10.00%
+  // Attacks per Second: 1.40
+  // --------
+  // Requirements:
+  // Level: 16
+  // Dex: 30
+  // Int: 14
+  // --------
+  // Sockets: S S
+  // --------
+  // Item Level: 18
+  // --------
+  // Adds 2 to 5 Fire Damage
+  // Adds 5 to 14 Cold Damage
+  // Adds 1 to 22 Lightning Damage
+  // +3 to Level of all Melee Skills
+
+  const handleElementalDamageLine = () => {}
+
   /**
    * Derives stat values from the text area input
    */
   const findStatValues = (lines: string[]): FormValues => {
+    const stats = new Map<FormKeys, string>()
+
     const filters = {
       aps: 'Attacks per Second',
       physical: 'Physical Damage',
@@ -113,7 +140,43 @@ const DpsCalc = (): React.JSX.Element => {
       chaos: 'Chaos Damage',
     }
 
-    const stats = new Map<FormKeys, string>()
+    const elementalFilters = {
+      fire: 'Fire Damage',
+      cold: 'Cold Damage',
+      lightning: 'Lightning Damage',
+    }
+
+    const elementalDamageLine = lines.find((line) =>
+      line.includes('Elemental Damage:')
+    )
+
+    // If we have a line containing 'Elemental Damage:', handle it separately
+    if (elementalDamageLine) {
+      // First split the line into individual values of min-max damages
+      const keyless = removeKey(elementalDamageLine)
+      const elementalDamageValues = keyless
+        ?.split(',')
+        .map((value) => removeSuffix(value.trim()))
+
+      console.log({ elementalDamageValues })
+
+      // Now we have an array of min-max values for each elemental damage type
+      // Need to marry these up with the correct damage type
+      // Then add them to the stats Map
+
+      let elementalIndex = 0
+
+      for (const [key, value] of Object.entries(elementalFilters)) {
+        const line = lines.find((line) => line.includes(value))
+        if (!line) continue
+
+        console.log('line', line)
+
+        const [min, max] = elementalDamageValues[elementalIndex].split('-')
+        stats.set(`${key}Min`, min)
+        stats.set(`${key}Max`, max)
+      }
+    }
 
     // Iterate the hash and find the corresponding line in the text area input
     for (const [key, value] of Object.entries(filters)) {
