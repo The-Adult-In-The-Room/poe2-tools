@@ -18,14 +18,15 @@ export const removeSuffix = (line: string): string => line.split(' ')[0]
  * Example: 'Adds 3 to 150 Lightning Damage' -> '3-150'
  */
 export const convertRangeText = (line: string): string | undefined => {
-  const [start, finish] = line.split(' to ') || []
-  const [_discard, min] = start.split(' ') || []
-  const [max, _discard2] = finish.split(' ') || []
+  const [start, finish] = line.split(' to ')
+  const [_discard, min] = start.split(' ')
+  const [max, _discard2] = finish?.split(' ') || []
 
   if (!min || !max) return undefined
 
   return `${min}-${max}`
 }
+
 /**
  * Derives the item name and type from the text area input.
  */
@@ -33,7 +34,7 @@ export const findItemName = (textAreaValue: string): [string, string] | null => 
   const lines = textAreaValue.split('\n')
   if (lines.length < 4) return null
 
-  return [lines[2], lines[3]]
+  return [lines[2].trim(), lines[3].trim()]
 }
 
 /**
@@ -136,7 +137,9 @@ export const handleDpsCalculations = (input: FormValues): Calculations => {
   const damageTypeCalcs = allDmgTypes.map((type: DamageType): DamageTypeCalc => {
     const min = Number(input[`${type}Min`]) || 0
     const max = Number(input[`${type}Max`]) || 0
-    return { min, max, dps: ((min + max) / 2) * aps }
+    // The DPS calculation is (min + max / 2) * aps
+    // We round to 2 decimal places with .toFixed and coerce back to a number with the unary plus
+    return { min, max, dps: +(((min + max) / 2) * aps).toFixed(2) }
   })
   const totalDps = damageTypeCalcs.reduce((acc, { dps }) => acc + dps, 0)
   const [physical, lightning, fire, cold, chaos] = damageTypeCalcs

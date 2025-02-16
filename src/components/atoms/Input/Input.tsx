@@ -15,7 +15,7 @@ const Input = ({
   ...rest
 }: InputProps & React.InputHTMLAttributes<HTMLInputElement>): React.JSX.Element => {
   return (
-    <div className={`${classes.container} ${className}`}>
+    <div data-testid="input-container" className={`${classes.container} ${className}`}>
       <label htmlFor={id}>
         {label} {required && <span>*</span>}
       </label>
