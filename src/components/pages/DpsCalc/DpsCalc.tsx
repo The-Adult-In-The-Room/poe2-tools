@@ -54,25 +54,28 @@ const DpsCalc = (): React.JSX.Element => {
    * Only display cards with a value greater than 0
    */
   const createCards = () => {
-    const cards: { label: string; value: number; color: CardColors }[] = [
+    const cards: { label: string; value: number; color: CardColors; testId: string }[] = [
       {
         label: 'Physical DPS:',
         value: calculations.physical.dps,
         color: 'cyan',
+        testId: 'physicalDps',
       },
       {
         label: 'Elemental DPS:',
         value: calculations.totalElementalDps,
         color: 'cyan',
+        testId: 'elementalDps',
       },
       {
         label: 'Lightning DPS:',
         value: calculations.lightning.dps,
         color: 'yellow',
+        testId: 'lightningDps',
       },
-      { label: 'Fire DPS:', value: calculations.fire.dps, color: 'red' },
-      { label: 'Cold DPS:', value: calculations.cold.dps, color: 'blue' },
-      { label: 'Chaos DPS:', value: calculations.chaos.dps, color: 'pink' },
+      { label: 'Fire DPS:', value: calculations.fire.dps, color: 'red', testId: 'fireDps' },
+      { label: 'Cold DPS:', value: calculations.cold.dps, color: 'blue', testId: 'coldDps' },
+      { label: 'Chaos DPS:', value: calculations.chaos.dps, color: 'pink', testId: 'chaosDps' },
     ]
 
     return cards.filter(({ value }) => value > 0)
@@ -82,15 +85,16 @@ const DpsCalc = (): React.JSX.Element => {
   const cardsToDisplay = createCards()
 
   return (
-    <div className={classes.container}>
+    <div data-testid="dpsCalc" className={classes.container}>
       <div className={classes.textAreaWrapper}>
         <Typography variant="title">Copy and Paste Entry</Typography>
         <hr />
 
         <textarea
-          value={textAreaValue}
+          value={textAreaValue.trim()}
           onChange={onTextAreaChange}
           placeholder="CTRL + C on your weapon in-game and then CTRL + V into this area."
+          data-testid="pasteArea"
         />
 
         <button type="button" onClick={onReset} className={classes.clearButton}>
@@ -146,20 +150,20 @@ const DpsCalc = (): React.JSX.Element => {
         {calculations.totalDps ? (
           <>
             {itemName && (
-              <div>
+              <div data-testid="itemName">
                 <h3>{itemName[0]}</h3>
                 <h4>{itemName[1]}</h4>
               </div>
             )}
-            <div className={classes.summaryContainer}>
-              <div className={classes.totalDps}>
+            <div className={classes.summaryContainer} data-testid="calculationResults">
+              <div className={classes.totalDps} data-testid="totalDps">
                 <p>TOTAL DPS: {calculations.totalDps.toFixed(2)}</p>
               </div>
 
               <div className={classes.summaryCards}>
-                {cardsToDisplay.map(({ label, value, color }) => (
+                {cardsToDisplay.map(({ label, value, color, testId }) => (
                   <div key={label}>
-                    <Card key={label} color={color}>
+                    <Card key={label} color={color} data-testid={testId}>
                       <Typography variant="cardTitle">{label}</Typography>
                       <Typography variant="card">{value.toFixed(2)}</Typography>
                     </Card>
