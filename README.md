@@ -2,7 +2,7 @@
 
 A set of tools for use with Path of Exile 2 video game.
 
-![Preview image of the Path of Exile 2 tool kit site](./docs/preview.png)
+![Preview image of the Path of Exile 2 tool kit site](./docs/preview2.png)
 
 ## Summary
 
