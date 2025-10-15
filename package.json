@@ -6,7 +6,7 @@
   "source": "src/index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "scripts": {
     "start": "parcel --open -p 3000",
@@ -22,51 +22,51 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Raymond-Cox/poe2-tools.git"
+    "url": "git+https://github.com/The-Adult-In-The-Room/poe2-tools.git"
   },
   "keywords": [
     "React",
     "Path of Exile 2",
     "Video Games"
   ],
-  "author": "Raymond-Cox",
+  "author": "Raymond Cox",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Raymond-Cox/poe2-tools/issues"
+    "url": "https://github.com/The-Adult-In-The-Room/poe2-tools/issues"
   },
-  "homepage": "https://github.com/Raymond-Cox/poe2-tools#readme",
+  "homepage": "https://github.com/The-Adult-In-The-Room/poe2-tools#readme",
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-icons": "^5.4.0"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.7",
-    "@babel/preset-react": "^7.26.3",
-    "@eslint/js": "^9.19.0",
-    "@parcel/babel-plugin-transform-runtime": "^2.13.3",
-    "@parcel/babel-preset-env": "^2.13.3",
+    "@babel/core": "^7.28.4",
+    "@babel/preset-react": "^7.27.1",
+    "@eslint/js": "^9.37.0",
+    "@parcel/babel-plugin-transform-runtime": "^2.16.0",
+    "@parcel/babel-preset-env": "^2.16.0",
     "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.2.0",
+    "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^22.13.4",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "@vitest/coverage-v8": "^3.0.5",
-    "babel-plugin-react-compiler": "^19.0.0-beta-decd7b8-20250118",
-    "eslint": "^9.19.0",
-    "eslint-plugin-react": "^7.34.4",
-    "eslint-plugin-react-compiler": "^19.0.0-beta-714736e-20250131",
-    "happy-dom": "^17.1.0",
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitest/coverage-v8": "^3.2.4",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "eslint": "^9.37.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-compiler": "^19.1.0-rc.2",
+    "happy-dom": "^20.0.1",
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.2",
-    "parcel": "^2.13.3",
-    "prettier": "^3.4.2",
+    "lint-staged": "^16.2.4",
+    "parcel": "^2.16.0",
+    "prettier": "^3.6.2",
     "process": "^0.11.10",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.23.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.1",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.5"
+    "vitest": "^3.2.4"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint .",

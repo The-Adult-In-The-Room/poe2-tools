@@ -6,7 +6,7 @@ describe('<Footer />', () => {
     render(<Footer />)
     const link = screen.getByRole('link', { name: /Raymond Cox/i })
     const href = link.getAttribute('href')
-    expect(href).toBe('https://github.com/Raymond-Cox')
+    expect(href).toBe('https://github.com/The-Adult-In-The-Room')
   })
 
   test('renders designed by as a hyperlink', () => {
@@ -20,7 +20,7 @@ describe('<Footer />', () => {
     render(<Footer />)
     const link = screen.getByRole('link', { name: /View source code/i })
     const href = link.getAttribute('href')
-    expect(href).toBe('https://github.com/Raymond-Cox/poe2-tools')
+    expect(href).toBe('https://github.com/The-Adult-In-The-Room/poe2-tools')
   })
 
   test('renders buy me a coffee as a hyperlink', () => {
