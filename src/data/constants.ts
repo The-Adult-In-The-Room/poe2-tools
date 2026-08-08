@@ -1,4 +1,4 @@
-import type { AllDamageTypes, FormValues, Calculations } from 'types'
+import type { AllDamageTypes, Calculations, FormValues } from 'types'
 
 /**
  * Each damage type has a section containing min and max inputs.

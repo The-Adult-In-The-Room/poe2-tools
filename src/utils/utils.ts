@@ -1,5 +1,5 @@
 import { allDmgTypes } from 'data/constants'
-import type { Calculations, DamageType, DamageTypeCalc, FormValues, CardColors, ItemName } from 'types'
+import type { Calculations, CardColors, DamageType, DamageTypeCalc, FormValues, ItemName } from 'types'
 
 /**
  * Removes the key from a line of text.

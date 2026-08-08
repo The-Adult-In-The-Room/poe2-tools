@@ -1,8 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import Nav from './Nav'
 
-const devPrefix = ''
-const prodPrefix = '/poe2-tools'
+vi.mock('@tanstack/react-router', () => ({
+  Link: ({ children, to, className, ...props }: { children: React.ReactNode; to: string; className?: string }) => (
+    <a href={to} className={className} {...props}>
+      {children}
+    </a>
+  ),
+}))
 
 describe('<Nav />', () => {
   test('renders header section', () => {
@@ -11,22 +16,16 @@ describe('<Nav />', () => {
     expect(screen.getByText('Tool kit')).toBeDefined()
   })
 
-  test('in development, href has no prefix', () => {
-    process.env.NODE_ENV = 'development'
-    render(<Nav />)
-    const link = screen.getByText('Weapon DPS Calculator')
-    const href = link.getAttribute('href')
-
-    expect(href).toBe(`${devPrefix}/`)
-    process.env.NODE_ENV = 'test'
-  })
-
   test('renders dps calculator link', () => {
     render(<Nav />)
     const link = screen.getByText('Weapon DPS Calculator')
-    const href = link.getAttribute('href')
-
     expect(link).toBeDefined()
-    expect(href).toBe(`${prodPrefix}/`)
+    expect(link.getAttribute('href')).toBe('/')
+  })
+
+  test('link navigates to home', () => {
+    render(<Nav />)
+    const link = screen.getByText('Weapon DPS Calculator')
+    expect(link.getAttribute('href')).toBe('/')
   })
 })

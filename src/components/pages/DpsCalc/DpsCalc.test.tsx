@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react'
+import { TESTDATA } from 'data/testData'
 import { setup } from 'utils/testUtils'
 import DpsCalc from './DpsCalc'
-import { TESTDATA } from 'data/testData'
 
 describe('<DpsCalc />', () => {
   describe('copy and paste section', () => {
@@ -16,7 +16,7 @@ describe('<DpsCalc />', () => {
         render(<DpsCalc />)
 
         expect(
-          screen.getByPlaceholderText('CTRL + C on your weapon in-game and then CTRL + V into this area.')
+          screen.getByPlaceholderText('CTRL + C on your weapon in-game and then CTRL + V into this area.'),
         ).toBeDefined()
       })
 
@@ -32,7 +32,7 @@ describe('<DpsCalc />', () => {
         const { user } = setup(<DpsCalc />)
 
         const textArea = screen.getByPlaceholderText(
-          'CTRL + C on your weapon in-game and then CTRL + V into this area.'
+          'CTRL + C on your weapon in-game and then CTRL + V into this area.',
         )
         await user.click(textArea)
         await user.paste(TESTDATA.FULL_ITEMS.PHYSICAL_AND_ELEMENTS)
@@ -54,7 +54,7 @@ describe('<DpsCalc />', () => {
         const { user } = setup(<DpsCalc />)
 
         const textArea = screen.getByPlaceholderText(
-          'CTRL + C on your weapon in-game and then CTRL + V into this area.'
+          'CTRL + C on your weapon in-game and then CTRL + V into this area.',
         )
         await user.click(textArea)
         await user.paste(TESTDATA.FULL_ITEMS.PHYSICAL_AND_ELEMENTS)
@@ -68,7 +68,7 @@ describe('<DpsCalc />', () => {
         const { user } = setup(<DpsCalc />)
 
         const textArea = screen.getByPlaceholderText(
-          'CTRL + C on your weapon in-game and then CTRL + V into this area.'
+          'CTRL + C on your weapon in-game and then CTRL + V into this area.',
         )
         await user.click(textArea)
         await user.paste(TESTDATA.FULL_ITEMS.PHYSICAL_AND_ELEMENTS)
@@ -102,7 +102,7 @@ describe('<DpsCalc />', () => {
         const { user } = setup(<DpsCalc />)
 
         const textArea = screen.getByPlaceholderText(
-          'CTRL + C on your weapon in-game and then CTRL + V into this area.'
+          'CTRL + C on your weapon in-game and then CTRL + V into this area.',
         )
         await user.click(textArea)
         await user.paste(TESTDATA.FULL_ITEMS.PHYSICAL_AND_ELEMENTS)

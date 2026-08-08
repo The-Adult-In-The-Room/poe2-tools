@@ -1,14 +1,9 @@
-import { createRef, useState } from 'react'
-import { Card, Typography, Input, CalcHistory } from 'components'
-import { createCards, findItemName, findStatValues, handleDpsCalculations } from 'utils'
+import { CalcHistory, Card, Input, Typography } from 'components'
 import { allDmgTypes, dpsCalcInitialCalculations, dpsCalcInitialFormValues } from 'data/constants'
-import type { FormValues, Calculations, HistoricCalculation } from 'types'
+import { createRef, useState } from 'react'
+import type { Calculations, FormKeys, FormValues, HistoricCalculation } from 'types'
+import { createCards, findItemName, findStatValues, handleDpsCalculations } from 'utils'
 
-import * as classes from './DpsCalc.module.css'
-
-/**
- * Damage Per Second Calculator component.
- */
 const DpsCalc = (): React.JSX.Element => {
   const [textAreaValue, setTextAreaValue] = useState<string>('')
   const [calculations, setCalculations] = useState<Calculations>(dpsCalcInitialCalculations)
@@ -16,9 +11,6 @@ const DpsCalc = (): React.JSX.Element => {
   const [historicCalculations, setHistoricCalculations] = useState<HistoricCalculation[]>([])
   const formRef = createRef<HTMLFormElement>()
 
-  /**
-   * Create a new historic item and add it to the list.
-   */
   const createHistoricItem = () => {
     const itemName = findItemName(textAreaValue)
     const newHistoricItem: HistoricCalculation = {
@@ -29,9 +21,7 @@ const DpsCalc = (): React.JSX.Element => {
 
     setHistoricCalculations((prev) => [newHistoricItem, ...prev])
   }
-  /**
-   * Reset form state and calculations
-   */
+
   const onReset = (): void => {
     setCalculations(dpsCalcInitialCalculations)
     setTextAreaValue('')
@@ -40,9 +30,6 @@ const DpsCalc = (): React.JSX.Element => {
     formRef.current?.reset()
   }
 
-  /**
-   * Updates text area input state + calculations
-   */
   const onTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setTextAreaValue(event.target.value)
     const lines = event.target.value.split('\n')
@@ -53,9 +40,6 @@ const DpsCalc = (): React.JSX.Element => {
     setCalculations(calcs)
   }
 
-  /**
-   * Update form state and calculations
-   */
   const onChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { id, value } = event.target
 
@@ -68,8 +52,8 @@ const DpsCalc = (): React.JSX.Element => {
   const cardsToDisplay = createCards(calculations)
 
   return (
-    <div data-testid="dpsCalc" className={classes.container}>
-      <div className={classes.textAreaWrapper}>
+    <div data-testid="dpsCalc" className="flex flex-col px-4">
+      <div className="flex flex-col mb-16">
         <Typography variant="title">Copy and Paste Entry</Typography>
         <hr />
 
@@ -80,7 +64,7 @@ const DpsCalc = (): React.JSX.Element => {
           data-testid="pasteArea"
         />
 
-        <button type="button" onClick={onReset} className={classes.clearButton}>
+        <button type="button" onClick={onReset} className="self-end bg-transparent">
           <Typography variant="clear">Clear</Typography>
         </button>
       </div>
@@ -88,8 +72,8 @@ const DpsCalc = (): React.JSX.Element => {
       <Typography variant="title">Manual Calculation Entry</Typography>
       <hr />
 
-      <div className={classes.formWrapper}>
-        <form ref={formRef} className={classes.form}>
+      <div className="relative flex flex-col gap-4 md:flex-row md:gap-16">
+        <form ref={formRef} className="flex flex-col gap-4">
           <Input
             id="aps"
             label="Attacks Per Second"
@@ -100,13 +84,13 @@ const DpsCalc = (): React.JSX.Element => {
           />
 
           {allDmgTypes.map((type) => {
-            const minId = `${type}Min`
-            const maxId = `${type}Max`
+            const minId = `${type}Min` as FormKeys
+            const maxId = `${type}Max` as FormKeys
 
             return (
-              <div key={type} className={classes.row}>
+              <div key={type} className="flex gap-4 justify-between md:justify-start">
                 <Input
-                  className={classes.input}
+                  className="max-w-[185px]"
                   id={minId}
                   label={`${type} Min`}
                   placeholder="Min Damage..."
@@ -114,7 +98,7 @@ const DpsCalc = (): React.JSX.Element => {
                   onChange={onChange}
                 />
                 <Input
-                  className={classes.input}
+                  className="max-w-[185px]"
                   id={maxId}
                   label={`${type} Max`}
                   placeholder="Max Damage..."
@@ -125,7 +109,7 @@ const DpsCalc = (): React.JSX.Element => {
             )
           })}
 
-          <button type="button" onClick={onReset} className={classes.clearButton}>
+          <button type="button" onClick={onReset} className="self-end bg-transparent">
             <Typography variant="clear">Clear Form</Typography>
           </button>
         </form>
@@ -133,17 +117,17 @@ const DpsCalc = (): React.JSX.Element => {
         {calculations.totalDps ? (
           <>
             {itemName && (
-              <div className={classes.itemNameContainer} data-testid="itemName">
+              <div className="min-w-[200px]" data-testid="itemName">
                 <h3>{itemName[0]}</h3>
                 <h4>{itemName[1]}</h4>
               </div>
             )}
-            <div className={classes.summaryContainer} data-testid="calculationResults">
-              <div className={classes.totalDps} data-testid="totalDps">
-                <p>TOTAL DPS: {calculations.totalDps.toFixed(2)}</p>
+            <div className="flex flex-col w-full gap-4" data-testid="calculationResults">
+              <div className="max-h-[34px] py-2 px-4 bg-primary-a50 rounded-lg" data-testid="totalDps">
+                <p className="text-dark-a0 text-sm font-semibold">TOTAL DPS: {calculations.totalDps.toFixed(2)}</p>
               </div>
 
-              <div className={classes.summaryCards}>
+              <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:justify-between">
                 {cardsToDisplay.map(({ label, value, color, testId }) => (
                   <div key={label}>
                     <Card key={label} color={color} data-testid={testId}>
