@@ -1,5 +1,3 @@
-import * as classes from './Input.module.css'
-
 type InputProps = {
   label: string
   id: string
@@ -15,9 +13,9 @@ const Input = ({
   ...rest
 }: InputProps & React.InputHTMLAttributes<HTMLInputElement>): React.JSX.Element => {
   return (
-    <div data-testid="input-container" className={`${classes.container} ${className}`}>
+    <div data-testid="input-container" className={`flex flex-col ${className}`}>
       <label htmlFor={id}>
-        {label} {required && <span>*</span>}
+        {label} {required && <span className="text-error">*</span>}
       </label>
       <input id={id} name={name || id} {...rest} />
     </div>

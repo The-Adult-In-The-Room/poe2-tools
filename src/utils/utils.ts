@@ -1,6 +1,6 @@
-import { allDmgTypes } from 'data/constants'
-import type { Calculations, DamageType, DamageTypeCalc, FormValues, CardColors, ItemName } from 'types'
+import { allDmgTypes } from '#/data/constants'
 
+import type { Calculations, CardColors, DamageType, DamageTypeCalc, FormValues, ItemName } from '#/types'
 /**
  * Removes the key from a line of text.
  * Example: 'Attacks per Second: 1.5' -> '1.5'

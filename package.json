@@ -1,24 +1,27 @@
 {
   "name": "poe2-tools",
+  "private": true,
   "type": "module",
   "version": "1.0.0",
   "description": "Set of tools for the Path of Exile 2 video game",
-  "source": "src/index.html",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
   "engines": {
     "node": ">=24"
   },
+  "imports": {
+    "#/*": "./src/*"
+  },
   "scripts": {
-    "start": "parcel --open -p 3000",
-    "clean": "rm -rf dist && rm -rf .parcel-cache",
-    "build": "parcel build --public-url ./",
+    "dev": "vite dev --port 3000",
+    "generate-routes": "tsr generate",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node .output/server/index.mjs",
     "test": "vitest --coverage",
-    "lint": "eslint .",
-    "pretty": "prettier --write .",
-    "pretty-check": "prettier --check .",
+    "lint": "biome ci",
+    "fix": "biome check --write",
     "prepare": "husky",
     "ts:check": "tsc",
-    "verify": "npm run lint && npm run pretty-check && npm run ts:check && npx vitest --coverage run"
+    "verify": "npx tsc && biome ci && npm run test"
   },
   "repository": {
     "type": "git",
@@ -36,40 +39,39 @@
   },
   "homepage": "https://github.com/The-Adult-In-The-Room/poe2-tools#readme",
   "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-icons": "^5.5.0"
+    "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/react-devtools": "^0.10.9",
+    "@tanstack/react-router": "^1.170.23",
+    "@tanstack/react-router-devtools": "^1.167.1",
+    "@tanstack/react-router-ssr-query": "^1.167.1",
+    "@tanstack/react-start": "^1.168.40",
+    "@tanstack/router-plugin": "^1.168.27",
+    "nitro": "npm:nitro-nightly@^3.0.1-20260731-205209-52abde8a",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-icons": "^5.7.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.4",
-    "@babel/preset-react": "^7.27.1",
-    "@eslint/js": "^9.37.0",
-    "@parcel/babel-plugin-transform-runtime": "^2.16.0",
-    "@parcel/babel-preset-env": "^2.16.0",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^24.7.2",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
-    "@vitest/coverage-v8": "^3.2.4",
-    "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^9.37.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-compiler": "^19.1.0-rc.2",
-    "happy-dom": "^20.0.1",
+    "@biomejs/biome": "^2.5.7",
+    "@tanstack/devtools-vite": "^0.8.3",
+    "@tanstack/router-cli": "^1.167.25",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.3",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "@vitest/coverage-v8": "^4.1.10",
+    "happy-dom": "^20.11.2",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.4",
-    "parcel": "^2.16.0",
-    "prettier": "^3.6.2",
-    "process": "^0.11.10",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.1",
-    "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "lint-staged": "^17.3.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10"
   },
   "lint-staged": {
-    "*.{js,jsx}": "eslint .",
-    "*.{js,css,scss,md,json,html}": "prettier --write ."
+    "*": "biome check --write --no-errors-on-unmatched"
   }
 }

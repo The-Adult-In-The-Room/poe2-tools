@@ -1,36 +1,28 @@
-import { Typography } from '../../atoms'
+import { Link } from '@tanstack/react-router'
 import { FaCalculator } from 'react-icons/fa6'
-import * as classes from './Nav.module.css'
+import { Typography } from '../../atoms'
 
-/**
- * The links in the navigation.
- */
 const links = [{ href: '/', label: 'Weapon DPS Calculator' }]
 
 const Nav = (): React.JSX.Element => {
-  /**
-   * The prefix for the path. Deployed to GitHub Pages, the prefix is '/poe2-tools'.
-   * DO NOT MOVE THIS OUT OF THE COMPONENT, IT WILL BREAK THE TESTS.
-   */
-  const prefix = process.env.NODE_ENV === 'development' ? '' : '/poe2-tools'
   return (
-    <nav>
+    <nav className="fixed flex justify-between h-16 w-full p-2 px-4 bg-surface-a10 md:flex-col md:justify-start md:h-screen md:w-[280px] md:py-16 md:px-4">
       <div>
         <h2>Path of Exile 2</h2>
         <Typography variant="subtitle">Tool kit</Typography>
       </div>
-      <hr />
-      {links.map((link) => {
-        const to = prefix + link.href
-        const className = to === window.location.pathname ? classes.active : ''
-
-        return (
-          <a key={link.href} href={to} className={className}>
-            <FaCalculator size={22} />
-            {link.label}
-          </a>
-        )
-      })}
+      <hr className="hidden md:block" />
+      {links.map((link) => (
+        <Link
+          key={link.href}
+          to={link.href}
+          className="[&.active]:text-primary-a50 flex items-center gap-2 py-2 text-base text-light-a0 no-underline"
+          activeProps={{ className: 'text-primary-a50' }}
+        >
+          <FaCalculator size={22} />
+          {link.label}
+        </Link>
+      ))}
     </nav>
   )
 }

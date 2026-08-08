@@ -1,5 +1,4 @@
 import type { CardColors } from '../../../types'
-import * as classes from './Card.module.css'
 
 export type CardProps = {
   color?: CardColors
@@ -19,7 +18,11 @@ const Card = ({
   ...rest
 }: React.PropsWithChildren<CardProps & React.HTMLAttributes<HTMLDivElement>>): React.JSX.Element => {
   return (
-    <div className={classes.card} style={{ borderColor: colorMap[color] }} {...rest}>
+    <div
+      className="flex flex-col justify-center rounded-lg bg-surface-a20 border-l-[21px] h-[90px] px-9"
+      style={{ borderColor: colorMap[color] }}
+      {...rest}
+    >
       {children}
     </div>
   )

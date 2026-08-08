@@ -42,7 +42,7 @@ describe('<Input />', () => {
 
     const container = screen.getByTestId('input-container')
     const containerStyles = container.getAttribute('class')
-    expect(containerStyles).toBe(`container ${testClass}`)
+    expect(containerStyles).toBe(`flex flex-col ${testClass}`)
   })
 
   test('uses name prop for input name when provided', () => {

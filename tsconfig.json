@@ -1,28 +1,23 @@
-// This configuration is intended for IDE support + type checking only.
-// Reference: https://stackoverflow.com/a/60223923
 {
-  "include": ["src"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "types": ["vitest/globals"],
-    "baseUrl": "./src",
-    "paths": {
-      "components/*": ["components/*"],
-      "types/*": ["types/*"],
-      "utils/*": ["utils/*"],
-      "hooks/*": ["hooks/*"],
-      "data/*": ["data/*"]
-    },
-    "checkJs": true,
-    "noEmit": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "lib": ["esnext", "dom"],
+    "target": "ES2022",
     "jsx": "react-jsx",
-    "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "esModuleInterop": true,
+    "paths": {
+      "#/*": ["./src/*"]
+    },
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vitest/globals", "vite/client"],
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
     "skipLibCheck": true,
-    "isolatedModules": true
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
   }
 }

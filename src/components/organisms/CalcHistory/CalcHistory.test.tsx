@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react'
+import type { HistoricCalculation } from '#/types'
+import { setup } from '#/utils/testUtils'
 import CalcHistory from './CalcHistory'
-import type { HistoricCalculation } from 'types'
-import { setup } from 'utils/testUtils'
 
 const calcs: HistoricCalculation[] = [
   {

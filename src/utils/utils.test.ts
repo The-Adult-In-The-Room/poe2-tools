@@ -1,4 +1,4 @@
-import { TESTDATA } from 'data/testData'
+import { TESTDATA } from '#/data/testData'
 import {
   convertRangeText,
   createCards,
@@ -21,7 +21,7 @@ describe('removeKey', () => {
   })
 
   test('should trim whitespace from the string', () => {
-    expect(removeKey(TESTDATA.APS_LINE + ' ')).toBe('1.5')
+    expect(removeKey(`${TESTDATA.APS_LINE} `)).toBe('1.5')
   })
 })
 
@@ -81,7 +81,7 @@ describe('setMinMax', () => {
       new Map([
         ['physicalMin', '12'],
         ['physicalMax', '15'],
-      ])
+      ]),
     )
   })
 })
