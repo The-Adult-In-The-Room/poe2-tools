@@ -129,7 +129,7 @@ const DpsCalc = (): React.JSX.Element => {
 
               <div className="flex flex-col gap-4 md:flex-row md:flex-wrap md:justify-between">
                 {cardsToDisplay.map(({ label, value, color, testId }) => (
-                  <div key={label}>
+                  <div key={label} className="md:w-[calc(50%-1rem)] md:min-w-[250px]">
                     <Card key={label} color={color} data-testid={testId}>
                       <Typography variant="cardTitle">{label}</Typography>
                       <Typography variant="card">{value.toFixed(2)}</Typography>
