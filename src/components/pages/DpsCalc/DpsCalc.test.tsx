@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
-import { TESTDATA } from 'data/testData'
-import { setup } from 'utils/testUtils'
+import { TESTDATA } from '#/data/testData'
+import { setup } from '#/utils/testUtils'
 import DpsCalc from './DpsCalc'
 
 describe('<DpsCalc />', () => {

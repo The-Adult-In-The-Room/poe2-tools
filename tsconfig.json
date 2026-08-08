@@ -5,18 +5,7 @@
     "jsx": "react-jsx",
     "module": "ESNext",
     "paths": {
-      "#/*": ["./src/*"],
-      "@/*": ["./src/*"],
-      "components": ["./src/components/index.ts"],
-      "components/*": ["./src/components/*"],
-      "types": ["./src/types/index.d.ts"],
-      "types/*": ["./src/types/*"],
-      "utils": ["./src/utils/index.ts"],
-      "utils/*": ["./src/utils/*"],
-      "hooks": ["./src/hooks/index.ts"],
-      "hooks/*": ["./src/hooks/*"],
-      "data": ["./src/data/index.ts"],
-      "data/*": ["./src/data/*"]
+      "#/*": ["./src/*"]
     },
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vitest/globals", "vite/client"],

@@ -1,4 +1,4 @@
-import { TESTDATA } from 'data/testData'
+import { TESTDATA } from '#/data/testData'
 import {
   convertRangeText,
   createCards,

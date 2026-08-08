@@ -1,8 +1,8 @@
-import { CalcHistory, Card, Input, Typography } from 'components'
-import { allDmgTypes, dpsCalcInitialCalculations, dpsCalcInitialFormValues } from 'data/constants'
 import { createRef, useState } from 'react'
-import type { Calculations, FormKeys, FormValues, HistoricCalculation } from 'types'
-import { createCards, findItemName, findStatValues, handleDpsCalculations } from 'utils'
+import { CalcHistory, Card, Input, Typography } from '#/components'
+import { allDmgTypes, dpsCalcInitialCalculations, dpsCalcInitialFormValues } from '#/data/constants'
+import type { Calculations, FormKeys, FormValues, HistoricCalculation } from '#/types'
+import { createCards, findItemName, findStatValues, handleDpsCalculations } from '#/utils'
 
 const DpsCalc = (): React.JSX.Element => {
   const [textAreaValue, setTextAreaValue] = useState<string>('')

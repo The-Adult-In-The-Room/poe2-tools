@@ -1,9 +1,9 @@
-import { Typography } from 'components'
 import { useState } from 'react'
 import { FaHistory } from 'react-icons/fa'
 import { GiBroadsword, GiFire, GiHarryPotterSkull, GiLightningTrio, GiSnowflake2, GiSpellBook } from 'react-icons/gi'
-import type { HistoricCalculation } from 'types'
-import { createCards } from 'utils/utils'
+import { Typography } from '#/components'
+import type { HistoricCalculation } from '#/types'
+import { createCards } from '#/utils/utils'
 
 const iconMap: Record<string, React.ComponentType<{ color?: string; size?: number }>> = {
   physicalDps: GiBroadsword,
