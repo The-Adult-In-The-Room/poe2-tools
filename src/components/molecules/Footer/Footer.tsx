@@ -23,12 +23,12 @@ const Footer = () => {
       <a href="https://github.com/The-Adult-In-The-Room/poe2-tools" target="_blank" rel="noreferrer">
         View source code
       </a>
-      <a href="https://ko-fi.com/me_am" target="_blank" rel="noreferrer">
+      <a href="https://ko-fi.com/me_am" target="_blank" rel="noreferrer" className="flex">
         Buy me a coffee
         <img
           src="https://storage.ko-fi.com/cdn/brandasset/logo_white_stroke.png?"
           alt="Buy Me a Coffee"
-          className="w-[55px]"
+          className="w-13.5 ml-1"
         />
       </a>
     </footer>

@@ -2,7 +2,13 @@ import { Link } from '@tanstack/react-router'
 import { FaCalculator } from 'react-icons/fa6'
 import { Typography } from '../../atoms'
 
-const links = [{ href: '/', label: 'Weapon DPS Calculator' }]
+type TLink = { href: string; label: string }
+
+const links: TLink[] = [{ href: '/', label: 'Weapon DPS Calculator' }]
+const externalLinks: TLink[] = [
+  { href: 'https://pathofbuilding.community/', label: 'Path of Building' },
+  { href: 'https://mobalytics.gg/poe-2/builds', label: 'Mobalytics Builds' },
+]
 
 const Nav = (): React.JSX.Element => {
   return (
@@ -11,7 +17,9 @@ const Nav = (): React.JSX.Element => {
         <h2>Path of Exile 2</h2>
         <Typography variant="subtitle">Tool kit</Typography>
       </div>
+
       <hr className="hidden md:block" />
+
       {links.map((link) => (
         <Link
           key={link.href}
@@ -20,6 +28,18 @@ const Nav = (): React.JSX.Element => {
           activeProps={{ className: 'text-primary-a50' }}
         >
           <FaCalculator size={22} />
+          {link.label}
+        </Link>
+      ))}
+
+      <hr className="hidden md:block" />
+
+      {externalLinks.map((link) => (
+        <Link
+          key={link.href}
+          to={link.href}
+          className="flex items-center gap-2 py-2 text-base text-light-a0 no-underline"
+        >
           {link.label}
         </Link>
       ))}
