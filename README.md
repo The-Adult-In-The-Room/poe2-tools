@@ -13,3 +13,4 @@ Includes the following tools:
 Future planned:
 
 - Item valuation
+- Currency Market Prices

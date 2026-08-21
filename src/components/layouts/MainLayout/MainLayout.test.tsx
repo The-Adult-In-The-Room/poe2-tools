@@ -10,24 +10,21 @@ vi.mock('@tanstack/react-router', () => ({
 }))
 
 describe('<MainLayout />', () => {
-  test('renders children', () => {
-    render(<MainLayout>Test Children</MainLayout>)
+  describe('GIVEN the MainLayout component is rendered', () => {
+    beforeEach(() => {
+      render(<MainLayout>Test Children</MainLayout>)
+    })
 
-    const children = screen.getByText('Test Children')
-    expect(children).toBeDefined()
-  })
+    test('THEN the children are displayed', () => {
+      expect(screen.getByText('Test Children')).toBeDefined()
+    })
 
-  test('renders Nav', () => {
-    render(<MainLayout>Test Children</MainLayout>)
+    test('THEN the Nav is displayed', () => {
+      expect(screen.getByRole('navigation')).toBeDefined()
+    })
 
-    const nav = screen.getByRole('navigation')
-    expect(nav).toBeDefined()
-  })
-
-  test('renders Footer', () => {
-    render(<MainLayout>Test Children</MainLayout>)
-
-    const footer = screen.getByRole('contentinfo')
-    expect(footer).toBeDefined()
+    test('THEN the Footer is displayed', () => {
+      expect(screen.getByRole('contentinfo')).toBeDefined()
+    })
   })
 })
