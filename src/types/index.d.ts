@@ -1,4 +1,5 @@
 export * from './DpsCalc'
+export * from './MarketCurrency'
 
 export type CardColors = 'cyan' | 'red' | 'pink' | 'blue' | 'yellow'
 

@@ -29,7 +29,10 @@ export const dpsCalcInitialFormValues: FormValues = {
   chaosMax: '',
 }
 
-export const internalLinks: NavLink[] = [{ href: '/', label: 'Weapon DPS Calculator' }]
+export const internalLinks: NavLink[] = [
+  { href: '/', label: 'Weapon DPS Calculator' },
+  { href: '/currency', label: 'Market Currency' },
+]
 
 export const externalLinks: NavLink[] = [
   { href: 'https://pathofbuilding.community/', label: 'Path of Building' },

@@ -16,6 +16,7 @@ export default defineConfig({
         'src/routeTree.gen.ts',
         'src/styles.css',
         'src/assets/**',
+        'src/api/**',
       ],
       thresholds: {
         functions: 100,
