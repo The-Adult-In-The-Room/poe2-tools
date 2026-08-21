@@ -19,7 +19,7 @@
     "test": "vitest --coverage",
     "lint": "biome ci",
     "fix": "biome check --write",
-    "prepare": "husky",
+    "prepare": "simple-git-hooks",
     "ts:check": "tsc",
     "verify": "npx tsc && biome ci && npm run test"
   },
@@ -66,13 +66,16 @@
     "@vitejs/plugin-react": "^6.0.5",
     "@vitest/coverage-v8": "^4.1.10",
     "happy-dom": "^20.11.2",
-    "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
+    "simple-git-hooks": "^2.12.0",
     "typescript": "^7.0.2",
     "vite": "^8.2.1",
     "vitest": "^4.1.10"
   },
   "lint-staged": {
     "*": "biome check --write --no-errors-on-unmatched"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
   }
 }
