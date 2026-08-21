@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { FaCalculator } from 'react-icons/fa6'
+import { FaArrowUpRightFromSquare, FaCalculator } from 'react-icons/fa6'
 import { Typography } from '../../atoms'
 
 type TLink = { href: string; label: string }
@@ -41,6 +41,7 @@ const Nav = (): React.JSX.Element => {
           className="flex items-center gap-2 py-2 text-base text-light-a0 no-underline"
         >
           {link.label}
+          <FaArrowUpRightFromSquare size={12} />
         </Link>
       ))}
     </nav>
