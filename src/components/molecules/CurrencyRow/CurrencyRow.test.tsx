@@ -40,9 +40,9 @@ describe('<CurrencyRow />', () => {
     })
 
     test('THEN the value is displayed as a ratio', () => {
-      expect(screen.getByText('1')).toBeDefined()
+      expect(screen.getByText('150.00')).toBeDefined()
       expect(screen.getByText(':')).toBeDefined()
-      expect(screen.getByText('0.006667')).toBeDefined()
+      expect(screen.getByText('1')).toBeDefined()
       const primaryImg = screen.getByTitle('Chaos Orb')
       expect(primaryImg).toBeDefined()
     })
@@ -66,13 +66,13 @@ describe('<CurrencyRow />', () => {
     test('THEN values >= 0.01 are formatted with 4 decimals', () => {
       const row = { ...mockRow, primaryValue: 0.05 }
       render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
-      expect(screen.getByText('20.00')).toBeDefined()
+      expect(screen.getByText('0.0500')).toBeDefined()
     })
 
     test('THEN values < 0.01 are formatted with 6 decimals', () => {
       const row = { ...mockRow, primaryValue: 0.001234 }
       render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
-      expect(screen.getByText('810.37')).toBeDefined()
+      expect(screen.getByText('0.001234')).toBeDefined()
     })
   })
 })
