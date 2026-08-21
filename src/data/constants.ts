@@ -1,4 +1,4 @@
-import type { AllDamageTypes, Calculations, FormValues } from '#/types'
+import type { AllDamageTypes, Calculations, FormValues, NavLink } from '#/types'
 
 /**
  * Each damage type has a section containing min and max inputs.
@@ -28,3 +28,10 @@ export const dpsCalcInitialFormValues: FormValues = {
   chaosMin: '',
   chaosMax: '',
 }
+
+export const internalLinks: NavLink[] = [{ href: '/', label: 'Weapon DPS Calculator' }]
+
+export const externalLinks: NavLink[] = [
+  { href: 'https://pathofbuilding.community/', label: 'Path of Building' },
+  { href: 'https://mobalytics.gg/poe-2/builds', label: 'Mobalytics Builds' },
+]

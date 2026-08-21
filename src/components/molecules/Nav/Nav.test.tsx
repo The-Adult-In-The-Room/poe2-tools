@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { externalLinks, internalLinks } from '#/data/constants'
 import Nav from './Nav'
 
 vi.mock('@tanstack/react-router', () => ({
@@ -10,22 +11,26 @@ vi.mock('@tanstack/react-router', () => ({
 }))
 
 describe('<Nav />', () => {
-  test('renders header section', () => {
-    render(<Nav />)
-    expect(screen.getByText('Path of Exile 2')).toBeDefined()
-    expect(screen.getByText('Tool kit')).toBeDefined()
-  })
+  describe('GIVEN the Nav component is rendered', () => {
+    beforeEach(() => {
+      render(<Nav />)
+    })
 
-  test('renders dps calculator link', () => {
-    render(<Nav />)
-    const link = screen.getByText('Weapon DPS Calculator')
-    expect(link).toBeDefined()
-    expect(link.getAttribute('href')).toBe('/')
-  })
+    test('THEN the header section is displayed', () => {
+      expect(screen.getByText('Path of Exile 2')).toBeDefined()
+      expect(screen.getByText('Tool kit')).toBeDefined()
+    })
 
-  test('link navigates to home', () => {
-    render(<Nav />)
-    const link = screen.getByText('Weapon DPS Calculator')
-    expect(link.getAttribute('href')).toBe('/')
+    test.each(internalLinks)('THEN internal link "$label" is displayed', ({ href, label }) => {
+      const link = screen.getByText(label)
+      expect(link).toBeDefined()
+      expect(link.closest('a')?.getAttribute('href')).toBe(href)
+    })
+
+    test.each(externalLinks)('THEN external link "$label" is displayed', ({ href, label }) => {
+      const link = screen.getByText(label)
+      expect(link).toBeDefined()
+      expect(link.closest('a')?.getAttribute('href')).toBe(href)
+    })
   })
 })
