@@ -1,14 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { FaArrowUpRightFromSquare, FaCalculator } from 'react-icons/fa6'
+import { externalLinks, internalLinks } from '#/data/constants'
 import { Typography } from '../../atoms'
-
-type TLink = { href: string; label: string }
-
-const links: TLink[] = [{ href: '/', label: 'Weapon DPS Calculator' }]
-const externalLinks: TLink[] = [
-  { href: 'https://pathofbuilding.community/', label: 'Path of Building' },
-  { href: 'https://mobalytics.gg/poe-2/builds', label: 'Mobalytics Builds' },
-]
 
 const Nav = (): React.JSX.Element => {
   return (
@@ -20,7 +13,7 @@ const Nav = (): React.JSX.Element => {
 
       <hr className="hidden md:block" />
 
-      {links.map((link) => (
+      {internalLinks.map((link) => (
         <Link
           key={link.href}
           to={link.href}
