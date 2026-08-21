@@ -54,7 +54,7 @@ describe('<CurrencyRow />', () => {
     })
 
     test('THEN the volume is displayed', () => {
-      expect(screen.getByText('1,000')).toBeDefined()
+      expect(screen.getByText('1k')).toBeDefined()
     })
 
     test('THEN the sparkline is displayed', () => {

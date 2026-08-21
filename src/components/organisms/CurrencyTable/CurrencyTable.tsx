@@ -31,14 +31,14 @@ const CurrencyTable = ({ overview }: CurrencyTableProps): React.JSX.Element => {
 
   return (
     <div className="overflow-x-auto" data-testid="currency-table">
-      <table className="w-full text-left">
+      <table className="w-full text-left table-fixed">
         <thead>
           <tr className="border-b border-surface-a30">
-            <th className="py-3 px-4 text-light-a0 font-semibold">Currency</th>
-            <th className="py-3 px-4 text-center text-light-a0 font-semibold">Value</th>
-            <th className="py-3 px-4 text-right text-light-a0 font-semibold">Volume</th>
-            <th className="py-3 px-4 text-right text-light-a0 font-semibold">7d Change</th>
-            <th className="py-3 px-4 text-light-a0 font-semibold">Trend</th>
+            <th className="py-3 px-4 text-light-a0 font-semibold w-[25%]">Currency</th>
+            <th className="py-3 px-4 text-center text-light-a0 font-semibold w-[25%]">Value</th>
+            <th className="py-3 px-4 text-right text-light-a0 font-semibold w-[15%]">Volume/hr</th>
+            <th className="py-3 px-4 text-right text-light-a0 font-semibold w-[15%]">7d Change</th>
+            <th className="py-3 px-4 text-light-a0 font-semibold w-[20%]">Trend</th>
           </tr>
         </thead>
         <tbody>

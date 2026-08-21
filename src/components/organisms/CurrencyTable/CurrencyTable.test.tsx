@@ -46,7 +46,7 @@ describe('<CurrencyTable />', () => {
     test('THEN the table headers are displayed', () => {
       expect(screen.getByText('Currency')).toBeDefined()
       expect(screen.getByText('Value')).toBeDefined()
-      expect(screen.getByText('Volume')).toBeDefined()
+      expect(screen.getByText('Volume/hr')).toBeDefined()
       expect(screen.getByText('7d Change')).toBeDefined()
       expect(screen.getByText('Trend')).toBeDefined()
     })

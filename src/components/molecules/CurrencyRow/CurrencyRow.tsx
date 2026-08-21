@@ -30,11 +30,12 @@ const formatRatio = (primaryValue: number): { left: string; right: string } => {
   return { left: formatNumber(1), right: formatNumber(inverse) }
 }
 
-const formatValue = (value: number): string => {
-  if (value >= 1000) return value.toLocaleString(undefined, { maximumFractionDigits: 0 })
-  if (value >= 1) return value.toFixed(2)
-  if (value >= 0.01) return value.toFixed(4)
-  return value.toFixed(6)
+const formatVolume = (value: number): string => {
+  if (value >= 1000) {
+    const k = value / 1000
+    return k % 1 === 0 ? `${k}k` : `${k.toFixed(1)}k`
+  }
+  return Math.round(value).toString()
 }
 
 const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: CurrencyRowProps): React.JSX.Element => {
@@ -44,13 +45,13 @@ const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: Currenc
 
   return (
     <tr className="border-b border-surface-a30 hover:bg-surface-a20/50" data-testid="currency-row">
-      <td className="py-3 px-4">
+      <td className="py-3 px-4 w-[25%]">
         <div className="flex items-center gap-3">
           <img src={transformImageUrl(row.image)} alt={row.name} className="w-8 h-8" loading="lazy" />
           <span className="text-light-a0 font-medium">{row.name}</span>
         </div>
       </td>
-      <td className="py-3 px-4 text-light-a0">
+      <td className="py-3 px-4 text-light-a0 w-[25%]">
         <div className="flex items-center justify-center gap-1">
           <span className="w-12 text-right">{left}</span>
           <img
@@ -65,14 +66,14 @@ const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: Currenc
           <img src={transformImageUrl(row.image)} alt={row.name} title={row.name} className="w-6 h-6" loading="lazy" />
         </div>
       </td>
-      <td className="py-3 px-4 text-right text-light-a0">{formatValue(row.volumePrimaryValue)}</td>
-      <td className="py-3 px-4 text-right">
+      <td className="py-3 px-4 text-right text-light-a0 w-[15%]">{formatVolume(row.volumePrimaryValue)}</td>
+      <td className="py-3 px-4 text-right w-[15%]">
         <span className={changeColor}>
           {changeSign}
           {row.sparkline.totalChange.toFixed(2)}%
         </span>
       </td>
-      <td className="py-3 px-4">
+      <td className="py-3 px-4 w-[20%]">
         <Sparkline data={row.sparkline.data} />
       </td>
     </tr>
