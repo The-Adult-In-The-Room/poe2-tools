@@ -22,7 +22,7 @@ const mockRow: CurrencyRateRow = {
 describe('<CurrencyRow />', () => {
   describe('GIVEN the CurrencyRow component is rendered', () => {
     beforeEach(() => {
-      render(<CurrencyRow row={mockRow} primaryCurrencyName="Chaos Orb" />)
+      render(<CurrencyRow row={mockRow} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
     })
 
     test('THEN the currency row is displayed', () => {
@@ -40,7 +40,13 @@ describe('<CurrencyRow />', () => {
     })
 
     test('THEN the value is displayed', () => {
-      expect(screen.getByText('150.00 Chaos Orb')).toBeDefined()
+      expect(screen.getByText('150.00')).toBeDefined()
+    })
+
+    test('THEN the primary currency image is displayed in the value column', () => {
+      const img = screen.getByTitle('Chaos Orb')
+      expect(img).toBeDefined()
+      expect(img.getAttribute('src')).toContain('web.poecdn.com/gen/image/chaos.png')
     })
 
     test('THEN the volume is displayed', () => {
@@ -55,14 +61,14 @@ describe('<CurrencyRow />', () => {
   describe('GIVEN the CurrencyRow component is rendered with small values', () => {
     test('THEN values >= 0.01 are formatted with 4 decimals', () => {
       const row = { ...mockRow, primaryValue: 0.05 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" />)
-      expect(screen.getByText('0.0500 Chaos Orb')).toBeDefined()
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('0.0500')).toBeDefined()
     })
 
     test('THEN values < 0.01 are formatted with 6 decimals', () => {
       const row = { ...mockRow, primaryValue: 0.001234 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" />)
-      expect(screen.getByText('0.001234 Chaos Orb')).toBeDefined()
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('0.001234')).toBeDefined()
     })
   })
 })

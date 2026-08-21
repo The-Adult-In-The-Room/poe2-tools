@@ -5,6 +5,7 @@ import { transformImageUrl } from '#/utils'
 type CurrencyRowProps = {
   row: CurrencyRateRow
   primaryCurrencyName: string
+  primaryCurrencyImage: string
 }
 
 const formatValue = (value: number): string => {
@@ -14,7 +15,7 @@ const formatValue = (value: number): string => {
   return value.toFixed(6)
 }
 
-const CurrencyRow = ({ row, primaryCurrencyName }: CurrencyRowProps): React.JSX.Element => {
+const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: CurrencyRowProps): React.JSX.Element => {
   const changeColor = row.sparkline.totalChange >= 0 ? 'text-green-400' : 'text-red-400'
   const changeSign = row.sparkline.totalChange >= 0 ? '+' : ''
 
@@ -27,7 +28,16 @@ const CurrencyRow = ({ row, primaryCurrencyName }: CurrencyRowProps): React.JSX.
         </div>
       </td>
       <td className="py-3 px-4 text-right text-light-a0">
-        {formatValue(row.primaryValue)} {primaryCurrencyName}
+        <div className="flex items-center justify-end gap-2">
+          {formatValue(row.primaryValue)}
+          <img
+            src={transformImageUrl(primaryCurrencyImage)}
+            alt={primaryCurrencyName}
+            title={primaryCurrencyName}
+            className="w-6 h-6"
+            loading="lazy"
+          />
+        </div>
       </td>
       <td className="py-3 px-4 text-right text-light-a0">{formatValue(row.volumePrimaryValue)}</td>
       <td className="py-3 px-4 text-right">
