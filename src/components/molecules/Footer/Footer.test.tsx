@@ -2,31 +2,29 @@ import { render, screen } from '@testing-library/react'
 import Footer from './Footer'
 
 describe('<Footer />', () => {
-  test('renders created by as a hyperlink', () => {
-    render(<Footer />)
-    const link = screen.getByRole('link', { name: /Raymond Cox/i })
-    const href = link.getAttribute('href')
-    expect(href).toBe('https://github.com/The-Adult-In-The-Room')
-  })
+  describe('GIVEN the Footer component is rendered', () => {
+    beforeEach(() => {
+      render(<Footer />)
+    })
 
-  test('renders designed by as a hyperlink', () => {
-    render(<Footer />)
-    const link = screen.getByRole('link', { name: /The Designer Dev/i })
-    const href = link.getAttribute('href')
-    expect(href).toBe('https://thedesignerdev.com/')
-  })
+    test('THEN the created by link is displayed', () => {
+      const link = screen.getByRole('link', { name: /Raymond Cox/i })
+      expect(link.getAttribute('href')).toBe('https://github.com/The-Adult-In-The-Room')
+    })
 
-  test('renders view source code as a hyperlink', () => {
-    render(<Footer />)
-    const link = screen.getByRole('link', { name: /View source code/i })
-    const href = link.getAttribute('href')
-    expect(href).toBe('https://github.com/The-Adult-In-The-Room/poe2-tools')
-  })
+    test('THEN the designed by link is displayed', () => {
+      const link = screen.getByRole('link', { name: /The Designer Dev/i })
+      expect(link.getAttribute('href')).toBe('https://thedesignerdev.com/')
+    })
 
-  test('renders buy me a coffee as a hyperlink', () => {
-    render(<Footer />)
-    const link = screen.getByRole('link', { name: /Buy me a coffee/i })
-    const href = link.getAttribute('href')
-    expect(href).toBe('https://ko-fi.com/me_am')
+    test('THEN the view source code link is displayed', () => {
+      const link = screen.getByRole('link', { name: /View source code/i })
+      expect(link.getAttribute('href')).toBe('https://github.com/The-Adult-In-The-Room/poe2-tools')
+    })
+
+    test('THEN the buy me a coffee link is displayed', () => {
+      const link = screen.getByRole('link', { name: /Buy me a coffee/i })
+      expect(link.getAttribute('href')).toBe('https://ko-fi.com/me_am')
+    })
   })
 })

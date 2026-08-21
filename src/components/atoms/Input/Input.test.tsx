@@ -8,56 +8,58 @@ const props = {
 }
 
 describe('<Input />', () => {
-  test('renders label', () => {
-    render(<Input {...props} />)
+  describe('GIVEN the Input component is rendered', () => {
+    beforeEach(() => {
+      render(<Input {...props} />)
+    })
 
-    const label = screen.getByText('Test Label')
-    expect(label).toBeDefined()
+    test('THEN the label is displayed', () => {
+      expect(screen.getByText('Test Label')).toBeDefined()
+    })
+
+    test('THEN the input is displayed', () => {
+      expect(screen.getByRole('textbox')).toBeDefined()
+    })
+
+    test('THEN the required span is not displayed', () => {
+      expect(screen.queryByText('*')).toBeNull()
+    })
+
+    test('THEN the name prop is used for input name', () => {
+      const input = screen.getByRole('textbox')
+      expect(input.getAttribute('name')).toBe(props.name)
+    })
   })
 
-  test('renders input', () => {
-    render(<Input {...props} />)
+  describe('GIVEN the Input component is rendered with required prop', () => {
+    beforeEach(() => {
+      render(<Input {...props} required />)
+    })
 
-    const input = screen.getByRole('textbox')
-    expect(input).toBeDefined()
+    test('THEN the required span is displayed', () => {
+      expect(screen.getByText('*')).toBeDefined()
+    })
   })
 
-  test('does not render required span when required is falsey', () => {
-    render(<Input {...props} />)
+  describe('GIVEN the Input component is rendered with className prop', () => {
+    beforeEach(() => {
+      render(<Input {...props} className="test-class" />)
+    })
 
-    const span = screen.queryByText('*')
-    expect(span).toBeNull()
+    test('THEN the className is applied to the container', () => {
+      const container = screen.getByTestId('input-container')
+      expect(container.getAttribute('class')).toBe('flex flex-col test-class')
+    })
   })
 
-  test('renders required span when required is true', () => {
-    render(<Input {...props} required />)
+  describe('GIVEN the Input component is rendered without name prop', () => {
+    beforeEach(() => {
+      render(<Input {...props} name="" />)
+    })
 
-    const span = screen.getByText('*')
-    expect(span).toBeDefined()
-  })
-
-  test('applies className', () => {
-    const testClass = 'test-class'
-    render(<Input {...props} className={testClass} />)
-
-    const container = screen.getByTestId('input-container')
-    const containerStyles = container.getAttribute('class')
-    expect(containerStyles).toBe(`flex flex-col ${testClass}`)
-  })
-
-  test('uses name prop for input name when provided', () => {
-    render(<Input {...props} />)
-
-    const input = screen.getByRole('textbox')
-    const name = input.getAttribute('name')
-    expect(name).toBe(props.name)
-  })
-
-  test('uses id prop for input name when name isnt provided', () => {
-    render(<Input {...props} name="" />)
-
-    const input = screen.getByRole('textbox')
-    const name = input.getAttribute('name')
-    expect(name).toBe(props.id)
+    test('THEN the id prop is used for input name', () => {
+      const input = screen.getByRole('textbox')
+      expect(input.getAttribute('name')).toBe(props.id)
+    })
   })
 })
