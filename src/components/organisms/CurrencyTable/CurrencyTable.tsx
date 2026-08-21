@@ -8,7 +8,7 @@ type CurrencyTableProps = {
 const CurrencyTable = ({ overview }: CurrencyTableProps): React.JSX.Element => {
   const primaryItem = overview.core.items.find((item) => item.id === overview.core.primary)
   const primaryName = primaryItem?.name || overview.core.primary
-  const primaryImage = primaryItem?.image || ''
+  const primaryImage = primaryItem?.image ?? null
 
   const rows: CurrencyRateRow[] = overview.lines
     .filter((line) => line.id !== overview.core.primary)
@@ -17,7 +17,7 @@ const CurrencyTable = ({ overview }: CurrencyTableProps): React.JSX.Element => {
       return {
         id: line.id,
         name: item?.name || line.id,
-        image: item?.image || '',
+        image: item?.image ?? null,
         detailsId: item?.detailsId || '',
         primaryValue: line.primaryValue,
         volumePrimaryValue: line.volumePrimaryValue,

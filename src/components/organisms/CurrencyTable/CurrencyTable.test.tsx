@@ -121,7 +121,8 @@ describe('<CurrencyTable />', () => {
     })
 
     test('THEN the fallback primary name is used', () => {
-      expect(screen.getByTitle('unknown-primary')).toBeDefined()
+      const fallbackIcons = screen.getAllByTestId('question-icon')
+      expect(fallbackIcons.length).toBeGreaterThan(0)
     })
 
     test('THEN the line id is used as fallback name', () => {

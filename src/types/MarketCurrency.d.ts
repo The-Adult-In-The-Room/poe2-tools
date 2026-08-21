@@ -6,7 +6,7 @@ export interface League {
 export interface CurrencyItem {
   id: string
   name: string
-  image: string
+  image: string | null
   category: string
   detailsId: string
 }
@@ -41,7 +41,7 @@ export interface CurrencyOverview {
 export interface CurrencyRateRow {
   id: string
   name: string
-  image: string
+  image: string | null
   detailsId: string
   primaryValue: number
   volumePrimaryValue: number

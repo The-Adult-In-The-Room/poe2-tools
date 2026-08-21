@@ -106,4 +106,20 @@ describe('<CurrencyRow />', () => {
       expect(screen.getByText('2.0k')).toBeDefined()
     })
   })
+
+  describe('GIVEN the CurrencyRow component is rendered with missing images', () => {
+    test('THEN fallback icons are displayed when images are null', () => {
+      const row = { ...mockRow, image: null }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage={null} />)
+      const fallbackIcons = screen.getAllByTestId('question-icon')
+      expect(fallbackIcons.length).toBe(3)
+    })
+
+    test('THEN fallback icons are displayed when images are empty strings', () => {
+      const row = { ...mockRow, image: '' }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="" />)
+      const fallbackIcons = screen.getAllByTestId('question-icon')
+      expect(fallbackIcons.length).toBe(3)
+    })
+  })
 })
