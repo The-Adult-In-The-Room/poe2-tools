@@ -34,13 +34,17 @@ describe('<CurrencyRow />', () => {
     })
 
     test('THEN the currency image is displayed', () => {
-      const img = screen.getByAltText('Divine Orb')
-      expect(img).toBeDefined()
-      expect(img.getAttribute('src')).toContain('web.poecdn.com/gen/image/')
+      const imgs = screen.getAllByAltText('Divine Orb')
+      expect(imgs.length).toBe(2)
+      expect(imgs[0].getAttribute('src')).toContain('web.poecdn.com/gen/image/')
     })
 
-    test('THEN the value is displayed', () => {
-      expect(screen.getByText('150.00')).toBeDefined()
+    test('THEN the value is displayed as a ratio', () => {
+      expect(screen.getByText('1')).toBeDefined()
+      expect(screen.getByText(':')).toBeDefined()
+      expect(screen.getByText('0.006667')).toBeDefined()
+      const primaryImg = screen.getByTitle('Chaos Orb')
+      expect(primaryImg).toBeDefined()
     })
 
     test('THEN the primary currency image is displayed in the value column', () => {
@@ -62,13 +66,13 @@ describe('<CurrencyRow />', () => {
     test('THEN values >= 0.01 are formatted with 4 decimals', () => {
       const row = { ...mockRow, primaryValue: 0.05 }
       render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
-      expect(screen.getByText('0.0500')).toBeDefined()
+      expect(screen.getByText('20.00')).toBeDefined()
     })
 
     test('THEN values < 0.01 are formatted with 6 decimals', () => {
       const row = { ...mockRow, primaryValue: 0.001234 }
       render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
-      expect(screen.getByText('0.001234')).toBeDefined()
+      expect(screen.getByText('810.37')).toBeDefined()
     })
   })
 })

@@ -18,6 +18,7 @@ const formatValue = (value: number): string => {
 const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: CurrencyRowProps): React.JSX.Element => {
   const changeColor = row.sparkline.totalChange >= 0 ? 'text-green-400' : 'text-red-400'
   const changeSign = row.sparkline.totalChange >= 0 ? '+' : ''
+  const inverseRate = row.primaryValue > 0 ? 1 / row.primaryValue : 0
 
   return (
     <tr className="border-b border-surface-a30 hover:bg-surface-a20/50" data-testid="currency-row">
@@ -27,9 +28,9 @@ const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: Currenc
           <span className="text-light-a0 font-medium">{row.name}</span>
         </div>
       </td>
-      <td className="py-3 px-4 text-right text-light-a0">
-        <div className="flex items-center justify-end gap-2">
-          {formatValue(row.primaryValue)}
+      <td className="py-3 px-4 text-light-a0">
+        <div className="flex items-center justify-center gap-2">
+          <span>1</span>
           <img
             src={transformImageUrl(primaryCurrencyImage)}
             alt={primaryCurrencyName}
@@ -37,6 +38,9 @@ const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: Currenc
             className="w-6 h-6"
             loading="lazy"
           />
+          <span>:</span>
+          <span>{formatValue(inverseRate)}</span>
+          <img src={transformImageUrl(row.image)} alt={row.name} title={row.name} className="w-6 h-6" loading="lazy" />
         </div>
       </td>
       <td className="py-3 px-4 text-right text-light-a0">{formatValue(row.volumePrimaryValue)}</td>
