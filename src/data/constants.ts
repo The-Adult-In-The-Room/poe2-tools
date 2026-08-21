@@ -1,3 +1,5 @@
+import { FaCalculator } from 'react-icons/fa6'
+import { MdCurrencyExchange } from 'react-icons/md'
 import type { AllDamageTypes, Calculations, FormValues, NavLink } from '#/types'
 
 /**
@@ -30,8 +32,8 @@ export const dpsCalcInitialFormValues: FormValues = {
 }
 
 export const internalLinks: NavLink[] = [
-  { href: '/', label: 'Weapon DPS Calculator' },
-  { href: '/currency', label: 'Market Currency' },
+  { href: '/', label: 'Weapon DPS Calculator', icon: FaCalculator },
+  { href: '/currency', label: 'Market Currency', icon: MdCurrencyExchange },
 ]
 
 export const externalLinks: NavLink[] = [
