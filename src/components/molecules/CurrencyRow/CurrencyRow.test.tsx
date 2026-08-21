@@ -105,6 +105,24 @@ describe('<CurrencyRow />', () => {
       render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
       expect(screen.getByText('2.0k')).toBeDefined()
     })
+
+    test('THEN values >= 1000000 show with M shorthand', () => {
+      const row = { ...mockRow, primaryValue: 1500000 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('1.5M')).toBeDefined()
+    })
+
+    test('THEN values >= 1000000 with whole millions show with .0M', () => {
+      const row = { ...mockRow, primaryValue: 2000000 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('2.0M')).toBeDefined()
+    })
+
+    test('THEN inverse values >= 1000000 show with M shorthand', () => {
+      const row = { ...mockRow, primaryValue: 0.0000005 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('2.0M')).toBeDefined()
+    })
   })
 
   describe('GIVEN the CurrencyRow component is rendered with missing images', () => {

@@ -77,4 +77,5 @@ export interface CurrencyLoaderData {
   overview: CurrencyOverview
   league: string
   type: CurrencyCategory
+  reference: string
 }

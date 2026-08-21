@@ -3,23 +3,27 @@ import type { CurrencyOverview, CurrencyRateRow } from '#/types'
 
 type CurrencyTableProps = {
   overview: CurrencyOverview
+  referenceCurrency: string
 }
 
-const CurrencyTable = ({ overview }: CurrencyTableProps): React.JSX.Element => {
-  const primaryItem = overview.core.items.find((item) => item.id === overview.core.primary)
-  const primaryName = primaryItem?.name || overview.core.primary
-  const primaryImage = primaryItem?.image ?? null
+const CurrencyTable = ({ overview, referenceCurrency }: CurrencyTableProps): React.JSX.Element => {
+  const referenceItem = overview.core.items.find((item) => item.id === referenceCurrency)
+  const referenceName = referenceItem?.name || referenceCurrency
+  const referenceImage = referenceItem?.image ?? null
+
+  const referenceRate = referenceCurrency === overview.core.primary ? 1 : overview.core.rates[referenceCurrency] || 1
 
   const rows: CurrencyRateRow[] = overview.lines
-    .filter((line) => line.id !== overview.core.primary)
+    .filter((line) => line.id !== referenceCurrency)
     .map((line) => {
       const item = overview.items.find((i) => i.id === line.id)
+      const convertedValue = line.primaryValue * referenceRate
       return {
         id: line.id,
         name: item?.name || line.id,
         image: item?.image ?? null,
         detailsId: item?.detailsId || '',
-        primaryValue: line.primaryValue,
+        primaryValue: convertedValue,
         volumePrimaryValue: line.volumePrimaryValue,
         maxVolumeCurrency: line.maxVolumeCurrency,
         maxVolumeRate: line.maxVolumeRate,
@@ -43,7 +47,12 @@ const CurrencyTable = ({ overview }: CurrencyTableProps): React.JSX.Element => {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <CurrencyRow key={row.id} row={row} primaryCurrencyName={primaryName} primaryCurrencyImage={primaryImage} />
+            <CurrencyRow
+              key={row.id}
+              row={row}
+              primaryCurrencyName={referenceName}
+              primaryCurrencyImage={referenceImage}
+            />
           ))}
         </tbody>
       </table>

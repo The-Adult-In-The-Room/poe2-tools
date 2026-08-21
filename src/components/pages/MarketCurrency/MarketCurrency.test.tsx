@@ -8,6 +8,7 @@ vi.mock('@tanstack/react-router', () => ({
       {children}
     </a>
   ),
+  useNavigate: () => vi.fn(),
 }))
 
 const mockLoaderData: CurrencyLoaderData = {
@@ -38,6 +39,7 @@ const mockLoaderData: CurrencyLoaderData = {
   },
   league: 'runes-of-aldur',
   type: 'Currency',
+  reference: 'divine',
 }
 
 describe('<MarketCurrency />', () => {
@@ -62,6 +64,10 @@ describe('<MarketCurrency />', () => {
       expect(screen.getByTestId('category-tabs')).toBeDefined()
     })
 
+    test('THEN the reference currency selector is displayed', () => {
+      expect(screen.getByTestId('reference-currency-selector')).toBeDefined()
+    })
+
     test('THEN the currency table is displayed', () => {
       expect(screen.getByTestId('currency-table')).toBeDefined()
     })
@@ -78,6 +84,23 @@ describe('<MarketCurrency />', () => {
 
     test('THEN the no data message is displayed', () => {
       expect(screen.getByText('No data available for this selection.')).toBeDefined()
+    })
+  })
+
+  describe('GIVEN the reference currency selector', () => {
+    test('THEN all three reference currencies are available', () => {
+      render(<MarketCurrency loaderData={mockLoaderData} />)
+      const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
+      const options = Array.from(selector.options).map((opt) => opt.value)
+      expect(options).toContain('divine')
+      expect(options).toContain('exalted')
+      expect(options).toContain('chaos')
+    })
+
+    test('THEN the default selection is the reference from loaderData', () => {
+      render(<MarketCurrency loaderData={mockLoaderData} />)
+      const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
+      expect(selector.value).toBe('divine')
     })
   })
 })

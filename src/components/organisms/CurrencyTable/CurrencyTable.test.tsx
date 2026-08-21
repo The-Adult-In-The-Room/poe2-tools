@@ -6,8 +6,12 @@ const mockOverview: CurrencyOverview = {
   core: {
     primary: 'divine',
     secondary: 'chaos',
-    rates: { chaos: 150 },
-    items: [{ id: 'divine', name: 'Divine Orb', image: '/divine.png', category: 'Currency', detailsId: 'divine-orb' }],
+    rates: { chaos: 150, exalted: 30 },
+    items: [
+      { id: 'divine', name: 'Divine Orb', image: '/divine.png', category: 'Currency', detailsId: 'divine-orb' },
+      { id: 'exalted', name: 'Exalted Orb', image: '/exalted.png', category: 'Currency', detailsId: 'exalted-orb' },
+      { id: 'chaos', name: 'Chaos Orb', image: '/chaos.png', category: 'Currency', detailsId: 'chaos-orb' },
+    ],
   },
   lines: [
     {
@@ -29,6 +33,7 @@ const mockOverview: CurrencyOverview = {
   ],
   items: [
     { id: 'divine', name: 'Divine Orb', image: '/divine.png', category: 'Currency', detailsId: 'divine-orb' },
+    { id: 'exalted', name: 'Exalted Orb', image: '/exalted.png', category: 'Currency', detailsId: 'exalted-orb' },
     { id: 'chaos', name: 'Chaos Orb', image: '/chaos.png', category: 'Currency', detailsId: 'chaos-orb' },
   ],
 }
@@ -36,7 +41,7 @@ const mockOverview: CurrencyOverview = {
 describe('<CurrencyTable />', () => {
   describe('GIVEN the CurrencyTable component is rendered', () => {
     beforeEach(() => {
-      render(<CurrencyTable overview={mockOverview} />)
+      render(<CurrencyTable overview={mockOverview} referenceCurrency="divine" />)
     })
 
     test('THEN the table is displayed', () => {
@@ -57,11 +62,17 @@ describe('<CurrencyTable />', () => {
     })
 
     test('THEN the primary currency is excluded from rows', () => {
-      expect(screen.queryByText('Divine Orb')).toBeNull()
+      const rows = screen.getAllByTestId('currency-row')
+      const rowTexts = rows.map((row) => row.textContent)
+      const hasDivineInRows = rowTexts.some((text) => text?.includes('Divine Orb'))
+      expect(hasDivineInRows).toBe(false)
     })
 
     test('THEN non-primary currencies are displayed', () => {
-      expect(screen.getByText('Chaos Orb')).toBeDefined()
+      const rows = screen.getAllByTestId('currency-row')
+      const rowTexts = rows.map((row) => row.textContent)
+      const hasChaosInRows = rowTexts.some((text) => text?.includes('Chaos Orb'))
+      expect(hasChaosInRows).toBe(true)
     })
   })
 
@@ -85,7 +96,7 @@ describe('<CurrencyTable />', () => {
           { id: 'exalted', name: 'Exalted Orb', image: '/exalted.png', category: 'Currency', detailsId: 'exalted-orb' },
         ],
       }
-      render(<CurrencyTable overview={overviewWithMultiple} />)
+      render(<CurrencyTable overview={overviewWithMultiple} referenceCurrency="divine" />)
     })
 
     test('THEN rows are sorted by volume descending', () => {
@@ -117,7 +128,7 @@ describe('<CurrencyTable />', () => {
         ],
         items: [],
       }
-      render(<CurrencyTable overview={overviewWithMissingItems} />)
+      render(<CurrencyTable overview={overviewWithMissingItems} referenceCurrency="unknown-primary" />)
     })
 
     test('THEN the fallback primary name is used', () => {

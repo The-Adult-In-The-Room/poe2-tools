@@ -4,6 +4,7 @@ import type { CurrencyCategory } from '#/types'
 type CategoryTabsProps = {
   currentLeague: string
   currentType: CurrencyCategory
+  currentReference: string
 }
 
 const categories: { value: CurrencyCategory; label: string }[] = [
@@ -15,14 +16,14 @@ const categories: { value: CurrencyCategory; label: string }[] = [
   { value: 'Idols', label: 'Idols' },
 ]
 
-const CategoryTabs = ({ currentLeague, currentType }: CategoryTabsProps): React.JSX.Element => {
+const CategoryTabs = ({ currentLeague, currentType, currentReference }: CategoryTabsProps): React.JSX.Element => {
   return (
     <nav className="flex flex-wrap gap-2" data-testid="category-tabs">
       {categories.map(({ value, label }) => (
         <Link
           key={value}
           to="/currency"
-          search={{ league: currentLeague, type: value }}
+          search={{ league: currentLeague, type: value, reference: currentReference }}
           className={`px-4 py-2 rounded text-sm no-underline ${
             currentType === value
               ? 'bg-primary-a50 text-dark-a0 font-semibold'

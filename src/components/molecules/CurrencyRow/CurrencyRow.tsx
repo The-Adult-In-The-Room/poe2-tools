@@ -10,6 +10,10 @@ type CurrencyRowProps = {
 }
 
 const formatNumber = (value: number): string => {
+  if (value >= 1000000) {
+    const m = value / 1000000
+    return m % 1 === 0 ? `${m}.0M` : `${m.toFixed(1)}M`
+  }
   if (value >= 1000) {
     const k = value / 1000
     return k % 1 === 0 ? `${k}.0k` : `${k.toFixed(1)}k`
@@ -31,6 +35,10 @@ const formatRatio = (primaryValue: number): { left: string; right: string } => {
 }
 
 const formatVolume = (value: number): string => {
+  if (value >= 1000000) {
+    const m = value / 1000000
+    return m % 1 === 0 ? `${m}M` : `${m.toFixed(1)}M`
+  }
   if (value >= 1000) {
     const k = value / 1000
     return k % 1 === 0 ? `${k}k` : `${k.toFixed(1)}k`
