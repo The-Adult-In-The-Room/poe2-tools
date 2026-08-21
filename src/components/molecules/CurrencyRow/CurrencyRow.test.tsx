@@ -125,6 +125,26 @@ describe('<CurrencyRow />', () => {
     })
   })
 
+  describe('GIVEN the CurrencyRow component is rendered with large volume', () => {
+    test('THEN volume >= 1000000 with whole millions shows without decimals', () => {
+      const row = { ...mockRow, volumePrimaryValue: 2000000 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('2M')).toBeDefined()
+    })
+
+    test('THEN volume >= 1000000 with fractional millions shows one decimal', () => {
+      const row = { ...mockRow, volumePrimaryValue: 1500000 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('1.5M')).toBeDefined()
+    })
+
+    test('THEN volume >= 1000 with fractional thousands shows one decimal', () => {
+      const row = { ...mockRow, volumePrimaryValue: 1500 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('1.5k')).toBeDefined()
+    })
+  })
+
   describe('GIVEN the CurrencyRow component is rendered with missing images', () => {
     test('THEN fallback icons are displayed when images are null', () => {
       const row = { ...mockRow, image: null }

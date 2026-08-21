@@ -107,6 +107,24 @@ describe('<CurrencyTable />', () => {
     })
   })
 
+  describe('GIVEN the CurrencyTable uses a non-primary reference currency', () => {
+    test('THEN the rate from core.rates is applied', () => {
+      render(<CurrencyTable overview={mockOverview} referenceCurrency="chaos" />)
+      const rows = screen.getAllByTestId('currency-row')
+      expect(rows.length).toBe(1)
+    })
+
+    test('THEN the rate falls back to 1 when not found in core.rates', () => {
+      const overviewWithNoRate: CurrencyOverview = {
+        ...mockOverview,
+        core: { ...mockOverview.core, rates: {} },
+      }
+      render(<CurrencyTable overview={overviewWithNoRate} referenceCurrency="chaos" />)
+      const rows = screen.getAllByTestId('currency-row')
+      expect(rows.length).toBe(1)
+    })
+  })
+
   describe('GIVEN the CurrencyTable has missing item metadata', () => {
     beforeEach(() => {
       const overviewWithMissingItems: CurrencyOverview = {
