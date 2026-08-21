@@ -121,7 +121,6 @@ describe('<CurrencyTable />', () => {
     })
 
     test('THEN the fallback primary name is used', () => {
-      expect(screen.getByText('1.00')).toBeDefined()
       expect(screen.getByTitle('unknown-primary')).toBeDefined()
     })
 

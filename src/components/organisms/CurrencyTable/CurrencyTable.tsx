@@ -35,7 +35,7 @@ const CurrencyTable = ({ overview }: CurrencyTableProps): React.JSX.Element => {
         <thead>
           <tr className="border-b border-surface-a30">
             <th className="py-3 px-4 text-light-a0 font-semibold">Currency</th>
-            <th className="py-3 px-4 text-right text-light-a0 font-semibold">Value</th>
+            <th className="py-3 px-4 text-center text-light-a0 font-semibold">Value</th>
             <th className="py-3 px-4 text-right text-light-a0 font-semibold">Volume</th>
             <th className="py-3 px-4 text-right text-light-a0 font-semibold">7d Change</th>
             <th className="py-3 px-4 text-light-a0 font-semibold">Trend</th>

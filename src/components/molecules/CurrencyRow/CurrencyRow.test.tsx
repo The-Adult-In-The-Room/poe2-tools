@@ -40,9 +40,9 @@ describe('<CurrencyRow />', () => {
     })
 
     test('THEN the value is displayed as a ratio', () => {
-      expect(screen.getByText('150.00')).toBeDefined()
-      expect(screen.getByText(':')).toBeDefined()
-      expect(screen.getByText('1')).toBeDefined()
+      expect(screen.getByText('150.0')).toBeDefined()
+      expect(screen.getByTestId('exchange-icon')).toBeDefined()
+      expect(screen.getByText('1.0')).toBeDefined()
       const primaryImg = screen.getByTitle('Chaos Orb')
       expect(primaryImg).toBeDefined()
     })
@@ -63,16 +63,47 @@ describe('<CurrencyRow />', () => {
   })
 
   describe('GIVEN the CurrencyRow component is rendered with small values', () => {
-    test('THEN values >= 0.01 are formatted with 4 decimals', () => {
+    test('THEN values < 1 show as 1 Div : N Item format', () => {
       const row = { ...mockRow, primaryValue: 0.05 }
       render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
-      expect(screen.getByText('0.0500')).toBeDefined()
+      expect(screen.getByText('1.0')).toBeDefined()
+      expect(screen.getByText('20.0')).toBeDefined()
     })
 
-    test('THEN values < 0.01 are formatted with 6 decimals', () => {
-      const row = { ...mockRow, primaryValue: 0.001234 }
+    test('THEN very small values show decimals when not whole numbers', () => {
+      const row = { ...mockRow, primaryValue: 0.0027 }
       render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
-      expect(screen.getByText('0.001234')).toBeDefined()
+      expect(screen.getByText('370.37')).toBeDefined()
+    })
+
+    test('THEN values >= 1 show as N Div : 1 Item format', () => {
+      const row = { ...mockRow, primaryValue: 2.1 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('2.1')).toBeDefined()
+    })
+
+    test('THEN whole number values >= 1 show with .0 padding', () => {
+      const row = { ...mockRow, primaryValue: 5 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('5.0')).toBeDefined()
+    })
+
+    test('THEN values >= 1000 show with k shorthand', () => {
+      const row = { ...mockRow, primaryValue: 1500 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('1.5k')).toBeDefined()
+    })
+
+    test('THEN values >= 1000 with whole thousands show with .0k', () => {
+      const row = { ...mockRow, primaryValue: 2000 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('2.0k')).toBeDefined()
+    })
+
+    test('THEN inverse values >= 1000 show with k shorthand', () => {
+      const row = { ...mockRow, primaryValue: 0.0005 }
+      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      expect(screen.getByText('2.0k')).toBeDefined()
     })
   })
 })
