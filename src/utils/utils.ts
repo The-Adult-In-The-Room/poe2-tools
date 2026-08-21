@@ -187,3 +187,16 @@ export const createCards = (calculations: Calculations) => {
 
   return cards.filter(({ value }) => value > 0)
 }
+
+/**
+ * Transforms a poe.ninja image path to a working CDN URL.
+ * poe.ninja's /gen/image/ paths are served by web.poecdn.com.
+ * Example: '/gen/image/WzI1LDE0L...' -> 'https://web.poecdn.com/gen/image/WzI1LDE0L...'
+ */
+export const transformImageUrl = (poeNinjaPath: string): string => {
+  if (!poeNinjaPath?.startsWith('/gen/image/')) {
+    return poeNinjaPath
+  }
+
+  return `https://web.poecdn.com${poeNinjaPath}`
+}

@@ -1,5 +1,6 @@
 import { Sparkline } from '#/components/atoms'
 import type { CurrencyRateRow } from '#/types'
+import { transformImageUrl } from '#/utils'
 
 type CurrencyRowProps = {
   row: CurrencyRateRow
@@ -21,7 +22,7 @@ const CurrencyRow = ({ row, primaryCurrencyName }: CurrencyRowProps): React.JSX.
     <tr className="border-b border-surface-a30 hover:bg-surface-a20/50" data-testid="currency-row">
       <td className="py-3 px-4">
         <div className="flex items-center gap-3">
-          <img src={`https://poe.ninja${row.image}`} alt={row.name} className="w-8 h-8" loading="lazy" />
+          <img src={transformImageUrl(row.image)} alt={row.name} className="w-8 h-8" loading="lazy" />
           <span className="text-light-a0 font-medium">{row.name}</span>
         </div>
       </td>

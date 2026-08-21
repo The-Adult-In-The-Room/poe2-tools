@@ -9,6 +9,7 @@ import {
   removeKey,
   removeSuffix,
   setMinMax,
+  transformImageUrl,
 } from './utils'
 
 describe('removeKey', () => {
@@ -471,6 +472,33 @@ describe('createCards', () => {
         { color: 'blue', label: 'Cold DPS:', testId: 'coldDps', value: 19.6 },
         { color: 'pink', label: 'Chaos DPS:', testId: 'chaosDps', value: 19.6 },
       ])
+    })
+  })
+})
+
+describe('transformImageUrl', () => {
+  describe('GIVEN a valid poe.ninja image path', () => {
+    test('THEN it transforms to the web.poecdn.com CDN URL', () => {
+      const poeNinjaPath =
+        '/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lXZWFwb25RdWFsaXR5Iiwic2NhbGUiOjEsInJlYWxtIjoicG9lMiJ9XQ/18715ea7be/CurrencyWeaponQuality.png'
+      const result = transformImageUrl(poeNinjaPath)
+      expect(result).toBe(`https://web.poecdn.com${poeNinjaPath}`)
+    })
+  })
+
+  describe('GIVEN an invalid or non-poe.ninja path', () => {
+    test('THEN it returns the original path unchanged', () => {
+      const invalidPath = 'https://example.com/image.png'
+      expect(transformImageUrl(invalidPath)).toBe(invalidPath)
+    })
+
+    test('THEN it handles empty strings', () => {
+      expect(transformImageUrl('')).toBe('')
+    })
+
+    test('THEN it handles paths without the /gen/image/ prefix', () => {
+      const path = '/some/other/path.png'
+      expect(transformImageUrl(path)).toBe(path)
     })
   })
 })

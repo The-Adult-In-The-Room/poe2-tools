@@ -5,7 +5,8 @@ import CurrencyRow from './CurrencyRow'
 const mockRow: CurrencyRateRow = {
   id: 'divine',
   name: 'Divine Orb',
-  image: '/test-image.png',
+  image:
+    '/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNb2RWYWx1ZXMiLCJzY2FsZSI6MSwicmVhbG0iOiJwb2UyIn1d/2986e220b3/CurrencyModValues.png',
   detailsId: 'divine-orb',
   primaryValue: 150,
   volumePrimaryValue: 1000,
@@ -35,7 +36,7 @@ describe('<CurrencyRow />', () => {
     test('THEN the currency image is displayed', () => {
       const img = screen.getByAltText('Divine Orb')
       expect(img).toBeDefined()
-      expect(img.getAttribute('src')).toBe('https://poe.ninja/test-image.png')
+      expect(img.getAttribute('src')).toContain('web.poecdn.com/gen/image/')
     })
 
     test('THEN the value is displayed', () => {
