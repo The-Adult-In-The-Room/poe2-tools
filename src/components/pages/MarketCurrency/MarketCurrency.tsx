@@ -1,4 +1,4 @@
-import { useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
 import { CategoryTabs, CurrencyTable, LeagueSelector, Typography } from '#/components'
 import type { CurrencyLoaderData } from '#/types'
 
@@ -9,15 +9,8 @@ type MarketCurrencyProps = {
 const REFERENCE_CURRENCIES = ['divine', 'exalted', 'chaos'] as const
 
 const MarketCurrency = ({ loaderData }: MarketCurrencyProps): React.JSX.Element => {
-  const { leagues, overview, league, type, reference } = loaderData
-  const navigate = useNavigate()
-
-  const handleReferenceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    navigate({
-      to: '/currency',
-      search: { league, type, reference: e.target.value },
-    })
-  }
+  const { leagues, overview, league, type } = loaderData
+  const [reference, setReference] = useState(overview.core.primary)
 
   return (
     <div className="flex flex-col gap-6 px-4" data-testid="market-currency">
@@ -29,7 +22,7 @@ const MarketCurrency = ({ loaderData }: MarketCurrencyProps): React.JSX.Element 
           <LeagueSelector leagues={leagues} currentLeague={league} currentType={type} />
           <select
             value={reference}
-            onChange={handleReferenceChange}
+            onChange={(e) => setReference(e.target.value)}
             className="bg-surface-a20 text-light-a0 border border-surface-a30 rounded px-3 py-2 text-sm"
             data-testid="reference-currency-selector"
           >
@@ -43,7 +36,7 @@ const MarketCurrency = ({ loaderData }: MarketCurrencyProps): React.JSX.Element 
             })}
           </select>
         </div>
-        <CategoryTabs currentLeague={league} currentType={type} currentReference={reference} />
+        <CategoryTabs currentLeague={league} currentType={type} />
       </div>
 
       {overview.lines.length > 0 ? (

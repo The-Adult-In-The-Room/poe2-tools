@@ -6,7 +6,6 @@ import type { CurrencyCategory, CurrencyLoaderData } from '#/types'
 const currencySearchSchema = (search: Record<string, unknown>) => ({
   league: (search.league as string) || '',
   type: (search.type as CurrencyCategory) || 'Currency',
-  reference: (search.reference as string) || '',
 })
 
 export const Route = createFileRoute('/currency')({
@@ -19,9 +18,7 @@ export const Route = createFileRoute('/currency')({
 
     const overview = await fetchCurrencyOverview({ data: { league, type } })
 
-    const reference = deps.reference || overview.core.primary
-
-    return { leagues, overview, league, type, reference }
+    return { leagues, overview, league, type }
   },
   component: CurrencyPage,
 })

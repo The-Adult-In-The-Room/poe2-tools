@@ -2,15 +2,12 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import type { CurrencyLoaderData } from '#/types'
 import MarketCurrency from './MarketCurrency'
 
-const mockNavigate = vi.fn()
-
 vi.mock('@tanstack/react-router', () => ({
   Link: ({ children, to, className, ...props }: { children: React.ReactNode; to: string; className?: string }) => (
     <a href={to} className={className} {...props}>
       {children}
     </a>
   ),
-  useNavigate: () => mockNavigate,
 }))
 
 const mockLoaderData: CurrencyLoaderData = {
@@ -41,7 +38,6 @@ const mockLoaderData: CurrencyLoaderData = {
   },
   league: 'runes-of-aldur',
   type: 'Currency',
-  reference: 'divine',
 }
 
 describe('<MarketCurrency />', () => {
@@ -99,21 +95,17 @@ describe('<MarketCurrency />', () => {
       expect(options).toContain('chaos')
     })
 
-    test('THEN the default selection is the reference from loaderData', () => {
+    test('THEN the default selection is the primary currency from the overview', () => {
       render(<MarketCurrency loaderData={mockLoaderData} />)
       const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
       expect(selector.value).toBe('divine')
     })
 
-    test('THEN changing the selector navigates with the new reference', () => {
-      mockNavigate.mockClear()
+    test('THEN changing the selector updates the reference currency', () => {
       render(<MarketCurrency loaderData={mockLoaderData} />)
-      const selector = screen.getByTestId('reference-currency-selector')
+      const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
       fireEvent.change(selector, { target: { value: 'chaos' } })
-      expect(mockNavigate).toHaveBeenCalledWith({
-        to: '/currency',
-        search: { league: 'runes-of-aldur', type: 'Currency', reference: 'chaos' },
-      })
+      expect(selector.value).toBe('chaos')
     })
   })
 })

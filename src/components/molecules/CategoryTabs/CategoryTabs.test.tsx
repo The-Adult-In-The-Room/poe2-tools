@@ -12,7 +12,7 @@ vi.mock('@tanstack/react-router', () => ({
 describe('<CategoryTabs />', () => {
   describe('GIVEN the CategoryTabs component is rendered', () => {
     beforeEach(() => {
-      render(<CategoryTabs currentLeague="standard" currentType="Currency" currentReference="divine" />)
+      render(<CategoryTabs currentLeague="standard" currentType="Currency" />)
     })
 
     test('THEN the navigation is displayed', () => {
