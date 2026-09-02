@@ -1,49 +1,12 @@
 import { FaExchangeAlt, FaQuestionCircle } from 'react-icons/fa'
 import { Sparkline } from '#/components/atoms'
 import type { CurrencyRateRow } from '#/types'
-import { transformImageUrl } from '#/utils'
+import { formatRatio, formatVolume, transformImageUrl } from '#/utils'
 
 type CurrencyRowProps = {
   row: CurrencyRateRow
   primaryCurrencyName: string
   primaryCurrencyImage: string | null
-}
-
-const formatNumber = (value: number): string => {
-  if (value >= 1000000) {
-    const m = value / 1000000
-    return m % 1 === 0 ? `${m}.0M` : `${m.toFixed(1)}M`
-  }
-  if (value >= 1000) {
-    const k = value / 1000
-    return k % 1 === 0 ? `${k}.0k` : `${k.toFixed(1)}k`
-  }
-  if (value >= 10) {
-    const rounded = Math.round(value)
-    return rounded === value ? `${rounded}.0` : value.toFixed(2).replace(/0+$/, '')
-  }
-  if (value % 1 === 0) return `${value}.0`
-  return value.toFixed(2).replace(/0+$/, '')
-}
-
-const formatRatio = (primaryValue: number): { left: string; right: string } => {
-  if (primaryValue >= 1) {
-    return { left: formatNumber(primaryValue), right: formatNumber(1) }
-  }
-  const inverse = 1 / primaryValue
-  return { left: formatNumber(1), right: formatNumber(inverse) }
-}
-
-const formatVolume = (value: number): string => {
-  if (value >= 1000000) {
-    const m = value / 1000000
-    return m % 1 === 0 ? `${m}M` : `${m.toFixed(1)}M`
-  }
-  if (value >= 1000) {
-    const k = value / 1000
-    return k % 1 === 0 ? `${k}k` : `${k.toFixed(1)}k`
-  }
-  return Math.round(value).toString()
 }
 
 const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: CurrencyRowProps): React.JSX.Element => {
