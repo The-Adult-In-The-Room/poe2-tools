@@ -240,6 +240,26 @@ describe('fetchCurrencyOverviewHandler', () => {
       fetchCurrencyOverviewHandler({ data: { league: 'Standard', type: 'Currency' } }),
     ).rejects.toBeInstanceOf(PoeNinjaValidationError)
   })
+
+  it('accepts items with an undefined image field', async () => {
+    const overviewWithMissingImage = {
+      ...validOverview,
+      items: [{ ...validOverview.items[0], image: undefined }],
+      core: {
+        ...validOverview.core,
+        items: [{ ...validOverview.core.items[0], image: undefined }],
+      },
+    }
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => overviewWithMissingImage,
+    })
+
+    const result = await fetchCurrencyOverviewHandler({ data: { league: 'Standard', type: 'Currency' } })
+
+    expect(result.core.items[0].image).toBeNull()
+    expect(result.items[0].image).toBeNull()
+  })
 })
 
 describe('currencySearchSchema', () => {

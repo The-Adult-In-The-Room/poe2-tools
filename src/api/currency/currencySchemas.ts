@@ -11,7 +11,7 @@ export const leagueArraySchema = z.array(leagueSchema)
 const currencyItemSchema = z.object({
   id: z.string(),
   name: z.string(),
-  image: z.string().nullable(),
+  image: z.string().nullable().default(null),
   category: z.string(),
   detailsId: z.string(),
 })
