@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import type { CurrencyLoaderData } from '#/types'
 import MarketCurrency from './MarketCurrency'
 
@@ -104,10 +105,11 @@ describe('<MarketCurrency />', () => {
       expect(selector.value).toBe('divine')
     })
 
-    test('THEN changing the selector updates the reference currency', () => {
+    test('THEN changing the selector updates the reference currency', async () => {
+      const user = userEvent.setup()
       render(<MarketCurrency loaderData={mockLoaderData} />)
       const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
-      fireEvent.change(selector, { target: { value: 'chaos' } })
+      await user.selectOptions(selector, 'chaos')
       expect(selector.value).toBe('chaos')
     })
 

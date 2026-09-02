@@ -17,11 +17,12 @@
     "preview": "vite preview",
     "start": "node .output/server/index.mjs",
     "test": "vitest --coverage",
+    "test:ci": "vitest run",
     "lint": "biome ci",
     "fix": "biome check --write",
     "prepare": "simple-git-hooks",
     "ts:check": "tsc",
-    "verify": "npx tsc && biome ci && npx vitest run"
+    "verify": "tsc && biome ci && npm run test:ci"
   },
   "repository": {
     "type": "git",
