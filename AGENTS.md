@@ -70,8 +70,11 @@ The project enforces **100% coverage** thresholds for statements, branches, func
 
 ## Git
 
-- Do not run `git commit`, `git push`, `git rebase`, or other git mutations unless explicitly asked.
+- **Never manage git history.** The user always handles commits, amends, rebases, resets, branch creation, merges, and pushes.
+- Do not run `git commit`, `git push`, `git rebase`, `git reset`, `git cherry-pick`, `git merge`, or any other git mutation unless the user explicitly asks for it.
 - Do not create empty commits or amend failed commits.
+- Do not offer to commit, amend, squash, or otherwise rewrite history, even if a previous commit already exists on the branch or if changes appear to have been committed accidentally.
+- It is fine to read git state (e.g., `git status`, `git diff`, `git log`) for context, but treat git history as read-only.
 
 ## Common Pitfalls
 
