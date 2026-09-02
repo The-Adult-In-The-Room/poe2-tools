@@ -5,10 +5,14 @@ import {
   findElementalDamageValues,
   findItemName,
   findStatValues,
+  formatNumber,
+  formatRatio,
+  formatVolume,
   handleDpsCalculations,
   removeKey,
   removeSuffix,
   setMinMax,
+  transformImageUrl,
 } from './utils'
 
 describe('removeKey', () => {
@@ -471,6 +475,129 @@ describe('createCards', () => {
         { color: 'blue', label: 'Cold DPS:', testId: 'coldDps', value: 19.6 },
         { color: 'pink', label: 'Chaos DPS:', testId: 'chaosDps', value: 19.6 },
       ])
+    })
+  })
+})
+
+describe('transformImageUrl', () => {
+  describe('GIVEN a valid poe.ninja image path', () => {
+    test('THEN it transforms to the web.poecdn.com CDN URL', () => {
+      const poeNinjaPath =
+        '/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lXZWFwb25RdWFsaXR5Iiwic2NhbGUiOjEsInJlYWxtIjoicG9lMiJ9XQ/18715ea7be/CurrencyWeaponQuality.png'
+      const result = transformImageUrl(poeNinjaPath)
+      expect(result).toBe(`https://web.poecdn.com${poeNinjaPath}`)
+    })
+  })
+
+  describe('GIVEN an invalid or non-poe.ninja path', () => {
+    test('THEN it returns the original path unchanged', () => {
+      const invalidPath = 'https://example.com/image.png'
+      expect(transformImageUrl(invalidPath)).toBe(invalidPath)
+    })
+
+    test('THEN it handles empty strings', () => {
+      expect(transformImageUrl('')).toBe('')
+    })
+
+    test('THEN it handles paths without the /gen/image/ prefix', () => {
+      const path = '/some/other/path.png'
+      expect(transformImageUrl(path)).toBe(path)
+    })
+  })
+})
+
+describe('formatNumber', () => {
+  describe('GIVEN a value >= 1000000', () => {
+    test('THEN it uses M shorthand with one decimal', () => {
+      expect(formatNumber(1500000)).toBe('1.5M')
+    })
+
+    test('THEN whole millions get .0M padding', () => {
+      expect(formatNumber(2000000)).toBe('2.0M')
+    })
+  })
+
+  describe('GIVEN a value >= 1000', () => {
+    test('THEN it uses k shorthand with one decimal', () => {
+      expect(formatNumber(1500)).toBe('1.5k')
+    })
+
+    test('THEN whole thousands get .0k padding', () => {
+      expect(formatNumber(2000)).toBe('2.0k')
+    })
+  })
+
+  describe('GIVEN a value >= 10', () => {
+    test('THEN whole numbers get .0 padding', () => {
+      expect(formatNumber(150)).toBe('150.0')
+    })
+
+    test('THEN fractional values keep decimals', () => {
+      expect(formatNumber(20.5)).toBe('20.5')
+    })
+  })
+
+  describe('GIVEN a value < 10', () => {
+    test('THEN whole numbers get .0 padding', () => {
+      expect(formatNumber(5)).toBe('5.0')
+    })
+
+    test('THEN fractional values keep decimals', () => {
+      expect(formatNumber(2.1)).toBe('2.1')
+    })
+
+    test('THEN small fractional inverse values keep precision', () => {
+      expect(formatNumber(370.37)).toBe('370.37')
+    })
+  })
+})
+
+describe('formatRatio', () => {
+  describe('GIVEN a value >= 1', () => {
+    test('THEN it returns N : 1 format', () => {
+      expect(formatRatio(150)).toEqual({ left: '150.0', right: '1.0' })
+    })
+
+    test('THEN fractional values keep decimals', () => {
+      expect(formatRatio(2.1)).toEqual({ left: '2.1', right: '1.0' })
+    })
+  })
+
+  describe('GIVEN a value < 1', () => {
+    test('THEN it returns inverted 1 : N format', () => {
+      expect(formatRatio(0.05)).toEqual({ left: '1.0', right: '20.0' })
+    })
+
+    test('THEN inverse values use shorthand when large', () => {
+      expect(formatRatio(0.0005)).toEqual({ left: '1.0', right: '2.0k' })
+    })
+  })
+})
+
+describe('formatVolume', () => {
+  describe('GIVEN a volume >= 1000000', () => {
+    test('THEN whole millions show without decimals', () => {
+      expect(formatVolume(2000000)).toBe('2M')
+    })
+
+    test('THEN fractional millions show one decimal', () => {
+      expect(formatVolume(1500000)).toBe('1.5M')
+    })
+  })
+
+  describe('GIVEN a volume >= 1000', () => {
+    test('THEN whole thousands show without decimals', () => {
+      expect(formatVolume(1000)).toBe('1k')
+    })
+
+    test('THEN fractional thousands show one decimal', () => {
+      expect(formatVolume(1500)).toBe('1.5k')
+    })
+  })
+
+  describe('GIVEN a volume < 1000', () => {
+    test('THEN it is rounded to a whole number', () => {
+      expect(formatVolume(42)).toBe('42')
     })
   })
 })

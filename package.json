@@ -21,7 +21,7 @@
     "fix": "biome check --write",
     "prepare": "simple-git-hooks",
     "ts:check": "tsc",
-    "verify": "npx tsc && biome ci && npm run test"
+    "verify": "npx tsc && biome ci && npx vitest run"
   },
   "repository": {
     "type": "git",

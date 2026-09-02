@@ -187,3 +187,67 @@ export const createCards = (calculations: Calculations) => {
 
   return cards.filter(({ value }) => value > 0)
 }
+
+/**
+ * Transforms a poe.ninja image path to a working CDN URL.
+ * poe.ninja's /gen/image/ paths are served by web.poecdn.com.
+ * Example: '/gen/image/WzI1LDE0L...' -> 'https://web.poecdn.com/gen/image/WzI1LDE0L...'
+ * Returns empty string for null/undefined paths.
+ */
+export const transformImageUrl = (poeNinjaPath: string | null | undefined): string => {
+  if (!poeNinjaPath?.startsWith('/gen/image/')) {
+    return poeNinjaPath || ''
+  }
+
+  return `https://web.poecdn.com${poeNinjaPath}`
+}
+
+/**
+ * Formats a number with shorthand suffixes (k/M) and consistent decimal padding.
+ * Examples: 1500 -> '1.5k', 2000 -> '2.0k', 1500000 -> '1.5M', 5 -> '5.0', 2.1 -> '2.1'
+ */
+export const formatNumber = (value: number): string => {
+  if (value >= 1000000) {
+    const m = value / 1000000
+    return m % 1 === 0 ? `${m}.0M` : `${m.toFixed(1)}M`
+  }
+  if (value >= 1000) {
+    const k = value / 1000
+    return k % 1 === 0 ? `${k}.0k` : `${k.toFixed(1)}k`
+  }
+  if (value >= 10) {
+    const rounded = Math.round(value)
+    return rounded === value ? `${rounded}.0` : value.toFixed(2).replace(/0+$/, '')
+  }
+  if (value % 1 === 0) return `${value}.0`
+  return value.toFixed(2).replace(/0+$/, '')
+}
+
+/**
+ * Formats a currency exchange value as a left/right ratio pair.
+ * Values >= 1 show as 'N : 1', values < 1 are inverted to '1 : N'.
+ * Examples: 150 -> { left: '150.0', right: '1.0' }, 0.05 -> { left: '1.0', right: '20.0' }
+ */
+export const formatRatio = (primaryValue: number): { left: string; right: string } => {
+  if (primaryValue >= 1) {
+    return { left: formatNumber(primaryValue), right: formatNumber(1) }
+  }
+  const inverse = 1 / primaryValue
+  return { left: formatNumber(1), right: formatNumber(inverse) }
+}
+
+/**
+ * Formats a trade volume with shorthand suffixes (k/M), no decimal padding on whole numbers.
+ * Examples: 1000 -> '1k', 1500 -> '1.5k', 2000000 -> '2M', 42 -> '42'
+ */
+export const formatVolume = (value: number): string => {
+  if (value >= 1000000) {
+    const m = value / 1000000
+    return m % 1 === 0 ? `${m}M` : `${m.toFixed(1)}M`
+  }
+  if (value >= 1000) {
+    const k = value / 1000
+    return k % 1 === 0 ? `${k}k` : `${k.toFixed(1)}k`
+  }
+  return Math.round(value).toString()
+}

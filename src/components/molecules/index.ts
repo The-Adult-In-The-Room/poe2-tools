@@ -1,3 +1,6 @@
 export { default as Card } from './Card/Card'
+export { default as CategoryTabs } from './CategoryTabs/CategoryTabs'
+export { default as CurrencyRow } from './CurrencyRow/CurrencyRow'
 export { default as Footer } from './Footer/Footer'
+export { default as LeagueSelector } from './LeagueSelector/LeagueSelector'
 export { default as Nav } from './Nav/Nav'

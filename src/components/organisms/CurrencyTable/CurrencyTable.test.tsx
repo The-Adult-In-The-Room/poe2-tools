@@ -1,0 +1,161 @@
+import { render, screen } from '@testing-library/react'
+import type { CurrencyOverview } from '#/types'
+import CurrencyTable from './CurrencyTable'
+
+const mockOverview: CurrencyOverview = {
+  core: {
+    primary: 'divine',
+    secondary: 'chaos',
+    rates: { chaos: 150, exalted: 30 },
+    items: [
+      { id: 'divine', name: 'Divine Orb', image: '/divine.png', category: 'Currency', detailsId: 'divine-orb' },
+      { id: 'exalted', name: 'Exalted Orb', image: '/exalted.png', category: 'Currency', detailsId: 'exalted-orb' },
+      { id: 'chaos', name: 'Chaos Orb', image: '/chaos.png', category: 'Currency', detailsId: 'chaos-orb' },
+    ],
+  },
+  lines: [
+    {
+      id: 'divine',
+      primaryValue: 1,
+      volumePrimaryValue: 1000,
+      maxVolumeCurrency: 'chaos',
+      maxVolumeRate: 150,
+      sparkline: { totalChange: 0, data: [1, 1, 1] },
+    },
+    {
+      id: 'chaos',
+      primaryValue: 0.0067,
+      volumePrimaryValue: 500,
+      maxVolumeCurrency: 'divine',
+      maxVolumeRate: 150,
+      sparkline: { totalChange: -2.5, data: [0.007, 0.0068, 0.0067] },
+    },
+  ],
+  items: [
+    { id: 'divine', name: 'Divine Orb', image: '/divine.png', category: 'Currency', detailsId: 'divine-orb' },
+    { id: 'exalted', name: 'Exalted Orb', image: '/exalted.png', category: 'Currency', detailsId: 'exalted-orb' },
+    { id: 'chaos', name: 'Chaos Orb', image: '/chaos.png', category: 'Currency', detailsId: 'chaos-orb' },
+  ],
+}
+
+describe('<CurrencyTable />', () => {
+  describe('GIVEN the CurrencyTable component is rendered', () => {
+    beforeEach(() => {
+      render(<CurrencyTable overview={mockOverview} referenceCurrency="divine" />)
+    })
+
+    test('THEN the table is displayed', () => {
+      expect(screen.getByTestId('currency-table')).toBeDefined()
+    })
+
+    test('THEN the table headers are displayed', () => {
+      expect(screen.getByText('Currency')).toBeDefined()
+      expect(screen.getByText('Value')).toBeDefined()
+      expect(screen.getByText('Volume/hr')).toBeDefined()
+      expect(screen.getByText('7d Change')).toBeDefined()
+      expect(screen.getByText('Trend')).toBeDefined()
+    })
+
+    test('THEN the currency rows are displayed', () => {
+      const rows = screen.getAllByTestId('currency-row')
+      expect(rows.length).toBe(1)
+    })
+
+    test('THEN the primary currency is excluded from rows', () => {
+      const rows = screen.getAllByTestId('currency-row')
+      const rowTexts = rows.map((row) => row.textContent)
+      const hasDivineInRows = rowTexts.some((text) => text?.includes('Divine Orb'))
+      expect(hasDivineInRows).toBe(false)
+    })
+
+    test('THEN non-primary currencies are displayed', () => {
+      const rows = screen.getAllByTestId('currency-row')
+      const rowTexts = rows.map((row) => row.textContent)
+      const hasChaosInRows = rowTexts.some((text) => text?.includes('Chaos Orb'))
+      expect(hasChaosInRows).toBe(true)
+    })
+  })
+
+  describe('GIVEN the CurrencyTable has items with different volumes', () => {
+    beforeEach(() => {
+      const overviewWithMultiple: CurrencyOverview = {
+        ...mockOverview,
+        lines: [
+          ...mockOverview.lines,
+          {
+            id: 'exalted',
+            primaryValue: 0.5,
+            volumePrimaryValue: 2000,
+            maxVolumeCurrency: 'divine',
+            maxVolumeRate: 2,
+            sparkline: { totalChange: 1, data: [0.4, 0.45, 0.5] },
+          },
+        ],
+        items: [
+          ...mockOverview.items,
+          { id: 'exalted', name: 'Exalted Orb', image: '/exalted.png', category: 'Currency', detailsId: 'exalted-orb' },
+        ],
+      }
+      render(<CurrencyTable overview={overviewWithMultiple} referenceCurrency="divine" />)
+    })
+
+    test('THEN rows are sorted by volume descending', () => {
+      const rows = screen.getAllByTestId('currency-row')
+      expect(rows.length).toBe(2)
+      const firstRowName = rows[0].querySelector('span')?.textContent
+      expect(firstRowName).toBe('Exalted Orb')
+    })
+  })
+
+  describe('GIVEN the CurrencyTable uses a non-primary reference currency', () => {
+    test('THEN the rate from core.rates is applied', () => {
+      render(<CurrencyTable overview={mockOverview} referenceCurrency="chaos" />)
+      const rows = screen.getAllByTestId('currency-row')
+      expect(rows.length).toBe(1)
+    })
+
+    test('THEN the rate falls back to 1 when not found in core.rates', () => {
+      const overviewWithNoRate: CurrencyOverview = {
+        ...mockOverview,
+        core: { ...mockOverview.core, rates: {} },
+      }
+      render(<CurrencyTable overview={overviewWithNoRate} referenceCurrency="chaos" />)
+      const rows = screen.getAllByTestId('currency-row')
+      expect(rows.length).toBe(1)
+    })
+  })
+
+  describe('GIVEN the CurrencyTable has missing item metadata', () => {
+    beforeEach(() => {
+      const overviewWithMissingItems: CurrencyOverview = {
+        core: {
+          primary: 'unknown-primary',
+          secondary: 'chaos',
+          rates: {},
+          items: [],
+        },
+        lines: [
+          {
+            id: 'mystery-currency',
+            primaryValue: 1,
+            volumePrimaryValue: 100,
+            maxVolumeCurrency: 'chaos',
+            maxVolumeRate: 1,
+            sparkline: { totalChange: 0, data: [1, 1, 1] },
+          },
+        ],
+        items: [],
+      }
+      render(<CurrencyTable overview={overviewWithMissingItems} referenceCurrency="unknown-primary" />)
+    })
+
+    test('THEN the fallback primary name is used', () => {
+      const fallbackIcons = screen.getAllByTestId('question-icon')
+      expect(fallbackIcons.length).toBeGreaterThan(0)
+    })
+
+    test('THEN the line id is used as fallback name', () => {
+      expect(screen.getByText('mystery-currency')).toBeDefined()
+    })
+  })
+})

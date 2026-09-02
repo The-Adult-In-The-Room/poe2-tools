@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { FaArrowUpRightFromSquare, FaCalculator } from 'react-icons/fa6'
+import { FaArrowUpRightFromSquare } from 'react-icons/fa6'
 import { externalLinks, internalLinks } from '#/data/constants'
 import { Typography } from '../../atoms'
 
@@ -13,17 +13,20 @@ const Nav = (): React.JSX.Element => {
 
       <hr className="hidden md:block" />
 
-      {internalLinks.map((link) => (
-        <Link
-          key={link.href}
-          to={link.href}
-          className="[&.active]:text-primary-a50 flex items-center gap-2 py-2 text-base text-light-a0 no-underline"
-          activeProps={{ className: 'text-primary-a50' }}
-        >
-          <FaCalculator size={22} />
-          {link.label}
-        </Link>
-      ))}
+      {internalLinks.map((link) => {
+        const Icon = link.icon
+        return (
+          <Link
+            key={link.href}
+            to={link.href}
+            className="[&.active]:text-primary-a50 flex items-center gap-2 py-2 text-base text-light-a0 no-underline"
+            activeProps={{ className: 'text-primary-a50' }}
+          >
+            {Icon && <Icon size={22} />}
+            {link.label}
+          </Link>
+        )
+      })}
 
       <hr className="hidden md:block" />
 
