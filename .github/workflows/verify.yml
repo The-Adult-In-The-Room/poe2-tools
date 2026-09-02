@@ -1,4 +1,4 @@
-name: Verify
+name: PR Verification
 
 on:
   pull_request:
@@ -8,10 +8,12 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
-      - run: npm ci
+      - uses: ./.github/actions/setup
       - run: npm run verify
+
+  acceptance-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/actions/playwright-test
+        with:
+          command: test:e2e:acceptance
