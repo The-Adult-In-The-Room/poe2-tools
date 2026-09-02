@@ -515,6 +515,10 @@ describe('formatNumber', () => {
     test('THEN whole millions get .0M padding', () => {
       expect(formatNumber(2000000)).toBe('2.0M')
     })
+
+    test('THEN large whole millions keep .0M padding', () => {
+      expect(formatNumber(10000000)).toBe('10.0M')
+    })
   })
 
   describe('GIVEN a value >= 1000', () => {
@@ -525,6 +529,10 @@ describe('formatNumber', () => {
     test('THEN whole thousands get .0k padding', () => {
       expect(formatNumber(2000)).toBe('2.0k')
     })
+
+    test('THEN large whole thousands keep .0k padding', () => {
+      expect(formatNumber(10000)).toBe('10.0k')
+    })
   })
 
   describe('GIVEN a value >= 10', () => {
@@ -534,6 +542,14 @@ describe('formatNumber', () => {
 
     test('THEN fractional values keep decimals', () => {
       expect(formatNumber(20.5)).toBe('20.5')
+    })
+
+    test('THEN values that round to a whole number get .0 padding', () => {
+      expect(formatNumber(20.001)).toBe('20.0')
+    })
+
+    test('THEN large fractional values keep precision', () => {
+      expect(formatNumber(370.37)).toBe('370.37')
     })
   })
 
@@ -546,13 +562,19 @@ describe('formatNumber', () => {
       expect(formatNumber(2.1)).toBe('2.1')
     })
 
-    test('THEN small fractional inverse values keep precision', () => {
-      expect(formatNumber(370.37)).toBe('370.37')
+    test('THEN values that round to a whole number get .0 padding', () => {
+      expect(formatNumber(9.999)).toBe('10.0')
     })
   })
 })
 
 describe('formatRatio', () => {
+  describe('GIVEN a value of zero', () => {
+    test('THEN it returns a defined 0 : 1 fallback', () => {
+      expect(formatRatio(0)).toEqual({ left: '0', right: '1' })
+    })
+  })
+
   describe('GIVEN a value >= 1', () => {
     test('THEN it returns N : 1 format', () => {
       expect(formatRatio(150)).toEqual({ left: '150.0', right: '1.0' })
