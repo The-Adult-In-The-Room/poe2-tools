@@ -1,0 +1,16 @@
+export const currencyCategories = [
+  'Currency',
+  'Fragments',
+  'Abyss',
+  'UncutGems',
+  'LineageSupportGems',
+  'Essences',
+  'SoulCores',
+  'Idols',
+  'Runes',
+  'Ritual',
+  'Expedition',
+  'Delirium',
+  'Breach',
+  'Verisium',
+] as const
