@@ -1,9 +1,13 @@
 import { createServerFn } from '@tanstack/react-start'
 import type { z } from 'zod'
+import { POE_NINJA_BASE_DEFAULT } from '#/constants/poeNinja'
 import type { CurrencyOverview, League } from '#/types'
 import { currencyOverviewSchema, currencySearchSchema, leagueArraySchema } from './currencySchemas'
 
-const POE_NINJA_BASE = 'https://poe.ninja/poe2/api/economy'
+function getPoeNinjaBase(): string {
+  return process.env.POE_NINJA_BASE ?? POE_NINJA_BASE_DEFAULT
+}
+
 export const USER_AGENT = 'poe2-tools (https://github.com/The-Adult-In-The-Room/poe2-tools)'
 export const CACHE_TTL_MS = 5 * 60 * 1000
 const CACHE_MAX_SIZE = 50
@@ -143,14 +147,14 @@ async function fetchFromPoeNinja<T>(url: string, cacheKey: string, schema: z.Zod
 }
 
 export async function fetchLeaguesHandler(): Promise<League[]> {
-  return fetchFromPoeNinja<League[]>(`${POE_NINJA_BASE}/leagues`, 'leagues', leagueArraySchema)
+  return fetchFromPoeNinja<League[]>(`${getPoeNinjaBase()}/leagues`, 'leagues', leagueArraySchema)
 }
 
 export async function fetchCurrencyOverviewHandler(ctx: {
   data: z.infer<typeof currencySearchSchema>
 }): Promise<CurrencyOverview> {
   const { league, type } = ctx.data
-  const url = `${POE_NINJA_BASE}/exchange/current/overview?league=${encodeURIComponent(league)}&type=${type}`
+  const url = `${getPoeNinjaBase()}/exchange/current/overview?league=${encodeURIComponent(league)}&type=${type}`
   const cacheKey = `overview:${league}:${type}`
   return fetchFromPoeNinja<CurrencyOverview>(url, cacheKey, currencyOverviewSchema)
 }
