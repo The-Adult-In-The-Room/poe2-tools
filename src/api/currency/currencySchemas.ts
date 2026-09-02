@@ -47,3 +47,8 @@ export const currencySearchSchema = z.object({
   league: z.string().min(1, 'League is required'),
   type: z.enum(currencyCategories),
 })
+
+export const currencyRouteSearchSchema = z.object({
+  league: z.string().min(1).optional(),
+  type: z.enum(currencyCategories).optional(),
+})

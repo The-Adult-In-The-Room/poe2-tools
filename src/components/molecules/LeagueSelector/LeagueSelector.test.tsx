@@ -2,12 +2,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import LeagueSelector from './LeagueSelector'
 
+const mockNavigate = vi.fn()
+
 vi.mock('@tanstack/react-router', () => ({
-  Link: ({ children, to, className, ...props }: { children: React.ReactNode; to: string; className?: string }) => (
-    <a href={to} className={className} {...props}>
-      {children}
-    </a>
-  ),
+  useNavigate: () => mockNavigate,
 }))
 
 const mockLeagues = [
@@ -16,6 +14,10 @@ const mockLeagues = [
 ]
 
 describe('<LeagueSelector />', () => {
+  beforeEach(() => {
+    mockNavigate.mockClear()
+  })
+
   describe('GIVEN the LeagueSelector component is rendered', () => {
     beforeEach(() => {
       render(<LeagueSelector leagues={mockLeagues} currentLeague="runes-of-aldur" currentType="Currency" />)
@@ -37,30 +39,22 @@ describe('<LeagueSelector />', () => {
   })
 
   describe('GIVEN the user changes the league selection', () => {
-    test('THEN the onChange handler updates the URL', async () => {
+    test('THEN it navigates to the currency route preserving search params', async () => {
       const user = userEvent.setup()
-      let navigatedUrl = ''
-
-      Object.defineProperty(window, 'location', {
-        value: {
-          get href() {
-            return navigatedUrl || 'http://localhost:3000/currency'
-          },
-          set href(val: string) {
-            navigatedUrl = val
-          },
-        },
-        writable: true,
-        configurable: true,
-      })
-
       render(<LeagueSelector leagues={mockLeagues} currentLeague="runes-of-aldur" currentType="Currency" />)
 
       const select = screen.getByTestId('league-selector')
       await user.selectOptions(select, 'standard')
 
-      expect(navigatedUrl).toContain('league=standard')
-      expect(navigatedUrl).toContain('type=Currency')
+      expect(mockNavigate).toHaveBeenCalledTimes(1)
+      expect(mockNavigate).toHaveBeenCalledWith({
+        to: '/currency',
+        search: expect.any(Function),
+        replace: true,
+      })
+
+      const searchFn = mockNavigate.mock.calls[0][0].search
+      expect(searchFn({ foo: 'bar' })).toEqual({ foo: 'bar', league: 'standard', type: 'Currency' })
     })
   })
 })
