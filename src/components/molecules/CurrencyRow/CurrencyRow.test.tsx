@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import type { CurrencyRateRow } from '#/types'
 import CurrencyRow from './CurrencyRow'
 
@@ -50,9 +50,10 @@ describe('<CurrencyRow />', () => {
     })
 
     test('THEN the value is displayed as a ratio', () => {
-      expect(screen.getByText('150.0')).toBeDefined()
+      const row = screen.getByTestId('currency-row')
+      expect(within(row).getByTestId('currency-value-left').textContent).toBe('150.0')
       expect(screen.getByTestId('exchange-icon')).toBeDefined()
-      expect(screen.getByText('1.0')).toBeDefined()
+      expect(within(row).getByTestId('currency-value-right').textContent).toBe('1.0')
       const primaryImg = screen.getByTitle('Chaos Orb')
       expect(primaryImg).toBeDefined()
     })
@@ -64,7 +65,8 @@ describe('<CurrencyRow />', () => {
     })
 
     test('THEN the volume is displayed', () => {
-      expect(screen.getByText('1k')).toBeDefined()
+      const row = screen.getByTestId('currency-row')
+      expect(within(row).getByTestId('currency-volume').textContent).toBe('1k')
     })
 
     test('THEN the sparkline is displayed', () => {
@@ -76,62 +78,72 @@ describe('<CurrencyRow />', () => {
     test('THEN values < 1 show as 1 Div : N Item format', () => {
       const row = { ...mockRow, primaryValue: 0.05 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('1.0')).toBeDefined()
-      expect(screen.getByText('20.0')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-left').textContent).toBe('1.0')
+      expect(within(renderedRow).getByTestId('currency-value-right').textContent).toBe('20.0')
     })
 
     test('THEN very small values show decimals when not whole numbers', () => {
       const row = { ...mockRow, primaryValue: 0.0027 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('370.37')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-right').textContent).toBe('370.37')
     })
 
     test('THEN values >= 1 show as N Div : 1 Item format', () => {
       const row = { ...mockRow, primaryValue: 2.1 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('2.1')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-left').textContent).toBe('2.1')
     })
 
     test('THEN whole number values >= 1 show with .0 padding', () => {
       const row = { ...mockRow, primaryValue: 5 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('5.0')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-left').textContent).toBe('5.0')
     })
 
     test('THEN values >= 1000 show with k shorthand', () => {
       const row = { ...mockRow, primaryValue: 1500 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('1.5k')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-left').textContent).toBe('1.5k')
     })
 
     test('THEN values >= 1000 with whole thousands show with .0k', () => {
       const row = { ...mockRow, primaryValue: 2000 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('2.0k')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-left').textContent).toBe('2.0k')
     })
 
     test('THEN inverse values >= 1000 show with k shorthand', () => {
       const row = { ...mockRow, primaryValue: 0.0005 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('2.0k')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-right').textContent).toBe('2.0k')
     })
 
     test('THEN values >= 1000000 show with M shorthand', () => {
       const row = { ...mockRow, primaryValue: 1500000 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('1.5M')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-left').textContent).toBe('1.5M')
     })
 
     test('THEN values >= 1000000 with whole millions show with .0M', () => {
       const row = { ...mockRow, primaryValue: 2000000 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('2.0M')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-left').textContent).toBe('2.0M')
     })
 
     test('THEN inverse values >= 1000000 show with M shorthand', () => {
       const row = { ...mockRow, primaryValue: 0.0000005 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('2.0M')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-value-right').textContent).toBe('2.0M')
     })
   })
 
@@ -139,19 +151,22 @@ describe('<CurrencyRow />', () => {
     test('THEN volume >= 1000000 with whole millions shows without decimals', () => {
       const row = { ...mockRow, volumePrimaryValue: 2000000 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('2M')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-volume').textContent).toBe('2M')
     })
 
     test('THEN volume >= 1000000 with fractional millions shows one decimal', () => {
       const row = { ...mockRow, volumePrimaryValue: 1500000 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('1.5M')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-volume').textContent).toBe('1.5M')
     })
 
     test('THEN volume >= 1000 with fractional thousands shows one decimal', () => {
       const row = { ...mockRow, volumePrimaryValue: 1500 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
-      expect(screen.getByText('1.5k')).toBeDefined()
+      const renderedRow = screen.getByTestId('currency-row')
+      expect(within(renderedRow).getByTestId('currency-volume').textContent).toBe('1.5k')
     })
   })
 

@@ -10,6 +10,19 @@ type CurrencyRowProps = {
   primaryCurrencyImage: string | null
 }
 
+type FallbackIconProps = {
+  size: 'sm' | 'md'
+}
+
+const sizeClasses = {
+  sm: 'w-6 h-6',
+  md: 'w-8 h-8',
+} as const
+
+const FallbackIcon = ({ size }: FallbackIconProps): React.JSX.Element => (
+  <FaQuestionCircle data-testid="question-icon" className={`${sizeClasses[size]} text-gray-500`} />
+)
+
 const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: CurrencyRowProps): React.JSX.Element => {
   const { changeColor, left, right, rowImageUrl, primaryImageUrl, volume, changeText } = useMemo(() => {
     const changeColor = row.sparkline.totalChange >= 0 ? 'text-green-400' : 'text-red-400'
@@ -33,14 +46,16 @@ const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: Currenc
           {rowImageUrl ? (
             <img src={rowImageUrl} alt={row.name} className="w-8 h-8" loading="lazy" />
           ) : (
-            <FaQuestionCircle data-testid="question-icon" className="w-8 h-8 text-gray-500" />
+            <FallbackIcon size="md" />
           )}
           <span className="text-light-a0 font-medium">{row.name}</span>
         </div>
       </td>
       <td className="py-3 px-4 text-light-a0 w-[25%]">
         <div className="flex items-center justify-center gap-1">
-          <span className="w-12 text-right">{left}</span>
+          <span data-testid="currency-value-left" className="w-12 text-right">
+            {left}
+          </span>
           {primaryImageUrl ? (
             <img
               src={primaryImageUrl}
@@ -50,20 +65,26 @@ const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: Currenc
               loading="lazy"
             />
           ) : (
-            <FaQuestionCircle data-testid="question-icon" className="w-6 h-6 text-gray-500" />
+            <FallbackIcon size="sm" />
           )}
           <FaExchangeAlt data-testid="exchange-icon" className="text-[#a1bc98] w-4 h-4 mx-1" />
-          <span className="w-12 text-right">{right}</span>
+          <span data-testid="currency-value-right" className="w-12 text-right">
+            {right}
+          </span>
           {rowImageUrl ? (
             <img src={rowImageUrl} alt={row.name} title={row.name} className="w-6 h-6" loading="lazy" />
           ) : (
-            <FaQuestionCircle data-testid="question-icon" className="w-6 h-6 text-gray-500" />
+            <FallbackIcon size="sm" />
           )}
         </div>
       </td>
-      <td className="py-3 px-4 text-right text-light-a0 w-[15%]">{volume}</td>
+      <td data-testid="currency-volume" className="py-3 px-4 text-right text-light-a0 w-[15%]">
+        {volume}
+      </td>
       <td className="py-3 px-4 text-right w-[15%]">
-        <span className={changeColor}>{changeText}</span>
+        <span data-testid="currency-change" className={changeColor}>
+          {changeText}
+        </span>
       </td>
       <td className="py-3 px-4 w-[20%]">
         <Sparkline data={row.sparkline.data} title={`${row.name} price trend`} />
