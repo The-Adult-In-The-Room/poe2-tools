@@ -146,6 +146,18 @@ export function createMockPoeNinjaServer(): http.Server {
         return
       }
 
+      if (league === '__error-500') {
+        res.writeHead(500)
+        res.end(JSON.stringify({ error: 'Mock server error' }))
+        return
+      }
+
+      if (league === '__error-invalid') {
+        res.writeHead(200)
+        res.end(JSON.stringify({ invalid: true }))
+        return
+      }
+
       res.writeHead(200)
       res.end(JSON.stringify(overviews[type]))
       return
