@@ -4,6 +4,12 @@ import MarketCurrency from './MarketCurrency'
 
 vi.mock('@tanstack/react-router', () => import('#/test-utils/routerMocks').then((m) => m.routerMock))
 
+const coreItems = [
+  { id: 'divine', name: 'Divine Orb', image: '/divine.png', category: 'Currency', detailsId: 'divine-orb' },
+  { id: 'exalted', name: 'Exalted Orb', image: '/exalted.png', category: 'Currency', detailsId: 'exalted-orb' },
+  { id: 'chaos', name: 'Chaos Orb', image: '/chaos.png', category: 'Currency', detailsId: 'chaos-orb' },
+]
+
 const mockLoaderData: CurrencyLoaderData = {
   leagues: [
     { id: 'runes-of-aldur', name: 'Runes of Aldur' },
@@ -14,9 +20,7 @@ const mockLoaderData: CurrencyLoaderData = {
       primary: 'divine',
       secondary: 'chaos',
       rates: { chaos: 150 },
-      items: [
-        { id: 'divine', name: 'Divine Orb', image: '/divine.png', category: 'Currency', detailsId: 'divine-orb' },
-      ],
+      items: coreItems,
     },
     lines: [
       {
@@ -80,13 +84,18 @@ describe('<MarketCurrency />', () => {
   })
 
   describe('GIVEN the reference currency selector', () => {
-    test('THEN all three reference currencies are available', () => {
+    test('THEN the options are driven by overview.core.items', () => {
       render(<MarketCurrency loaderData={mockLoaderData} />)
       const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
       const options = Array.from(selector.options).map((opt) => opt.value)
-      expect(options).toContain('divine')
-      expect(options).toContain('exalted')
-      expect(options).toContain('chaos')
+      expect(options).toEqual(['divine', 'exalted', 'chaos'])
+    })
+
+    test('THEN the option labels use the item names', () => {
+      render(<MarketCurrency loaderData={mockLoaderData} />)
+      const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
+      const labels = Array.from(selector.options).map((opt) => opt.textContent)
+      expect(labels).toEqual(['Divine Orb', 'Exalted Orb', 'Chaos Orb'])
     })
 
     test('THEN the default selection is the primary currency from the overview', () => {
@@ -100,6 +109,32 @@ describe('<MarketCurrency />', () => {
       const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
       fireEvent.change(selector, { target: { value: 'chaos' } })
       expect(selector.value).toBe('chaos')
+    })
+
+    test('THEN the default falls back to the first core item when primary is unavailable', () => {
+      const fallbackData: CurrencyLoaderData = {
+        ...mockLoaderData,
+        overview: {
+          ...mockLoaderData.overview,
+          core: { ...mockLoaderData.overview.core, primary: 'unknown' },
+        },
+      }
+      render(<MarketCurrency loaderData={fallbackData} />)
+      const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
+      expect(selector.value).toBe('divine')
+    })
+
+    test('THEN the default falls back to empty when no core items are available', () => {
+      const emptyCoreData: CurrencyLoaderData = {
+        ...mockLoaderData,
+        overview: {
+          ...mockLoaderData.overview,
+          core: { ...mockLoaderData.overview.core, items: [] },
+        },
+      }
+      render(<MarketCurrency loaderData={emptyCoreData} />)
+      const selector = screen.getByTestId('reference-currency-selector') as HTMLSelectElement
+      expect(selector.value).toBe('')
     })
   })
 })
