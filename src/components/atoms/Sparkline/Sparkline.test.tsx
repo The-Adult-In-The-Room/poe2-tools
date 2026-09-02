@@ -57,4 +57,32 @@ describe('<Sparkline />', () => {
       expect(screen.getByTestId('sparkline')).toBeDefined()
     })
   })
+
+  describe('GIVEN the Sparkline component is rendered with a custom title', () => {
+    beforeEach(() => {
+      render(<Sparkline data={[10, 20, 30]} title="Custom trend title" />)
+    })
+
+    test('THEN the title element uses the custom text', () => {
+      expect(screen.getByText('Custom trend title')).toBeDefined()
+    })
+
+    test('THEN the aria-label matches the custom title', () => {
+      expect(screen.getByTestId('sparkline').getAttribute('aria-label')).toBe('Custom trend title')
+    })
+  })
+
+  describe('GIVEN the Sparkline component is rendered with the default title', () => {
+    beforeEach(() => {
+      render(<Sparkline data={[10, 20, 30]} />)
+    })
+
+    test('THEN the SVG has the img role', () => {
+      expect(screen.getByTestId('sparkline').getAttribute('role')).toBe('img')
+    })
+
+    test('THEN the aria-label matches the default title', () => {
+      expect(screen.getByTestId('sparkline').getAttribute('aria-label')).toBe('Price trend chart')
+    })
+  })
 })
