@@ -65,6 +65,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.unstubAllGlobals()
+  vi.unstubAllEnvs()
 })
 
 describe('fetchLeaguesHandler', () => {
@@ -80,6 +81,25 @@ describe('fetchLeaguesHandler', () => {
     expect(mockFetch).toHaveBeenCalledTimes(1)
     expect(mockFetch).toHaveBeenCalledWith(
       'https://poe.ninja/poe2/api/economy/leagues',
+      expect.objectContaining({
+        headers: expect.objectContaining({ 'User-Agent': expect.stringContaining('poe2-tools') }),
+      }),
+    )
+  })
+
+  it('uses POE_NINJA_BASE env override when set', async () => {
+    vi.stubEnv('POE_NINJA_BASE', 'http://localhost:9999')
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => validLeagues,
+    })
+
+    const result = await fetchLeaguesHandler()
+
+    expect(result).toEqual(validLeagues)
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(
+      'http://localhost:9999/leagues',
       expect.objectContaining({
         headers: expect.objectContaining({ 'User-Agent': expect.stringContaining('poe2-tools') }),
       }),
@@ -156,6 +176,22 @@ describe('fetchCurrencyOverviewHandler', () => {
     expect(result).toEqual(validOverview)
     expect(mockFetch).toHaveBeenCalledWith(
       'https://poe.ninja/poe2/api/economy/exchange/current/overview?league=Standard&type=Currency',
+      expect.any(Object),
+    )
+  })
+
+  it('uses POE_NINJA_BASE env override when set', async () => {
+    vi.stubEnv('POE_NINJA_BASE', 'http://localhost:9999')
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => validOverview,
+    })
+
+    const result = await fetchCurrencyOverviewHandler({ data: { league: 'Standard', type: 'Currency' } })
+
+    expect(result).toEqual(validOverview)
+    expect(mockFetch).toHaveBeenCalledWith(
+      'http://localhost:9999/exchange/current/overview?league=Standard&type=Currency',
       expect.any(Object),
     )
   })
