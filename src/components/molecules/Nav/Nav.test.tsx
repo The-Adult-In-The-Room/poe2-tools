@@ -3,8 +3,19 @@ import { externalLinks, internalLinks } from '#/data/constants'
 import Nav from './Nav'
 
 vi.mock('@tanstack/react-router', () => ({
-  Link: ({ children, to, className, ...props }: { children: React.ReactNode; to: string; className?: string }) => (
-    <a href={to} className={className} {...props}>
+  Link: ({
+    children,
+    to,
+    className,
+    activeProps,
+    ...props
+  }: {
+    children: React.ReactNode
+    to: string
+    className?: string
+    activeProps?: { className?: string }
+  }) => (
+    <a href={to} className={`${className ?? ''} ${activeProps?.className ?? ''}`.trim() || undefined} {...props}>
       {children}
     </a>
   ),

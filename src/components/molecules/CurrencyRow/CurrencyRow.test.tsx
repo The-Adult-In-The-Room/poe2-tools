@@ -19,10 +19,20 @@ const mockRow: CurrencyRateRow = {
   category: 'Currency',
 }
 
+const renderRow = (row: CurrencyRateRow, primaryCurrencyName: string, primaryCurrencyImage: string | null) => {
+  render(
+    <table>
+      <tbody>
+        <CurrencyRow row={row} primaryCurrencyName={primaryCurrencyName} primaryCurrencyImage={primaryCurrencyImage} />
+      </tbody>
+    </table>,
+  )
+}
+
 describe('<CurrencyRow />', () => {
   describe('GIVEN the CurrencyRow component is rendered', () => {
     beforeEach(() => {
-      render(<CurrencyRow row={mockRow} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(mockRow, 'Chaos Orb', '/gen/image/chaos.png')
     })
 
     test('THEN the currency row is displayed', () => {
@@ -65,62 +75,62 @@ describe('<CurrencyRow />', () => {
   describe('GIVEN the CurrencyRow component is rendered with small values', () => {
     test('THEN values < 1 show as 1 Div : N Item format', () => {
       const row = { ...mockRow, primaryValue: 0.05 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('1.0')).toBeDefined()
       expect(screen.getByText('20.0')).toBeDefined()
     })
 
     test('THEN very small values show decimals when not whole numbers', () => {
       const row = { ...mockRow, primaryValue: 0.0027 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('370.37')).toBeDefined()
     })
 
     test('THEN values >= 1 show as N Div : 1 Item format', () => {
       const row = { ...mockRow, primaryValue: 2.1 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('2.1')).toBeDefined()
     })
 
     test('THEN whole number values >= 1 show with .0 padding', () => {
       const row = { ...mockRow, primaryValue: 5 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('5.0')).toBeDefined()
     })
 
     test('THEN values >= 1000 show with k shorthand', () => {
       const row = { ...mockRow, primaryValue: 1500 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('1.5k')).toBeDefined()
     })
 
     test('THEN values >= 1000 with whole thousands show with .0k', () => {
       const row = { ...mockRow, primaryValue: 2000 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('2.0k')).toBeDefined()
     })
 
     test('THEN inverse values >= 1000 show with k shorthand', () => {
       const row = { ...mockRow, primaryValue: 0.0005 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('2.0k')).toBeDefined()
     })
 
     test('THEN values >= 1000000 show with M shorthand', () => {
       const row = { ...mockRow, primaryValue: 1500000 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('1.5M')).toBeDefined()
     })
 
     test('THEN values >= 1000000 with whole millions show with .0M', () => {
       const row = { ...mockRow, primaryValue: 2000000 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('2.0M')).toBeDefined()
     })
 
     test('THEN inverse values >= 1000000 show with M shorthand', () => {
       const row = { ...mockRow, primaryValue: 0.0000005 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('2.0M')).toBeDefined()
     })
   })
@@ -128,19 +138,19 @@ describe('<CurrencyRow />', () => {
   describe('GIVEN the CurrencyRow component is rendered with large volume', () => {
     test('THEN volume >= 1000000 with whole millions shows without decimals', () => {
       const row = { ...mockRow, volumePrimaryValue: 2000000 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('2M')).toBeDefined()
     })
 
     test('THEN volume >= 1000000 with fractional millions shows one decimal', () => {
       const row = { ...mockRow, volumePrimaryValue: 1500000 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('1.5M')).toBeDefined()
     })
 
     test('THEN volume >= 1000 with fractional thousands shows one decimal', () => {
       const row = { ...mockRow, volumePrimaryValue: 1500 }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="/gen/image/chaos.png" />)
+      renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       expect(screen.getByText('1.5k')).toBeDefined()
     })
   })
@@ -148,14 +158,14 @@ describe('<CurrencyRow />', () => {
   describe('GIVEN the CurrencyRow component is rendered with missing images', () => {
     test('THEN fallback icons are displayed when images are null', () => {
       const row = { ...mockRow, image: null }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage={null} />)
+      renderRow(row, 'Chaos Orb', null)
       const fallbackIcons = screen.getAllByTestId('question-icon')
       expect(fallbackIcons.length).toBe(3)
     })
 
     test('THEN fallback icons are displayed when images are empty strings', () => {
       const row = { ...mockRow, image: '' }
-      render(<CurrencyRow row={row} primaryCurrencyName="Chaos Orb" primaryCurrencyImage="" />)
+      renderRow(row, 'Chaos Orb', '')
       const fallbackIcons = screen.getAllByTestId('question-icon')
       expect(fallbackIcons.length).toBe(3)
     })

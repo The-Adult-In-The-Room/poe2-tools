@@ -3,8 +3,19 @@ import type { CurrencyLoaderData } from '#/types'
 import MarketCurrency from './MarketCurrency'
 
 vi.mock('@tanstack/react-router', () => ({
-  Link: ({ children, to, className, ...props }: { children: React.ReactNode; to: string; className?: string }) => (
-    <a href={to} className={className} {...props}>
+  Link: ({
+    children,
+    to,
+    className,
+    replace,
+    ...props
+  }: {
+    children: React.ReactNode
+    to: string
+    className?: string
+    replace?: boolean
+  }) => (
+    <a href={to} className={className} data-replace={String(replace)} {...props}>
       {children}
     </a>
   ),
