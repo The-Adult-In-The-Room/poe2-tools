@@ -1,24 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import MainLayout from './MainLayout'
 
-vi.mock('@tanstack/react-router', () => ({
-  Link: ({
-    children,
-    to,
-    className,
-    activeProps,
-    ...props
-  }: {
-    children: React.ReactNode
-    to: string
-    className?: string
-    activeProps?: { className?: string }
-  }) => (
-    <a href={to} className={`${className ?? ''} ${activeProps?.className ?? ''}`.trim() || undefined} {...props}>
-      {children}
-    </a>
-  ),
-}))
+vi.mock('@tanstack/react-router', () => import('#/test-utils/routerMocks').then((m) => m.routerMock))
 
 describe('<MainLayout />', () => {
   describe('GIVEN the MainLayout component is rendered', () => {

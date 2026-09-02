@@ -1,12 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { mockNavigate } from '#/test-utils/routerMocks'
 import LeagueSelector from './LeagueSelector'
 
-const mockNavigate = vi.fn()
-
-vi.mock('@tanstack/react-router', () => ({
-  useNavigate: () => mockNavigate,
-}))
+vi.mock('@tanstack/react-router', () => import('#/test-utils/routerMocks').then((m) => m.routerMock))
 
 const mockLeagues = [
   { id: 'runes-of-aldur', name: 'Runes of Aldur' },
