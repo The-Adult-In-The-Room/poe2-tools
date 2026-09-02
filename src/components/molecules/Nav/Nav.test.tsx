@@ -2,24 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { externalLinks, internalLinks } from '#/data/constants'
 import Nav from './Nav'
 
-vi.mock('@tanstack/react-router', () => ({
-  Link: ({
-    children,
-    to,
-    className,
-    activeProps,
-    ...props
-  }: {
-    children: React.ReactNode
-    to: string
-    className?: string
-    activeProps?: { className?: string }
-  }) => (
-    <a href={to} className={`${className ?? ''} ${activeProps?.className ?? ''}`.trim() || undefined} {...props}>
-      {children}
-    </a>
-  ),
-}))
+vi.mock('@tanstack/react-router', () => import('#/test-utils/routerMocks').then((m) => m.routerMock))
 
 describe('<Nav />', () => {
   describe('GIVEN the Nav component is rendered', () => {

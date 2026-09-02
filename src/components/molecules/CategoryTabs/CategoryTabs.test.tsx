@@ -1,24 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import CategoryTabs from './CategoryTabs'
 
-vi.mock('@tanstack/react-router', () => ({
-  Link: ({
-    children,
-    to,
-    className,
-    replace,
-    ...props
-  }: {
-    children: React.ReactNode
-    to: string
-    className?: string
-    replace?: boolean
-  }) => (
-    <a href={to} className={className} data-replace={String(replace)} {...props}>
-      {children}
-    </a>
-  ),
-}))
+vi.mock('@tanstack/react-router', () => import('#/test-utils/routerMocks').then((m) => m.routerMock))
 
 describe('<CategoryTabs />', () => {
   describe('GIVEN the CategoryTabs component is rendered', () => {
