@@ -1,0 +1,22 @@
+name: Playwright Test
+description: Install Chromium and run a Playwright e2e test suite
+
+inputs:
+  command:
+    description: The npm script to run (e.g. test:e2e:smoke or test:e2e:acceptance)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: ./.github/actions/setup
+    - run: npx playwright install chromium
+      shell: bash
+    - run: npm run ${{ inputs.command }}
+      shell: bash
+    - uses: actions/upload-artifact@v7
+      if: failure()
+      with:
+        name: playwright-report-${{ inputs.command }}
+        path: playwright-report/
+        retention-days: 7

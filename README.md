@@ -45,17 +45,17 @@ npm run verify # Run typecheck, lint, and unit tests
 
 ## Testing Strategy
 
-The project uses three test layers. Unit tests run fast and isolated; smoke tests verify the deployed app against live poe.ninja data; acceptance tests (planned) exercise full happy paths against a mocked API.
+The project uses three test layers. Unit tests run fast and isolated; smoke tests verify the production build against the live poe.ninja API; acceptance tests exercise full happy paths against a local mocked poe.ninja server.
 
 | Suite | Runner | Scope | Data source | When it runs | Command |
 | --- | --- | --- | --- | --- | --- |
 | Unit | Vitest + React Testing Library | Components, utilities, API handlers, schemas | Mocked | Every PR (`.github/workflows/verify.yml`) | `npm run test:ci` |
+| Acceptance | Playwright | Full happy paths: DPS paste/manual entry, currency league/category switching, navigation | Mocked poe.ninja | Every PR (`.github/workflows/verify.yml`) | `npm run test:e2e:acceptance` |
 | Smoke | Playwright | App loads, pages render, no runtime errors | Live poe.ninja | Every push to `main` (`.github/workflows/smoke.yml`) | `npm run test:e2e:smoke` |
-| Acceptance | Playwright | Full happy paths: DPS paste/manual entry, currency league/category switching, navigation | Mocked poe.ninja | Planned in [#52](https://github.com/The-Adult-In-The-Room/poe2-tools/issues/52); intended for every PR | `npm run test:e2e:acceptance` |
 
-Unit tests enforce 100% coverage on the included source tree. Smoke tests are intentionally minimal and assertion-dense to avoid overloading the live poe.ninja API.
+Both Playwright suites build the app (`npm run build`) before starting the preview server. Acceptance sets `USE_MOCK_POE_NINJA=true` to wire the app to the mocked server and runs with parallel workers; smoke runs serially and hits the real API. Unit tests enforce 100% coverage on the included source tree. Smoke tests are intentionally minimal and assertion-dense to avoid overloading the live poe.ninja API.
 
-> **Deployment gate:** Smoke tests run on every push to `main`. A failing smoke workflow blocks the Railway deployment for that push, so a regression that breaks the live poe.ninja integration cannot reach production.
+> **Deployment gate:** Smoke tests run on every push to `main`. A failing smoke workflow blocks the Railway deployment for that push, so a regression that breaks the live poe.ninja integration cannot reach production. Acceptance failures block PR merges via the verify workflow.
 
 ## Future Plans
 
