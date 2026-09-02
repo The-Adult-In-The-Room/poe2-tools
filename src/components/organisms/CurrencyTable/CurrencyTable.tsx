@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { CurrencyRow } from '#/components/molecules'
 import type { CurrencyOverview, CurrencyRateRow } from '#/types'
 
@@ -13,25 +14,29 @@ const CurrencyTable = ({ overview, referenceCurrency }: CurrencyTableProps): Rea
 
   const referenceRate = referenceCurrency === overview.core.primary ? 1 : overview.core.rates[referenceCurrency] || 1
 
-  const rows: CurrencyRateRow[] = overview.lines
-    .filter((line) => line.id !== referenceCurrency)
-    .map((line) => {
-      const item = overview.items.find((i) => i.id === line.id)
-      const convertedValue = line.primaryValue * referenceRate
-      return {
-        id: line.id,
-        name: item?.name || line.id,
-        image: item?.image ?? null,
-        detailsId: item?.detailsId || '',
-        primaryValue: convertedValue,
-        volumePrimaryValue: line.volumePrimaryValue,
-        maxVolumeCurrency: line.maxVolumeCurrency,
-        maxVolumeRate: line.maxVolumeRate,
-        sparkline: line.sparkline,
-        category: item?.category || '',
-      }
-    })
-    .sort((a, b) => b.volumePrimaryValue - a.volumePrimaryValue)
+  const rows: CurrencyRateRow[] = useMemo(
+    () =>
+      overview.lines
+        .filter((line) => line.id !== referenceCurrency)
+        .map((line) => {
+          const item = overview.items.find((i) => i.id === line.id)
+          const convertedValue = line.primaryValue * referenceRate
+          return {
+            id: line.id,
+            name: item?.name || line.id,
+            image: item?.image ?? null,
+            detailsId: item?.detailsId || '',
+            primaryValue: convertedValue,
+            volumePrimaryValue: line.volumePrimaryValue,
+            maxVolumeCurrency: line.maxVolumeCurrency,
+            maxVolumeRate: line.maxVolumeRate,
+            sparkline: line.sparkline,
+            category: item?.category || '',
+          }
+        })
+        .sort((a, b) => b.volumePrimaryValue - a.volumePrimaryValue),
+    [overview, referenceCurrency, referenceRate],
+  )
 
   return (
     <div className="overflow-x-auto" data-testid="currency-table">

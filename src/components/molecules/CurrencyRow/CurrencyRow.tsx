@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react'
 import { FaExchangeAlt, FaQuestionCircle } from 'react-icons/fa'
 import { Sparkline } from '#/components/atoms'
 import type { CurrencyRateRow } from '#/types'
@@ -10,11 +11,20 @@ type CurrencyRowProps = {
 }
 
 const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: CurrencyRowProps): React.JSX.Element => {
-  const changeColor = row.sparkline.totalChange >= 0 ? 'text-green-400' : 'text-red-400'
-  const changeSign = row.sparkline.totalChange >= 0 ? '+' : ''
-  const { left, right } = formatRatio(row.primaryValue)
-  const rowImageUrl = transformImageUrl(row.image)
-  const primaryImageUrl = transformImageUrl(primaryCurrencyImage)
+  const { changeColor, left, right, rowImageUrl, primaryImageUrl, volume, changeText } = useMemo(() => {
+    const changeColor = row.sparkline.totalChange >= 0 ? 'text-green-400' : 'text-red-400'
+    const changeSign = row.sparkline.totalChange >= 0 ? '+' : ''
+    const { left, right } = formatRatio(row.primaryValue)
+    return {
+      changeColor,
+      left,
+      right,
+      rowImageUrl: transformImageUrl(row.image),
+      primaryImageUrl: transformImageUrl(primaryCurrencyImage),
+      volume: formatVolume(row.volumePrimaryValue),
+      changeText: `${changeSign}${row.sparkline.totalChange.toFixed(2)}%`,
+    }
+  }, [row, primaryCurrencyImage])
 
   return (
     <tr className="border-b border-surface-a30 hover:bg-surface-a20/50" data-testid="currency-row">
@@ -51,18 +61,15 @@ const CurrencyRow = ({ row, primaryCurrencyName, primaryCurrencyImage }: Currenc
           )}
         </div>
       </td>
-      <td className="py-3 px-4 text-right text-light-a0 w-[15%]">{formatVolume(row.volumePrimaryValue)}</td>
+      <td className="py-3 px-4 text-right text-light-a0 w-[15%]">{volume}</td>
       <td className="py-3 px-4 text-right w-[15%]">
-        <span className={changeColor}>
-          {changeSign}
-          {row.sparkline.totalChange.toFixed(2)}%
-        </span>
+        <span className={changeColor}>{changeText}</span>
       </td>
       <td className="py-3 px-4 w-[20%]">
-        <Sparkline data={row.sparkline.data} />
+        <Sparkline data={row.sparkline.data} title={`${row.name} price trend`} />
       </td>
     </tr>
   )
 }
 
-export default CurrencyRow
+export default memo(CurrencyRow)
