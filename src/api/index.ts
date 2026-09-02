@@ -1,1 +1,1 @@
-export { fetchCurrencyOverview, fetchLeagues } from './currency'
+export { fetchCurrencyOverview, fetchLeagues } from './currency/currency'

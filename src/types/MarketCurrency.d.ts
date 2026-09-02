@@ -51,21 +51,7 @@ export interface CurrencyRateRow {
   category: string
 }
 
-export type CurrencyCategory =
-  | 'Currency'
-  | 'Fragments'
-  | 'Abyss'
-  | 'UncutGems'
-  | 'LineageSupportGems'
-  | 'Essences'
-  | 'SoulCores'
-  | 'Idols'
-  | 'Runes'
-  | 'Ritual'
-  | 'Expedition'
-  | 'Delirium'
-  | 'Breach'
-  | 'Verisium'
+export type { CurrencyCategory } from './currency'
 
 export interface CurrencySearch {
   league: string
