@@ -1,15 +1,12 @@
+import type { ErrorComponentProps } from '@tanstack/react-router'
 import { createFileRoute } from '@tanstack/react-router'
 import { fetchCurrencyOverview, fetchLeagues } from '#/api'
+import { currencyRouteSearchSchema } from '#/api/currency/currencySchemas'
 import { MarketCurrency } from '#/components/pages'
-import type { CurrencyCategory, CurrencyLoaderData } from '#/types'
-
-const currencySearchSchema = (search: Record<string, unknown>) => ({
-  league: (search.league as string) || '',
-  type: (search.type as CurrencyCategory) || 'Currency',
-})
+import type { CurrencyLoaderData } from '#/types'
 
 export const Route = createFileRoute('/currency')({
-  validateSearch: currencySearchSchema,
+  validateSearch: currencyRouteSearchSchema,
   loaderDeps: ({ search }) => search,
   loader: async ({ deps }): Promise<CurrencyLoaderData> => {
     const leagues = await fetchLeagues()
@@ -20,10 +17,22 @@ export const Route = createFileRoute('/currency')({
 
     return { leagues, overview, league, type }
   },
+  errorComponent: CurrencyError,
   component: CurrencyPage,
 })
 
 function CurrencyPage() {
   const loaderData = Route.useLoaderData()
   return <MarketCurrency loaderData={loaderData} />
+}
+
+function CurrencyError({ error }: ErrorComponentProps) {
+  return (
+    <div className="flex flex-col gap-4 p-4" role="alert" aria-live="assertive">
+      <h1 className="text-xl font-bold text-light-a0">Failed to load currency market</h1>
+      <p className="text-light-a0">
+        {error instanceof Error ? error.message : 'An unexpected error occurred. Please try again later.'}
+      </p>
+    </div>
+  )
 }

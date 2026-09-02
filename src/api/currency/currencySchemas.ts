@@ -11,7 +11,7 @@ export const leagueArraySchema = z.array(leagueSchema)
 const currencyItemSchema = z.object({
   id: z.string(),
   name: z.string(),
-  image: z.string().nullable(),
+  image: z.string().nullable().default(null),
   category: z.string(),
   detailsId: z.string(),
 })
@@ -46,4 +46,9 @@ export const currencyOverviewSchema = z.object({
 export const currencySearchSchema = z.object({
   league: z.string().min(1, 'League is required'),
   type: z.enum(currencyCategories),
+})
+
+export const currencyRouteSearchSchema = z.object({
+  league: z.string().min(1).optional(),
+  type: z.enum(currencyCategories).optional(),
 })

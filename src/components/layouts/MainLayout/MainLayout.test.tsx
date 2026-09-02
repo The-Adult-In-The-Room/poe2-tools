@@ -2,8 +2,19 @@ import { render, screen } from '@testing-library/react'
 import MainLayout from './MainLayout'
 
 vi.mock('@tanstack/react-router', () => ({
-  Link: ({ children, to, className, ...props }: { children: React.ReactNode; to: string; className?: string }) => (
-    <a href={to} className={className} {...props}>
+  Link: ({
+    children,
+    to,
+    className,
+    activeProps,
+    ...props
+  }: {
+    children: React.ReactNode
+    to: string
+    className?: string
+    activeProps?: { className?: string }
+  }) => (
+    <a href={to} className={`${className ?? ''} ${activeProps?.className ?? ''}`.trim() || undefined} {...props}>
       {children}
     </a>
   ),

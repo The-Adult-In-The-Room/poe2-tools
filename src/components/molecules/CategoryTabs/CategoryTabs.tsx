@@ -23,12 +23,12 @@ const CategoryTabs = ({ currentLeague, currentType }: CategoryTabsProps): React.
           key={value}
           to="/currency"
           search={{ league: currentLeague, type: value }}
+          replace
           className={`px-4 py-2 rounded text-sm no-underline ${
             currentType === value
               ? 'bg-primary-a50 text-dark-a0 font-semibold'
               : 'bg-surface-a20 text-light-a0 hover:bg-surface-a30'
           }`}
-          activeProps={{ className: 'bg-primary-a50 text-dark-a0 font-semibold' }}
         >
           {label}
         </Link>

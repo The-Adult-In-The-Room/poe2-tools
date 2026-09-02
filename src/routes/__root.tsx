@@ -47,8 +47,18 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
+
+function NotFound() {
+  return (
+    <div className="flex flex-col gap-4 p-4" role="alert">
+      <h1 className="text-2xl font-bold text-light-a0">404</h1>
+      <p className="text-light-a0">The requested page could not be found.</p>
+    </div>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
