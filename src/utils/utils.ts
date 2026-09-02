@@ -209,26 +209,30 @@ export const transformImageUrl = (poeNinjaPath: string | null | undefined): stri
 export const formatNumber = (value: number): string => {
   if (value >= 1000000) {
     const m = value / 1000000
-    return m % 1 === 0 ? `${m}.0M` : `${m.toFixed(1)}M`
+    return Number.isInteger(m) ? `${m}.0M` : `${m.toFixed(1)}M`
   }
   if (value >= 1000) {
     const k = value / 1000
-    return k % 1 === 0 ? `${k}.0k` : `${k.toFixed(1)}k`
+    return Number.isInteger(k) ? `${k}.0k` : `${k.toFixed(1)}k`
   }
-  if (value >= 10) {
-    const rounded = Math.round(value)
-    return rounded === value ? `${rounded}.0` : value.toFixed(2).replace(/0+$/, '')
+
+  const fixed = value.toFixed(2)
+  if (fixed.endsWith('.00')) {
+    return `${Math.round(value)}.0`
   }
-  if (value % 1 === 0) return `${value}.0`
-  return value.toFixed(2).replace(/0+$/, '')
+  return fixed.replace(/\.?0+$/, '')
 }
 
 /**
  * Formats a currency exchange value as a left/right ratio pair.
  * Values >= 1 show as 'N : 1', values < 1 are inverted to '1 : N'.
+ * A primary value of zero returns a defined '0 : 1' fallback.
  * Examples: 150 -> { left: '150.0', right: '1.0' }, 0.05 -> { left: '1.0', right: '20.0' }
  */
 export const formatRatio = (primaryValue: number): { left: string; right: string } => {
+  if (primaryValue === 0) {
+    return { left: '0', right: '1' }
+  }
   if (primaryValue >= 1) {
     return { left: formatNumber(primaryValue), right: formatNumber(1) }
   }
@@ -243,11 +247,11 @@ export const formatRatio = (primaryValue: number): { left: string; right: string
 export const formatVolume = (value: number): string => {
   if (value >= 1000000) {
     const m = value / 1000000
-    return m % 1 === 0 ? `${m}M` : `${m.toFixed(1)}M`
+    return Number.isInteger(m) ? `${m}M` : `${m.toFixed(1)}M`
   }
   if (value >= 1000) {
     const k = value / 1000
-    return k % 1 === 0 ? `${k}k` : `${k.toFixed(1)}k`
+    return Number.isInteger(k) ? `${k}k` : `${k.toFixed(1)}k`
   }
   return Math.round(value).toString()
 }
