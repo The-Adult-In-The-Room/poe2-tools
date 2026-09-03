@@ -1,6 +1,7 @@
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
+import { FAVICON_PATH, SITE_DESCRIPTION, SITE_NAME, THEME_COLOR } from '#/constants/seo'
 import { Footer, Nav } from '../components/molecules'
 
 import appCss from '../styles.css?url'
@@ -16,11 +17,39 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Weapon DPS Calculator',
+        title: SITE_NAME,
       },
       {
         name: 'description',
-        content: 'A set of tools including a Weapon DPS calculator for use in Path of Exile 2 video game.',
+        content: SITE_DESCRIPTION,
+      },
+      {
+        name: 'theme-color',
+        content: THEME_COLOR,
+      },
+      {
+        property: 'og:title',
+        content: SITE_NAME,
+      },
+      {
+        property: 'og:description',
+        content: SITE_DESCRIPTION,
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary',
+      },
+      {
+        name: 'twitter:title',
+        content: SITE_NAME,
+      },
+      {
+        name: 'twitter:description',
+        content: SITE_DESCRIPTION,
       },
     ],
     links: [
@@ -43,7 +72,7 @@ export const Route = createRootRoute({
       },
       {
         rel: 'icon',
-        href: '/src/assets/Acceleration_Shrine_status_icon.ico',
+        href: FAVICON_PATH,
       },
     ],
   }),
