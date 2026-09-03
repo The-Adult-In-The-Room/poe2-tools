@@ -1,35 +1,10 @@
+import { TESTDATA } from '#/data/testData'
 import { expect, test } from '../fixtures/test'
-
-const itemText = `Item Class: Quarterstaves
-Rarity: Rare
-Woe Goad
-Expert Barrier Quarterstaff
---------
-Physical Damage: 125-209 (augmented)
-Elemental Damage: 3-7 (augmented), 3-150 (augmented)
-Critical Hit Chance: 10.00%
-Attacks per Second: 1.40
---------
-Requirements:
-Level: 79
-Dex: 165
-Int: 64
---------
-Item Level: 83
---------
-+12% to Block chance (implicit)
---------
-115% increased Physical Damage
-Adds 3 to 7 Fire Damage
-Adds 3 to 150 Lightning Damage
-+22% to Critical Damage Bonus
-Leeches 8.13% of Physical Damage as Life
-Causes 43% increased Stun Buildup`
 
 test.describe('home acceptance', () => {
   test('calculates DPS from pasted item text', async ({ dpsCalcPage }) => {
     await dpsCalcPage.goto()
-    await dpsCalcPage.pasteItemText(itemText)
+    await dpsCalcPage.pasteItemText(TESTDATA.FULL_ITEMS.PHYSICAL_AND_ELEMENTS)
 
     await expect(dpsCalcPage.itemName).toContainText('Woe Goad')
     await expect(dpsCalcPage.itemName).toContainText('Expert Barrier Quarterstaff')
