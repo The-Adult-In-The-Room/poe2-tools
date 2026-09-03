@@ -6,7 +6,11 @@ export class DpsCalcPage {
   readonly pasteArea: Locator
   readonly itemName: Locator
   readonly totalDps: Locator
+  readonly calculationResults: Locator
+  readonly historyFab: Locator
+  readonly calcHistory: Locator
   readonly pageTitle: Locator
+  readonly clearFormButton: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -14,7 +18,11 @@ export class DpsCalcPage {
     this.pasteArea = page.getByTestId('pasteArea')
     this.itemName = page.getByTestId('itemName')
     this.totalDps = page.getByTestId('totalDps')
+    this.calculationResults = page.getByTestId('calculationResults')
+    this.historyFab = page.getByTestId('historyFab')
+    this.calcHistory = page.getByTestId('calcHistory')
     this.pageTitle = page.getByText('Copy and Paste Entry')
+    this.clearFormButton = page.getByRole('button', { name: 'Clear Form' })
   }
 
   async goto(): Promise<void> {
@@ -39,6 +47,14 @@ export class DpsCalcPage {
   }
 
   async clearPasteArea(): Promise<void> {
-    await this.page.getByRole('button', { name: 'Clear' }).click()
+    await this.page.getByRole('button', { name: 'Clear', exact: true }).click()
+  }
+
+  async clearForm(): Promise<void> {
+    await this.clearFormButton.click()
+  }
+
+  async openHistory(): Promise<void> {
+    await this.historyFab.click()
   }
 }
