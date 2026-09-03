@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { fetchCurrencyOverview, fetchLeagues } from '#/api'
 import { currencyRouteSearchSchema } from '#/api/currency/currencySchemas'
 import { MarketCurrency } from '#/components/pages'
-import { pageTitle } from '#/constants/seo'
+import { absoluteUrl, CURRENCY_OG_IMAGE, pageTitle } from '#/constants/seo'
 import type { CurrencyLoaderData } from '#/types'
 
 export const Route = createFileRoute('/currency')({
@@ -24,6 +24,14 @@ export const Route = createFileRoute('/currency')({
     meta: [
       {
         title: pageTitle('Market Currency Rates'),
+      },
+      {
+        property: 'og:image',
+        content: absoluteUrl(CURRENCY_OG_IMAGE),
+      },
+      {
+        name: 'twitter:image',
+        content: absoluteUrl(CURRENCY_OG_IMAGE),
       },
     ],
   }),
