@@ -55,7 +55,27 @@ The project uses three test layers. Unit tests run fast and isolated; smoke test
 
 Both Playwright suites build the app (`npm run build`) before starting the preview server. Acceptance sets `USE_MOCK_POE_NINJA=true` to wire the app to the mocked server and runs with parallel workers; smoke runs serially and hits the real API. Unit tests enforce 100% coverage on the included source tree. Smoke tests are intentionally minimal and assertion-dense to avoid overloading the live poe.ninja API.
 
+### Page Object Model
+
+All Playwright specs use a Page Object Model (POM) layer via `e2e/fixtures/test`:
+
+- Page objects live in `e2e/pages/` and encapsulate selectors and common interactions.
+- Specs import `test` and `expect` from `../fixtures/test` and destructure the POMs they need (`dpsCalcPage`, `currencyPage`, `navigation`).
+- Direct locator calls such as `page.getByTestId`, `page.getByLabel`, and `page.getByRole` belong inside page objects, not in spec files.
+- When adding a new page or interaction, create or extend a page object and expose locators or methods through the fixture.
+
 > **Deployment gate:** Smoke tests run on every push to `main`. A failing smoke workflow blocks the Railway deployment for that push, so a regression that breaks the live poe.ninja integration cannot reach production. Acceptance failures block PR merges via the verify workflow.
+
+## Definition of Done
+
+A change is complete when:
+
+- `npm run verify` passes (typecheck, Biome lint/format, unit tests).
+- Unit tests maintain 100% coverage on the included source tree.
+- Acceptance tests cover any new user-facing behavior or changed happy paths (`npm run test:e2e:acceptance`).
+- Page Object Models are used for all Playwright interactions; no raw selectors in spec files.
+- Smoke tests pass when the change affects page load or live poe.ninja integration (`npm run test:e2e:smoke`).
+- Documentation is updated if the change affects user-facing behavior.
 
 ## Future Plans
 
