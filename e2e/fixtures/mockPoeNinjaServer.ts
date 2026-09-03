@@ -1,7 +1,7 @@
 import http from 'node:http'
 import { currencyOverviewSchema, leagueArraySchema } from '../../src/api/currency/currencySchemas'
 import { currencyCategories } from '../../src/constants/currency'
-import type { CurrencyCategory, CurrencyOverview, League } from '../../src/types'
+import type { CurrencyCategory, CurrencyItem, CurrencyLine, CurrencyOverview, League } from '../../src/types'
 
 import { MOCK_POE_NINJA_HOST, MOCK_POE_NINJA_PORT } from './mockPoeNinjaConfig'
 
@@ -13,71 +13,111 @@ const leagues: League[] = [
   { id: 'standard', name: 'Standard' },
 ]
 
-const categoryItems: Record<CurrencyCategory, { id: string; name: string; image: string | null }[]> = {
+const ITEMS_PER_CATEGORY = 12
+
+const baseNames: Partial<Record<CurrencyCategory, string[]>> = {
   Currency: [
-    { id: 'divine', name: 'Divine Orb', image: '/gen/image/divine.png' },
-    { id: 'exalted', name: 'Exalted Orb', image: '/gen/image/exalted.png' },
-    { id: 'chaos', name: 'Chaos Orb', image: '/gen/image/chaos.png' },
+    'Divine Orb',
+    'Chaos Orb',
+    'Exalted Orb',
+    'Orb of Alchemy',
+    'Orb of Fusing',
+    'Orb of Scouring',
+    'Orb of Regret',
+    'Vaal Orb',
+    "Gemcutter's Prism",
+    'Chromatic Orb',
+    'Orb of Chance',
+    "Jeweller's Orb",
   ],
   Fragments: [
-    { id: 'ancient-orb-fragment', name: 'Ancient Orb Fragment', image: '/gen/image/ancient.png' },
-    { id: 'awakeners-orb-fragment', name: "Awakener's Orb Fragment", image: '/gen/image/awakener.png' },
+    'Ancient Orb Fragment',
+    "Awakener's Orb Fragment",
+    'Mirror of Kalandra Fragment',
+    'Exalted Shard',
+    'Chaos Shard',
+    'Regal Shard',
+    'Alchemy Shard',
+    'Transmutation Shard',
+    'Alteration Shard',
+    'Vaal Shard',
+    "Gemcutter's Shard",
+    'Fusing Shard',
   ],
-  Abyss: [{ id: 'abyssal-jewel', name: 'Abyssal Jewel', image: '/gen/image/abyssal.png' }],
-  UncutGems: [
-    { id: 'uncut-spirit-gem', name: 'Uncut Spirit Gem', image: '/gen/image/spirit.png' },
-    { id: 'uncut-skill-gem', name: 'Uncut Skill Gem', image: '/gen/image/skill.png' },
-  ],
-  LineageSupportGems: [{ id: 'lineage-support-gem', name: 'Lineage Support Gem', image: '/gen/image/lineage.png' }],
-  Essences: [
-    { id: 'screaming-essence', name: 'Screaming Essence of Anger', image: '/gen/image/screaming.png' },
-    { id: 'shrieking-essence', name: 'Shrieking Essence of Anger', image: '/gen/image/shrieking.png' },
-  ],
-  SoulCores: [
-    { id: 'soul-core-of-talamt', name: 'Soul Core of Talamt', image: '/gen/image/talamt.png' },
-    { id: 'soul-core-of-cholotl', name: 'Soul Core of Cholotl', image: '/gen/image/cholotl.png' },
-  ],
-  Idols: [
-    { id: 'small-idol', name: 'Small Idol', image: '/gen/image/small-idol.png' },
-    { id: 'medium-idol', name: 'Medium Idol', image: '/gen/image/medium-idol.png' },
-  ],
-  Runes: [
-    { id: 'rune-of-imbuement', name: 'Rune of Imbuement', image: '/gen/image/imbuement.png' },
-    { id: 'rune-of-resonation', name: 'Rune of Resonation', image: '/gen/image/resonation.png' },
-  ],
-  Ritual: [{ id: 'ritual-vessel', name: 'Ritual Vessel', image: '/gen/image/vessel.png' }],
-  Expedition: [{ id: 'exotic-coinage', name: 'Exotic Coinage', image: '/gen/image/coinage.png' }],
-  Delirium: [{ id: 'delirious-orb', name: 'Delirious Orb', image: '/gen/image/delirious.png' }],
-  Breach: [{ id: 'breach-splinter', name: 'Breach Splinter', image: '/gen/image/splinter.png' }],
-  Verisium: [{ id: 'verisium-bar', name: 'Verisium Bar', image: '/gen/image/verisium.png' }],
+}
+
+function toId(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+}
+
+function generateCategoryName(category: CurrencyCategory, index: number): string {
+  const names = baseNames[category]
+  if (names && index < names.length) return names[index]
+  return `${category} ${index + 1}`
+}
+
+function generateCategoryItems(category: CurrencyCategory): CurrencyItem[] {
+  return Array.from({ length: ITEMS_PER_CATEGORY }, (_, index) => {
+    const name = generateCategoryName(category, index)
+    return {
+      id: toId(name),
+      name,
+      image: `/gen/image/${toId(name)}.png`,
+      category,
+      detailsId: `${toId(name)}-details`,
+    }
+  })
+}
+
+function buildRates(category: CurrencyCategory, items: CurrencyItem[]): Record<string, number> {
+  if (category === 'Currency') {
+    return {
+      [items[1].id]: 10,
+      [items[2].id]: 20,
+      [items[3].id]: 50,
+      [items[4].id]: 100,
+      [items[5].id]: 200,
+    }
+  }
+
+  const rates: Record<string, number> = {}
+  for (let i = 1; i < Math.min(6, items.length); i++) {
+    rates[items[i].id] = 10 ** (i - 1)
+  }
+  return rates
+}
+
+function buildLines(items: CurrencyItem[], rates: Record<string, number>): CurrencyLine[] {
+  const primary = items[0].id
+
+  return items.slice(1).map((item, index) => {
+    const position = index + 1
+    const volumePrimaryValue = (ITEMS_PER_CATEGORY - position + 1) * 1000
+    const primaryValue = position <= 3 ? 1 / (position * 10) : 1 / (position * 50)
+
+    return {
+      id: item.id,
+      primaryValue,
+      volumePrimaryValue,
+      maxVolumeCurrency: primary,
+      maxVolumeRate: rates[item.id] ?? 1,
+      sparkline: {
+        totalChange: index % 2 === 0 ? (index + 1) * 1.5 : -(index + 1) * 1.2,
+        data: [0.1, 0.11, null, 0.12, 0.13],
+      },
+    }
+  })
 }
 
 function buildOverview(category: CurrencyCategory): CurrencyOverview {
-  const items = categoryItems[category].map((item) => ({
-    ...item,
-    category,
-    detailsId: `${item.id}-details`,
-  }))
-
-  const primary = items[0]?.id ?? 'divine'
-  const secondary = items[1]?.id ?? primary
-
-  const rates: Record<string, number> = {}
-  if (secondary !== primary) {
-    rates[secondary] = category === 'Currency' ? 150 : 10
-  }
-
-  const lines = items.slice(1).map((item, index) => ({
-    id: item.id,
-    primaryValue: (index + 1) * 0.1,
-    volumePrimaryValue: (index + 1) * 1000,
-    maxVolumeCurrency: primary,
-    maxVolumeRate: rates[item.id] ?? 1,
-    sparkline: {
-      totalChange: index % 2 === 0 ? 5.5 : -3.2,
-      data: [0.1, 0.11, 0.12, null, 0.13],
-    },
-  }))
+  const items = generateCategoryItems(category)
+  const primary = items[0].id
+  const secondary = items[1].id
+  const rates = buildRates(category, items)
+  const lines = buildLines(items, rates)
 
   return {
     core: {

@@ -38,4 +38,24 @@ export class CurrencyPage {
   async selectCategory(name: string): Promise<void> {
     await this.categoryTabs.getByText(name).click()
   }
+
+  row(index: number): Locator {
+    return this.rows.nth(index)
+  }
+
+  rowName(index: number): Locator {
+    return this.row(index).locator('td').first()
+  }
+
+  rowVolume(index: number): Locator {
+    return this.row(index).locator('[data-testid="currency-volume"]')
+  }
+
+  rowValueLeft(index: number): Locator {
+    return this.row(index).locator('[data-testid="currency-value-left"]')
+  }
+
+  rowValueRight(index: number): Locator {
+    return this.row(index).locator('[data-testid="currency-value-right"]')
+  }
 }
