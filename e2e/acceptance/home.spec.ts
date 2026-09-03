@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from '../fixtures/test'
 
 const itemText = `Item Class: Quarterstaves
 Rarity: Rare
@@ -27,44 +27,36 @@ Leeches 8.13% of Physical Damage as Life
 Causes 43% increased Stun Buildup`
 
 test.describe('home acceptance', () => {
-  test('calculates DPS from pasted item text', async ({ page }) => {
-    await page.goto('/')
+  test('calculates DPS from pasted item text', async ({ dpsCalcPage }) => {
+    await dpsCalcPage.goto()
+    await dpsCalcPage.pasteItemText(itemText)
 
-    const pasteArea = page.getByTestId('pasteArea')
-    await expect(pasteArea).toBeVisible()
-    await pasteArea.fill(itemText)
+    await expect(dpsCalcPage.itemName).toContainText('Woe Goad')
+    await expect(dpsCalcPage.itemName).toContainText('Expert Barrier Quarterstaff')
+    await expect(dpsCalcPage.totalDps).toContainText('TOTAL DPS: 347.90')
 
-    await expect(page.getByTestId('itemName')).toContainText('Woe Goad')
-    await expect(page.getByTestId('itemName')).toContainText('Expert Barrier Quarterstaff')
-    await expect(page.getByTestId('totalDps')).toContainText('TOTAL DPS: 347.90')
-
-    await expect(page.getByTestId('physicalDps')).toContainText('233.80')
-    await expect(page.getByTestId('fireDps')).toContainText('7.00')
-    await expect(page.getByTestId('lightningDps')).toContainText('107.10')
-    await expect(page.getByTestId('elementalDps')).toContainText('114.10')
+    await expect(dpsCalcPage.dpsCard('physicalDps')).toContainText('233.80')
+    await expect(dpsCalcPage.dpsCard('fireDps')).toContainText('7.00')
+    await expect(dpsCalcPage.dpsCard('lightningDps')).toContainText('107.10')
+    await expect(dpsCalcPage.dpsCard('elementalDps')).toContainText('114.10')
   })
 
-  test('calculates DPS from manually entered values', async ({ page }) => {
-    await page.goto('/')
+  test('calculates DPS from manually entered values', async ({ dpsCalcPage }) => {
+    await dpsCalcPage.goto()
 
-    await page.getByLabel('Attacks Per Second *').fill('1.4')
-    await page.getByLabel('physical Min').fill('10')
-    await page.getByLabel('physical Max').fill('20')
-    await page.getByLabel('fire Min').fill('5')
-    await page.getByLabel('fire Max').fill('15')
-    await page.getByLabel('cold Min').fill('2')
-    await page.getByLabel('cold Max').fill('8')
-    await page.getByLabel('lightning Min').fill('3')
-    await page.getByLabel('lightning Max').fill('12')
-    await page.getByLabel('chaos Min').fill('1')
-    await page.getByLabel('chaos Max').fill('4')
+    await dpsCalcPage.enterAttacksPerSecond('1.4')
+    await dpsCalcPage.enterDamageRange('physical', '10', '20')
+    await dpsCalcPage.enterDamageRange('fire', '5', '15')
+    await dpsCalcPage.enterDamageRange('cold', '2', '8')
+    await dpsCalcPage.enterDamageRange('lightning', '3', '12')
+    await dpsCalcPage.enterDamageRange('chaos', '1', '4')
 
-    await expect(page.getByTestId('totalDps')).toContainText('TOTAL DPS: 56.00')
-    await expect(page.getByTestId('physicalDps')).toContainText('21.00')
-    await expect(page.getByTestId('fireDps')).toContainText('14.00')
-    await expect(page.getByTestId('coldDps')).toContainText('7.00')
-    await expect(page.getByTestId('lightningDps')).toContainText('10.50')
-    await expect(page.getByTestId('chaosDps')).toContainText('3.50')
-    await expect(page.getByTestId('elementalDps')).toContainText('31.50')
+    await expect(dpsCalcPage.totalDps).toContainText('TOTAL DPS: 56.00')
+    await expect(dpsCalcPage.dpsCard('physicalDps')).toContainText('21.00')
+    await expect(dpsCalcPage.dpsCard('fireDps')).toContainText('14.00')
+    await expect(dpsCalcPage.dpsCard('coldDps')).toContainText('7.00')
+    await expect(dpsCalcPage.dpsCard('lightningDps')).toContainText('10.50')
+    await expect(dpsCalcPage.dpsCard('chaosDps')).toContainText('3.50')
+    await expect(dpsCalcPage.dpsCard('elementalDps')).toContainText('31.50')
   })
 })

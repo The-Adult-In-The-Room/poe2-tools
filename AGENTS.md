@@ -60,6 +60,16 @@ The project enforces **100% coverage** thresholds for statements, branches, func
 - Prefer `userEvent` over `fireEvent` for interaction tests.
 - When testing caching, reset the cache between tests using the provided `clearCache()` helper.
 
+### Playwright / E2E
+
+- E2E specs live in `e2e/acceptance/` and `e2e/smoke/`.
+- Import `test` and `expect` from `../fixtures/test`, not from `@playwright/test` directly.
+- Use fixture-injected Page Objects (`dpsCalcPage`, `currencyPage`, `navigation`).
+- Page objects live in `e2e/pages/` and encapsulate all selectors and page interactions.
+- Never use raw `page.getByTestId`, `page.getByLabel`, or similar direct locator calls inside spec files.
+- Add or update acceptance tests for any new user-facing behavior or changed happy paths.
+- Run `npm run test:e2e:acceptance` and `npm run test:e2e:smoke` when the change touches pages, navigation, or live integration points.
+
 ## Code Organization
 
 - **Constants**: Runtime constants belong in `src/constants/` (not `src/types/`).

@@ -1,22 +1,26 @@
-import { expect, test } from '@playwright/test'
+import { expect, test } from '../fixtures/test'
 
 test.describe('navigation acceptance', () => {
-  test('navigates between the DPS calculator and market currency pages', async ({ page }) => {
-    await page.goto('/')
+  test('navigates between the DPS calculator and market currency pages', async ({
+    dpsCalcPage,
+    currencyPage,
+    navigation,
+  }) => {
+    await dpsCalcPage.goto()
 
-    await expect(page.getByTestId('dpsCalc')).toBeVisible()
-    await expect(page.getByText('Weapon DPS Calculator')).toBeVisible()
+    await expect(dpsCalcPage.container).toBeVisible()
+    await expect(navigation.marketCurrencyLink).toBeVisible()
 
-    await page.getByText('Market Currency').click()
+    await navigation.toMarketCurrency()
 
-    await expect(page).toHaveURL(/\/currency/)
-    await expect(page.getByTestId('market-currency')).toBeVisible()
-    await expect(page.getByText('Market Currency Rates')).toBeVisible()
+    await expect(currencyPage.page).toHaveURL(/\/currency/)
+    await expect(currencyPage.container).toBeVisible()
+    await expect(currencyPage.pageTitle).toBeVisible()
 
-    await page.getByText('Weapon DPS Calculator').click()
+    await navigation.toDpsCalc()
 
-    await expect(page).toHaveURL('/')
-    await expect(page.getByTestId('dpsCalc')).toBeVisible()
-    await expect(page.getByText('Copy and Paste Entry')).toBeVisible()
+    await expect(dpsCalcPage.page).toHaveURL('/')
+    await expect(dpsCalcPage.container).toBeVisible()
+    await expect(dpsCalcPage.pageTitle).toBeVisible()
   })
 })
