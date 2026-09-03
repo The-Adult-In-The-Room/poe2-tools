@@ -45,6 +45,11 @@ npm run verify # Run typecheck, lint, and unit tests
 
 ## Testing Strategy
 
+This project follows **Acceptance Test Driven Development (ATDD)** and **Behavior Driven Development (BDD)**. Specifications are written as executable behaviors using Gherkin-style language so that tests read like requirements and failures point directly to broken behavior.
+
+- **Unit tests** use `GIVEN ...` describe blocks and `THEN ...` test names to specify isolated behaviors of components, utilities, and API handlers.
+- **E2E tests** use `GIVEN ...` describe blocks and `WHEN ... THEN ...` test names. Multi-step acceptance tests are further broken down with Playwright's `test.step` so the report shows each Given / When / Then boundary.
+
 The project uses three test layers. Unit tests run fast and isolated; smoke tests verify the production build against the live poe.ninja API; acceptance tests exercise full happy paths against a local mocked poe.ninja server.
 
 | Suite | Runner | Scope | Data source | When it runs | Command |
