@@ -67,7 +67,7 @@ The project enforces **100% coverage** thresholds for statements, branches, func
 - Use fixture-injected Page Objects (`dpsCalcPage`, `currencyPage`, `navigation`).
 - Page objects live in `e2e/pages/` and encapsulate all selectors and page interactions.
 - Never use raw `page.getByTestId`, `page.getByLabel`, or similar direct locator calls inside spec files.
-- Write acceptance specs with **Gherkin-style** `describe` and `test` names:
+- Write e2e specs with **Gherkin-style** `describe` and `test` names:
   - Use `GIVEN ...` for `test.describe` blocks (shared context).
   - Use `WHEN ... THEN ...` for `test` block names (scenario under test).
 - Use `test.step` to break multi-step acceptance tests into explicit Given / When / Then boundaries so the report output shows each step.
