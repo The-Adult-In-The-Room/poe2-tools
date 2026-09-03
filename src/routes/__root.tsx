@@ -1,52 +1,101 @@
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
+import { absoluteUrl, DEFAULT_OG_IMAGE, FAVICON_PATH, SITE_DESCRIPTION, SITE_NAME, THEME_COLOR } from '#/constants/seo'
 import { Footer, Nav } from '../components/molecules'
 
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'Weapon DPS Calculator',
-      },
-      {
-        name: 'description',
-        content: 'A set of tools including a Weapon DPS calculator for use in Path of Exile 2 video game.',
-      },
-    ],
-    links: [
-      {
-        rel: 'stylesheet',
-        href: appCss,
-      },
-      {
-        rel: 'preconnect',
-        href: 'https://fonts.googleapis.com',
-      },
-      {
-        rel: 'preconnect',
-        href: 'https://fonts.gstatic.com',
-        crossOrigin: 'anonymous',
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap',
-      },
-      {
-        rel: 'icon',
-        href: '/src/assets/Acceleration_Shrine_status_icon.ico',
-      },
-    ],
-  }),
+  head: ({ matches }) => {
+    const currentPathname = matches.at(-1)?.pathname ?? '/'
+
+    return {
+      meta: [
+        {
+          charSet: 'utf-8',
+        },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1',
+        },
+        {
+          title: SITE_NAME,
+        },
+        {
+          name: 'description',
+          content: SITE_DESCRIPTION,
+        },
+        {
+          name: 'theme-color',
+          content: THEME_COLOR,
+        },
+        {
+          property: 'og:title',
+          content: SITE_NAME,
+        },
+        {
+          property: 'og:description',
+          content: SITE_DESCRIPTION,
+        },
+        {
+          property: 'og:type',
+          content: 'website',
+        },
+        {
+          property: 'og:url',
+          content: absoluteUrl(currentPathname),
+        },
+        {
+          property: 'og:image',
+          content: absoluteUrl(DEFAULT_OG_IMAGE),
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          name: 'twitter:title',
+          content: SITE_NAME,
+        },
+        {
+          name: 'twitter:description',
+          content: SITE_DESCRIPTION,
+        },
+        {
+          name: 'twitter:url',
+          content: absoluteUrl(currentPathname),
+        },
+        {
+          name: 'twitter:image',
+          content: absoluteUrl(DEFAULT_OG_IMAGE),
+        },
+      ],
+      links: [
+        {
+          rel: 'stylesheet',
+          href: appCss,
+        },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.googleapis.com',
+        },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com',
+          crossOrigin: 'anonymous',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap',
+        },
+        {
+          rel: 'icon',
+          href: FAVICON_PATH,
+        },
+      ],
+    }
+  },
   notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
