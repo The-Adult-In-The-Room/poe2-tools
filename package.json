@@ -46,10 +46,10 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-devtools": "^0.10.10",
-    "@tanstack/react-router": "^1.170.36",
+    "@tanstack/react-router": "^1.170.38",
     "@tanstack/react-router-devtools": "^1.167.2",
-    "@tanstack/react-router-ssr-query": "^1.167.2",
-    "@tanstack/react-start": "^1.168.54",
+    "@tanstack/react-router-ssr-query": "^1.167.3",
+    "@tanstack/react-start": "^1.168.56",
     "@tanstack/router-plugin": "^1.168.27",
     "nitro": "npm:nitro-nightly@latest",
     "react": "^19.3.0",
