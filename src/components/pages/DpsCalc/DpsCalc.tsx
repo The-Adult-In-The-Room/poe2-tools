@@ -1,4 +1,4 @@
-import { createRef, useState } from 'react'
+import { useState } from 'react'
 import { CalcHistory, Card, Input, Typography } from '#/components'
 import { allDmgTypes, dpsCalcInitialCalculations, dpsCalcInitialFormValues } from '#/data/constants'
 import type { Calculations, FormKeys, FormValues, HistoricCalculation } from '#/types'
@@ -9,7 +9,6 @@ const DpsCalc = (): React.JSX.Element => {
   const [calculations, setCalculations] = useState<Calculations>(dpsCalcInitialCalculations)
   const [formValues, setFormValues] = useState<FormValues>(dpsCalcInitialFormValues)
   const [historicCalculations, setHistoricCalculations] = useState<HistoricCalculation[]>([])
-  const formRef = createRef<HTMLFormElement>()
 
   const createHistoricItem = () => {
     const itemName = findItemName(textAreaValue)
@@ -27,7 +26,6 @@ const DpsCalc = (): React.JSX.Element => {
     setTextAreaValue('')
     setFormValues(dpsCalcInitialFormValues)
     createHistoricItem()
-    formRef.current?.reset()
   }
 
   const onTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -73,7 +71,7 @@ const DpsCalc = (): React.JSX.Element => {
       <hr />
 
       <div className="relative flex flex-col gap-4 md:flex-row md:gap-16">
-        <form ref={formRef} className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4">
           <Input
             id="aps"
             label="Attacks Per Second"

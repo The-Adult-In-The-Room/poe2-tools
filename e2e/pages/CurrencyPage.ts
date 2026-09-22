@@ -29,10 +29,18 @@ export class CurrencyPage {
 
   async selectLeague(value: string): Promise<void> {
     await this.leagueSelector.selectOption(value)
+    // Lightpanda doesn't always fire change events from selectOption.
+    await this.leagueSelector.evaluate((element) => {
+      element.dispatchEvent(new Event('change', { bubbles: true }))
+    })
   }
 
   async selectReferenceCurrency(value: string): Promise<void> {
     await this.referenceSelector.selectOption(value)
+    // Lightpanda doesn't always fire change events from selectOption.
+    await this.referenceSelector.evaluate((element) => {
+      element.dispatchEvent(new Event('change', { bubbles: true }))
+    })
   }
 
   async selectCategory(name: string): Promise<void> {

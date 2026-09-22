@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.14",
+    "@lightpanda/browser": "^1.6.0",
     "@playwright/test": "^1.63.0",
     "@tanstack/devtools-vite": "^0.8.3",
     "@tanstack/router-cli": "^1.167.38",
