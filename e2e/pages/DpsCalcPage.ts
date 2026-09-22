@@ -51,10 +51,14 @@ export class DpsCalcPage {
   }
 
   async clearForm(): Promise<void> {
-    await this.clearFormButton.click()
+    // Lightpanda doesn't compute layout for off-viewport elements, so trigger
+    // the click directly through the DOM node instead of using pointer events.
+    await this.clearFormButton.evaluate((element) => (element as HTMLButtonElement).click())
   }
 
   async openHistory(): Promise<void> {
-    await this.historyFab.click()
+    // Lightpanda doesn't render the SVG icon inside the FAB, so the element has
+    // no layout box. Trigger the click through the DOM node instead.
+    await this.historyFab.evaluate((element) => (element as HTMLButtonElement).click())
   }
 }

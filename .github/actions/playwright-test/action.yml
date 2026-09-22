@@ -1,5 +1,5 @@
 name: Playwright Test
-description: Install Chromium and run a Playwright e2e test suite
+description: Install Lightpanda and run a Playwright e2e test suite
 
 inputs:
   command:
@@ -10,7 +10,7 @@ runs:
   using: composite
   steps:
     - uses: ./.github/actions/setup
-    - run: npx playwright install chromium
+    - run: npx lightpanda install
       shell: bash
     - run: npm run ${{ inputs.command }}
       shell: bash
