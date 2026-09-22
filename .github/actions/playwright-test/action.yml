@@ -3,7 +3,7 @@ description: Install Lightpanda and run a Playwright e2e test suite
 
 inputs:
   command:
-    description: The npm script to run (e.g. test:e2e:smoke or test:e2e:acceptance)
+    description: The npm script to run (test:e2e:acceptance | test:e2e:smoke | test:e2e:regression)
     required: true
 
 runs:
@@ -18,5 +18,8 @@ runs:
       if: failure()
       with:
         name: playwright-report-${{ inputs.command }}
-        path: playwright-report/
+        path: |
+          playwright-report/
+          test-results/
         retention-days: 7
+        if-no-files-found: ignore

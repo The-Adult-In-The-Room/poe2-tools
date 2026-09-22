@@ -50,15 +50,26 @@ This project follows **Acceptance Test Driven Development (ATDD)** and **Behavio
 - **Unit tests** use `GIVEN ...` describe blocks and `THEN ...` test names to specify isolated behaviors of components, utilities, and API handlers.
 - **E2E tests** use `GIVEN ...` describe blocks and `WHEN ... THEN ...` test names. Multi-step acceptance tests are further broken down with Playwright's `test.step` so the report shows each Given / When / Then boundary.
 
-The project uses three test layers. Unit tests run fast and isolated; smoke tests verify the production build against the live poe.ninja API; acceptance tests exercise full happy paths against a local mocked poe.ninja server.
+The project uses four test layers. Unit tests run fast and isolated; acceptance tests exercise full happy paths against a local mocked poe.ninja server; smoke tests verify the production build against the live poe.ninja API; regression tests verify the deployed site against live services on a scheduled cadence.
 
-| Suite | Runner | Scope | Data source | When it runs | Command |
-| --- | --- | --- | --- | --- | --- |
-| Unit | Vitest + React Testing Library | Components, utilities, API handlers, schemas | Mocked | Every PR (`.github/workflows/verify.yml`) | `npm run test:ci` |
-| Acceptance | Playwright | Full happy paths: DPS paste/manual entry, currency league/category switching, navigation | Mocked poe.ninja | Every PR (`.github/workflows/verify.yml`) | `npm run test:e2e:acceptance` |
-| Smoke | Playwright | App loads, pages render, no runtime errors | Live poe.ninja | Every push to `main` (`.github/workflows/smoke.yml`) | `npm run test:e2e:smoke` |
+| Suite | Runner | Scope | Data source | Runs on | When it runs | Command |
+| --- | --- | --- | --- | --- | --- | --- |
+| Unit | Vitest + React Testing Library | Components, utilities, API handlers, schemas | Mocked | — | Every PR (`.github/workflows/verify.yml`) | `npm run test:ci` |
+| Acceptance | Playwright | Full happy paths: DPS paste/manual entry, currency league/category switching, navigation | Mocked poe.ninja | Local preview | Every PR (`.github/workflows/verify.yml`) | `npm run test:e2e:acceptance` |
+| Smoke | Playwright | App loads, pages render, no runtime errors | Live poe.ninja | Local preview | Every push to `main` (`.github/workflows/smoke.yml`) | `npm run test:e2e:smoke` |
+| Regression | Playwright | Deployed site works end-to-end against live services | Live poe.ninja + deployed site | Production URL | Twice daily + manual (`.github/workflows/regression.yml`) | `npm run test:e2e:regression` |
 
-Both Playwright suites build the app (`npm run build`) before starting the preview server. Acceptance sets `USE_MOCK_POE_NINJA=true` to wire the app to the mocked server and runs with parallel workers; smoke runs serially and hits the real API. Unit tests enforce 100% coverage on the included source tree. Smoke tests are intentionally minimal and assertion-dense to avoid overloading the live poe.ninja API.
+Smoke and acceptance build the app (`npm run build`) before starting the local preview server. Acceptance wires the app to a mocked poe.ninja server and runs with parallel workers; smoke runs serially and hits the real API. Regression does not build or start a local server — it targets the deployed production URL and runs serially to be polite to live services. Unit tests enforce 100% coverage on the included source tree. Smoke and regression tests use live-data-safe assertions to avoid coupling to fluctuating poe.ninja values.
+
+### E2E Suite Organization
+
+Each Playwright suite has its own config under `e2e/`:
+
+- `e2e/playwright.smoke.config.ts` — local preview, no mocks, serial
+- `e2e/playwright.acceptance.config.ts` — local preview, mocked poe.ninja, parallel
+- `e2e/playwright.regression.config.ts` — deployed production URL, no mocks, serial
+
+Environment-specific specs live in `e2e/smoke/`, `e2e/acceptance/`, and `e2e/regression/`. Cross-cutting flows that are safe to run in multiple environments (e.g., SEO tag validation and page navigation) live in `e2e/shared-tests/`. Each suite's Playwright config subscribes to the shared specs it needs, so there is no duplication between smoke, acceptance, and regression.
 
 ### E2E Browser
 
@@ -88,7 +99,7 @@ All Playwright specs use a Page Object Model (POM) layer via `e2e/fixtures/test`
 - Direct locator calls such as `page.getByTestId`, `page.getByLabel`, and `page.getByRole` belong inside page objects, not in spec files.
 - When adding a new page or interaction, create or extend a page object and expose locators or methods through the fixture.
 
-> **Deployment gate:** Smoke tests run on every push to `main`. A failing smoke workflow blocks the Railway deployment for that push, so a regression that breaks the live poe.ninja integration cannot reach production. Acceptance failures block PR merges via the verify workflow.
+> **Deployment gate:** Smoke tests run on every push to `main`. A failing smoke workflow blocks the Railway deployment for that push, so a regression that breaks the live poe.ninja integration cannot reach production. Acceptance failures block PR merges via the verify workflow. Regression tests run on a scheduled cadence against the live deployed site to catch production-only issues after deployment.
 
 ## Definition of Done
 
