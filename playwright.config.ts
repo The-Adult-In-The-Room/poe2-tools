@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { defineConfig } from '@playwright/test'
 import { MOCK_POE_NINJA_BASE } from './e2e/fixtures/mockPoeNinjaConfig'
 
