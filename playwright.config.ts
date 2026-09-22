@@ -40,7 +40,7 @@ export default defineConfig({
     url: BASE_URL,
     reuseExistingServer: false,
     stdout: 'pipe',
-    stderr: 'pipe',
+    stderr: 'ignore',
     env: USE_MOCK
       ? {
           POE_NINJA_BASE: MOCK_POE_NINJA_BASE,
