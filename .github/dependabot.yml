@@ -5,6 +5,9 @@ updates:
     schedule:
       interval: daily
     groups:
+      tanstack:
+        patterns:
+          - "@tanstack/*"
       production-dependencies:
         dependency-type: production
         update-types:

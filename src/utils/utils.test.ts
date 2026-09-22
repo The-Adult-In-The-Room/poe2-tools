@@ -535,9 +535,23 @@ describe('formatNumber', () => {
     })
   })
 
-  describe('GIVEN a value >= 10', () => {
+  describe('GIVEN a value >= 100', () => {
+    test('THEN whole numbers show without decimals', () => {
+      expect(formatNumber(150)).toBe('150')
+    })
+
+    test('THEN fractional values round down', () => {
+      expect(formatNumber(150.9)).toBe('150')
+    })
+
+    test('THEN values just under 1000 round down', () => {
+      expect(formatNumber(999.9)).toBe('999')
+    })
+  })
+
+  describe('GIVEN a value >= 10 and < 100', () => {
     test('THEN whole numbers get .0 padding', () => {
-      expect(formatNumber(150)).toBe('150.0')
+      expect(formatNumber(20)).toBe('20.0')
     })
 
     test('THEN fractional values keep decimals', () => {
@@ -546,10 +560,6 @@ describe('formatNumber', () => {
 
     test('THEN values that round to a whole number get .0 padding', () => {
       expect(formatNumber(20.001)).toBe('20.0')
-    })
-
-    test('THEN large fractional values keep precision', () => {
-      expect(formatNumber(370.37)).toBe('370.37')
     })
   })
 
@@ -577,7 +587,7 @@ describe('formatRatio', () => {
 
   describe('GIVEN a value >= 1', () => {
     test('THEN it returns N : 1 format', () => {
-      expect(formatRatio(150)).toEqual({ left: '150.0', right: '1.0' })
+      expect(formatRatio(150)).toEqual({ left: '150', right: '1.0' })
     })
 
     test('THEN fractional values keep decimals', () => {
