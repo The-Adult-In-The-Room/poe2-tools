@@ -21,6 +21,8 @@ const DpsCalc = (): React.JSX.Element => {
     setHistoricCalculations((prev) => [newHistoricItem, ...prev])
   }
 
+  const hasCalculations = calculations.totalDps > 0
+
   const onReset = (): void => {
     setCalculations(dpsCalcInitialCalculations)
     setTextAreaValue('')
@@ -62,7 +64,12 @@ const DpsCalc = (): React.JSX.Element => {
           data-testid="pasteArea"
         />
 
-        <button type="button" onClick={onReset} className="self-end bg-transparent">
+        <button
+          type="button"
+          onClick={onReset}
+          disabled={!hasCalculations}
+          className="self-end bg-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <Typography variant="clear">Clear</Typography>
         </button>
       </div>
@@ -107,7 +114,12 @@ const DpsCalc = (): React.JSX.Element => {
             )
           })}
 
-          <button type="button" onClick={onReset} className="self-end bg-transparent">
+          <button
+            type="button"
+            onClick={onReset}
+            disabled={!hasCalculations}
+            className="self-end bg-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <Typography variant="clear">Clear Form</Typography>
           </button>
         </form>

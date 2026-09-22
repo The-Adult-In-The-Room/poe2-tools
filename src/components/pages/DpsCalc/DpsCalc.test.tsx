@@ -23,6 +23,10 @@ describe('<DpsCalc />', () => {
       test('THEN the clear button is displayed', () => {
         expect(screen.getByText('Clear')).toBeDefined()
       })
+
+      test('THEN the clear button is disabled when the textarea is empty', () => {
+        expect(screen.getByRole('button', { name: 'Clear' }).hasAttribute('disabled')).toBe(true)
+      })
     })
 
     describe('GIVEN the DpsCalc component is rendered WHEN an item is pasted', () => {
@@ -132,6 +136,10 @@ describe('<DpsCalc />', () => {
 
       test('THEN the history fab is not displayed', () => {
         expect(screen.queryByTestId('historyFab')).toBeNull()
+      })
+
+      test('THEN the clear form button is disabled', () => {
+        expect(screen.getByRole('button', { name: 'Clear Form' }).hasAttribute('disabled')).toBe(true)
       })
     })
 
