@@ -233,4 +233,25 @@ test.describe('GIVEN the user is on the Weapon DPS calculator', () => {
       await expect(dpsCalcPage.calcHistory).toContainText('TOTAL DPS: 19.00')
     })
   })
+
+  test('WHEN the form is cleared while already empty THEN no calculation history is created', async ({
+    dpsCalcPage,
+  }) => {
+    await test.step('GIVEN the user is on the Weapon DPS calculator', async () => {
+      await dpsCalcPage.goto()
+    })
+
+    await test.step('THEN the clear form button is disabled and the history FAB is hidden', async () => {
+      await expect(dpsCalcPage.clearFormButton).toBeDisabled()
+      await expect(dpsCalcPage.historyFab).toBeHidden()
+    })
+
+    await test.step('WHEN the clear form button is clicked on an empty form', async () => {
+      await dpsCalcPage.clearForm()
+    })
+
+    await test.step('THEN the history FAB remains hidden', async () => {
+      await expect(dpsCalcPage.historyFab).toBeHidden()
+    })
+  })
 })
