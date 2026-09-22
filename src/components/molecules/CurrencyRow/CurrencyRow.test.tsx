@@ -51,7 +51,7 @@ describe('<CurrencyRow />', () => {
 
     test('THEN the value is displayed as a ratio', () => {
       const row = screen.getByTestId('currency-row')
-      expect(within(row).getByTestId('currency-value-left').textContent).toBe('150.0')
+      expect(within(row).getByTestId('currency-value-left').textContent).toBe('150')
       expect(screen.getByTestId('exchange-icon')).toBeDefined()
       expect(within(row).getByTestId('currency-value-right').textContent).toBe('1.0')
       const primaryImg = screen.getByTitle('Chaos Orb')
@@ -83,11 +83,11 @@ describe('<CurrencyRow />', () => {
       expect(within(renderedRow).getByTestId('currency-value-right').textContent).toBe('20.0')
     })
 
-    test('THEN very small values show decimals when not whole numbers', () => {
+    test('THEN values over 100 round down without decimals', () => {
       const row = { ...mockRow, primaryValue: 0.0027 }
       renderRow(row, 'Chaos Orb', '/gen/image/chaos.png')
       const renderedRow = screen.getByTestId('currency-row')
-      expect(within(renderedRow).getByTestId('currency-value-right').textContent).toBe('370.37')
+      expect(within(renderedRow).getByTestId('currency-value-right').textContent).toBe('370')
     })
 
     test('THEN values >= 1 show as N Div : 1 Item format', () => {

@@ -204,7 +204,9 @@ export const transformImageUrl = (poeNinjaPath: string | null | undefined): stri
 
 /**
  * Formats a number with shorthand suffixes (k/M) and consistent decimal padding.
- * Examples: 1500 -> '1.5k', 2000 -> '2.0k', 1500000 -> '1.5M', 5 -> '5.0', 2.1 -> '2.1'
+ * Values in the 3-digit range (100–999) are rounded down to whole numbers with no decimals
+ * to keep the currency ratio UI compact; k/M shorthand keeps its single decimal.
+ * Examples: 1500 -> '1.5k', 2000 -> '2.0k', 150 -> '150', 5 -> '5.0', 2.1 -> '2.1'
  */
 export const formatNumber = (value: number): string => {
   if (value >= 1000000) {
@@ -214,6 +216,9 @@ export const formatNumber = (value: number): string => {
   if (value >= 1000) {
     const k = value / 1000
     return Number.isInteger(k) ? `${k}.0k` : `${k.toFixed(1)}k`
+  }
+  if (value >= 100) {
+    return `${Math.floor(value)}`
   }
 
   const fixed = value.toFixed(2)
@@ -227,7 +232,7 @@ export const formatNumber = (value: number): string => {
  * Formats a currency exchange value as a left/right ratio pair.
  * Values >= 1 show as 'N : 1', values < 1 are inverted to '1 : N'.
  * A primary value of zero returns a defined '0 : 1' fallback.
- * Examples: 150 -> { left: '150.0', right: '1.0' }, 0.05 -> { left: '1.0', right: '20.0' }
+ * Examples: 150 -> { left: '150', right: '1.0' }, 0.05 -> { left: '1.0', right: '20.0' }
  */
 export const formatRatio = (primaryValue: number): { left: string; right: string } => {
   if (primaryValue === 0) {
