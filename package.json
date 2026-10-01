@@ -64,7 +64,7 @@
     "@lightpanda/browser": "^1.6.0",
     "@playwright/test": "^1.63.0",
     "@tanstack/devtools-vite": "^0.8.3",
-    "@tanstack/router-cli": "^1.167.38",
+    "@tanstack/router-cli": "^1.167.39",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
