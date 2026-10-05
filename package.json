@@ -60,25 +60,25 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.14",
+    "@biomejs/biome": "^2.5.15",
     "@lightpanda/browser": "^1.6.0",
     "@playwright/test": "^1.63.0",
     "@tanstack/devtools-vite": "^0.8.3",
-    "@tanstack/router-cli": "^1.167.39",
+    "@tanstack/router-cli": "^1.167.40",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/coverage-v8": "^5.0.2",
+    "@vitest/coverage-v8": "^5.0.3",
     "happy-dom": "^20.14.5",
     "lint-staged": "^17.6.0",
     "simple-git-hooks": "^2.14.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.1",
-    "vitest": "^5.0.2"
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3"
   },
   "lint-staged": {
     "*": "biome check --write --no-errors-on-unmatched"
