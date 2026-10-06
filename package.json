@@ -18,7 +18,7 @@
     "start": "node .output/server/index.mjs",
     "test": "vitest --coverage",
     "test:ci": "vitest run",
-    "test:e2e:smoke": "npm run build && playwright test --config=e2e/playwright.smoke.config.ts",
+    "test:e2e:smoke": "playwright test --config=e2e/playwright.smoke.config.ts",
     "test:e2e:acceptance": "npm run build && playwright test --config=e2e/playwright.acceptance.config.ts",
     "test:e2e:acceptance:gui": "npm run build && playwright test --config=e2e/playwright.acceptance.config.ts --ui",
     "test:e2e:regression": "playwright test --config=e2e/playwright.regression.config.ts",
