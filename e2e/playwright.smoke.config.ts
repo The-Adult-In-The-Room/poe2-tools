@@ -3,8 +3,11 @@ import { defineConfig } from '@playwright/test'
 process.env.USE_MOCK_POE_NINJA = 'false'
 delete process.env.POE_NINJA_BASE
 
-const PORT = Number(process.env.PORT || 3000)
-const BASE_URL = `http://localhost:${PORT}`
+if (!process.env.SMOKE_BASE_URL) {
+  throw new Error(
+    'SMOKE_BASE_URL is required for smoke tests. Set it to the deployed URL, e.g. https://example.up.railway.app',
+  )
+}
 
 export default defineConfig({
   fullyParallel: false,
@@ -15,7 +18,7 @@ export default defineConfig({
   globalSetup: './fixtures/globalSetup.ts',
   globalTeardown: './fixtures/globalTeardown.ts',
   use: {
-    baseURL: BASE_URL,
+    baseURL: process.env.SMOKE_BASE_URL,
     trace: 'on-first-retry',
   },
   expect: {
@@ -32,11 +35,4 @@ export default defineConfig({
       testMatch: /seo\.spec\.ts/,
     },
   ],
-  webServer: {
-    command: 'npm run preview',
-    url: BASE_URL,
-    reuseExistingServer: false,
-    stdout: 'pipe',
-    stderr: 'ignore',
-  },
 })
