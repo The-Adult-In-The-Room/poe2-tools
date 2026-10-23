@@ -113,6 +113,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <script
+          defer
+          src="https://umami-production-46f9.up.railway.app/script.js"
+          data-website-id="74099092-02b8-4cd9-b4dc-046c7c428d00"
+        />
         <HeadContent />
       </head>
       <body>
