@@ -7,22 +7,6 @@ export const LIGHTPANDA_WS_ENDPOINT = `ws://${LIGHTPANDA_HOST}:${LIGHTPANDA_PORT
 
 let proc: ChildProcessWithoutNullStreams | undefined
 
-function pipeFilteredStream(source: NodeJS.ReadableStream, destination: NodeJS.WritableStream): void {
-  let buffer = ''
-  source.on('data', (chunk: Buffer) => {
-    buffer += chunk.toString('utf8')
-    const lines = buffer.split('\n')
-    buffer = lines.pop() ?? ''
-    for (const line of lines) {
-      // Lightpanda logs a warning for every unsupported CDP command when
-      // connected to Playwright. Filter those out to keep test output readable.
-      if (line && !line.includes('$scope=not_implemented')) {
-        destination.write(`${line}\n`)
-      }
-    }
-  })
-}
-
 async function waitForCdpServer(timeoutMs = 10000): Promise<void> {
   const start = Date.now()
   const healthUrl = `http://${LIGHTPANDA_HOST}:${LIGHTPANDA_PORT}/json/version`
@@ -49,9 +33,6 @@ export async function startLightpanda(): Promise<void> {
     host: LIGHTPANDA_HOST,
     port: LIGHTPANDA_PORT,
   })
-
-  pipeFilteredStream(proc.stdout, process.stdout)
-  pipeFilteredStream(proc.stderr, process.stderr)
 
   await waitForCdpServer()
 }

@@ -217,9 +217,7 @@ test.describe('GIVEN the user is on the Weapon DPS calculator', () => {
 
     await test.step('THEN the calculation results are hidden and the history FAB is visible', async () => {
       await expect(dpsCalcPage.calculationResults).toBeHidden()
-      // Lightpanda doesn't compute visibility for the SVG icon-only FAB, so
-      // assert DOM presence instead.
-      await expect(dpsCalcPage.historyFab).toBeAttached()
+      await expect(dpsCalcPage.historyFab).toBeVisible()
     })
 
     await test.step('WHEN the history is opened', async () => {
@@ -227,9 +225,7 @@ test.describe('GIVEN the user is on the Weapon DPS calculator', () => {
     })
 
     await test.step('THEN the calculation history is displayed', async () => {
-      // Lightpanda doesn't compute visibility for the history panel, so assert
-      // DOM presence and content instead.
-      await expect(dpsCalcPage.calcHistory).toBeAttached()
+      await expect(dpsCalcPage.calcHistory).toBeVisible()
       await expect(dpsCalcPage.calcHistory).toContainText('TOTAL DPS: 19.00')
     })
   })

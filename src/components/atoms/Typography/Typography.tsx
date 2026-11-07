@@ -1,4 +1,4 @@
-type Variant = 'card' | 'title' | 'cardTitle' | 'body' | 'clear' | 'subtitle'
+type Variant = 'card' | 'title' | 'cardTitle' | 'body' | 'subtitle'
 type TypographyProps = {
   variant?: Variant
 }
@@ -8,7 +8,6 @@ const variantClasses: Record<Variant, string> = {
   title: 'text-2xl font-bold',
   cardTitle: 'text-lg font-medium',
   body: 'text-base font-normal',
-  clear: 'text-base font-normal underline',
   subtitle: 'text-sm font-light',
 }
 
