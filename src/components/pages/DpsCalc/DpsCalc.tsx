@@ -24,6 +24,9 @@ const DpsCalc = (): React.JSX.Element => {
   const hasCalculations = calculations.totalDps > 0
 
   const onReset = (): void => {
+    if (!hasCalculations) {
+      return
+    }
     setCalculations(dpsCalcInitialCalculations)
     setTextAreaValue('')
     setFormValues(dpsCalcInitialFormValues)
@@ -68,9 +71,9 @@ const DpsCalc = (): React.JSX.Element => {
           type="button"
           onClick={onReset}
           disabled={!hasCalculations}
-          className="self-end bg-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+          className="self-end bg-transparent text-base font-normal underline disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Typography variant="clear">Clear</Typography>
+          Clear
         </button>
       </div>
 
@@ -118,9 +121,9 @@ const DpsCalc = (): React.JSX.Element => {
             type="button"
             onClick={onReset}
             disabled={!hasCalculations}
-            className="self-end bg-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+            className="self-end bg-transparent text-base font-normal underline disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Typography variant="clear">Clear Form</Typography>
+            Clear Form
           </button>
         </form>
 

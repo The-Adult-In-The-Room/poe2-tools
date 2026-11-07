@@ -22,6 +22,13 @@ export const test = base.extend<{
     await use(browser)
     await browser.close()
   },
+  contextOptions: async ({ contextOptions }, use) => {
+    await use({
+      ...contextOptions,
+      viewport: { width: 1280, height: 1024 },
+    })
+  },
+
   context: async ({ context }, use) => {
     // Exclude all e2e runs from Umami analytics.
     // https://docs.umami.is/docs/exclude-my-own-visits
