@@ -61,9 +61,9 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.4",
+    "@biomejs/biome": "^2.6.5",
     "@lightpanda/browser": "^1.6.0",
-    "@playwright/test": "^1.64.1",
+    "@playwright/test": "^1.65.0",
     "@tanstack/devtools-vite": "^0.8.6",
     "@tanstack/router-cli": "^1.167.46",
     "@testing-library/dom": "^10.4.2",
@@ -78,7 +78,7 @@
     "lint-staged": "^17.6.0",
     "simple-git-hooks": "^2.14.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.5",
+    "vite": "^8.3.6",
     "vitest": "^5.1.0"
   },
   "lint-staged": {
