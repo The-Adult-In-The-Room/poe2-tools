@@ -45,7 +45,7 @@
   },
   "homepage": "https://github.com/The-Adult-In-The-Room/poe2-tools#readme",
   "dependencies": {
-    "@tailwindcss/vite": "^4.3.4",
+    "@tailwindcss/vite": "^4.3.5",
     "@tanstack/react-devtools": "^0.10.14",
     "@tanstack/react-router": "^1.170.46",
     "@tanstack/react-router-devtools": "^1.167.2",
