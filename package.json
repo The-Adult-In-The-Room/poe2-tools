@@ -61,7 +61,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.5",
+    "@biomejs/biome": "^2.6.6",
     "@lightpanda/browser": "^1.6.0",
     "@playwright/test": "^1.65.0",
     "@tanstack/devtools-vite": "^0.8.6",
