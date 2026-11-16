@@ -1,6 +1,10 @@
 # poe2-tools
 
+[![Featured in awesome-lightpanda](https://img.shields.io/badge/awesome--lightpanda-featured-1f6feb?logo=github)](https://github.com/lightpanda-io/awesome-lightpanda#ai-agents-and-automation)
+
 A browser-based toolkit for Path of Exile 2 players. Evaluate weapon damage and track live currency market rates without leaving the site.
+
+> ⭐ **Featured in [awesome-lightpanda](https://github.com/lightpanda-io/awesome-lightpanda#ai-agents-and-automation)** — a curated list of things built with Lightpanda.
 
 ## Summary
 
@@ -32,6 +36,7 @@ poe2-tools includes the following utilities:
 - Vite
 - Vitest + React Testing Library
 - Biome
+- Headless browser: [Lightpanda](https://lightpanda.io/) over CDP (see [docs/lightpanda.md](./docs/lightpanda.md))
 
 ## Development
 
@@ -73,22 +78,7 @@ Environment-specific specs live in `e2e/smoke/`, `e2e/acceptance/`, and `e2e/reg
 
 ### E2E Browser
 
-The Playwright suites run against a local [Lightpanda](https://lightpanda.io/) browser over CDP instead of launching Chromium. Lightpanda is started automatically in global setup (`e2e/fixtures/globalSetup.ts`) and the `browser` fixture in `e2e/fixtures/test.ts` connects Playwright with `chromium.connectOverCDP('ws://127.0.0.1:9222')`.
-
-Download the Lightpanda binary before running e2e tests for the first time:
-
-```bash
-npx lightpanda install
-```
-
-The binary is cached at `~/.cache/lightpanda-node/lightpanda`.
-
-A few page-object and test adjustments accommodate Lightpanda's current CDP/Web API support:
-
-- Native `<select>` changes dispatch a manual `change` event after `selectOption` because Lightpanda does not always fire it.
-- Off-viewport or SVG-only buttons (e.g., the history FAB) use DOM `element.click()` instead of Playwright pointer events, since Lightpanda does not compute layout for invisible elements.
-- The DPS form no longer calls `formRef.current?.reset()` because Lightpanda does not implement `HTMLFormElement.reset()`; the form is fully controlled by React state, so the call was redundant.
-- Visibility assertions on SVG-only elements use `toBeAttached()` rather than `toBeVisible()`.
+All Playwright suites run against a local [Lightpanda](https://lightpanda.io/) browser over CDP instead of launching Chromium — fast startup, low memory, no Chromium download. See [docs/lightpanda.md](./docs/lightpanda.md) for setup, architecture, and the compatibility workarounds we needed along the way.
 
 ### Page Object Model
 
